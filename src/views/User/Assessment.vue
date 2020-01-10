@@ -20,7 +20,7 @@
           ><div class="d-flex">
             <img
               class="image-icon"
-              src="assets/Group.png"
+              src="../../assets/Group.png"
               alt="dashboard icon"
             />
             <p id="dashboard_item">Dashboard</p>
@@ -30,7 +30,7 @@
           ><div class="d-flex ">
             <img
               class="image-icon"
-              src="assets/Vector.png"
+              src="../../assets/Vector.png"
               alt="assessment icon"
             />
             <p>Assessment</p>
@@ -40,7 +40,7 @@
           ><div class="d-flex mt-4">
             <img
               class="image-icon"
-              src="assets/Layer.png"
+              src="../../assets/Layer.png"
               alt="logout icon"
             />
             <p>Log out</p>
@@ -138,7 +138,7 @@
       </div>
         
                     <div class="image_wrapper">
-                        <img src="assets/victory.png" alt="congratulaton_icon">
+                        <img src="../../assets/victory.png" alt="congratulaton_icon">
                     </div>
                   <router-link to="/"> <button class="homePage">Home</button></router-link>  
              

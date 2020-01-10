@@ -18,19 +18,19 @@
       <div class="dashboard mt-4">
         <router-link to="/dashboard"
           ><div class="d-flex">
-            <img src="assets/Group.png" alt="dashboard icon" />
+            <img src="../../assets/Group.png" alt="dashboard icon" />
             <p id="dashboard_item">Dashboard</p>
           </div></router-link
         >
         <router-link to="/assessment"
           ><div class="d-flex ">
-            <img src="assets/Vector.png" alt="assessment icon" />
+            <img src="../../assets/Vector.png" alt="assessment icon" />
             <p>Assessment</p>
           </div></router-link
         >
         <router-link to="/userlogin"
           ><div class="d-flex mt-4">
-            <img src="assets/Layer.png" alt="logout icon" />
+            <img src="../../assets/Layer.png" alt="logout icon" />
             <p>Log out</p>
           </div></router-link
         >
