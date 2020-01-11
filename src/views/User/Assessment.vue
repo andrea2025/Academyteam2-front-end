@@ -53,10 +53,11 @@
         <div>
           <h2 class="mainContent_text">Take Assessment</h2>
 
-          <p class="resp mt-4">
+          <p class="resp mt-4 resp-part">
             Click the button below to start assessment, you have limited time
             for this test
           </p>
+          <p class="resp mt-4 text-msg" >Thank you!</p>
         </div>
 
         <div class="mainContent_text mr-4">
@@ -103,23 +104,31 @@
         </div>
       </div>
 
-      <div class="assessment-section">
+      <div class="assessment-section resp-part">
         <div>
           <svg
-            width="60"
+            width="80"
             height="72"
             viewBox="0 0 60 72"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            class="ml-5"
           >
             <path
               d="M58.8 69.6H55.2V64.8H49.2V52.5336C49.2 49.2936 47.5896 46.284 44.8932 44.4864L32.1636 36L44.8932 27.5136C47.5896 25.716 49.2 22.7064 49.2 19.4664V7.2H55.2V2.4H58.8C59.4624 2.4 60 1.8636 60 1.2C60 0.5364 59.4624 0 58.8 0H55.2H54H6H4.8H1.2C0.5376 0 0 0.5364 0 1.2C0 1.8636 0.5376 2.4 1.2 2.4H4.8V7.2H10.8V19.4664C10.8 22.7064 12.4104 25.716 15.1068 27.5136L27.8364 36L15.1068 44.4864C12.4104 46.284 10.8 49.2936 10.8 52.5336V64.8H4.8V69.6H1.2C0.5376 69.6 0 70.1364 0 70.8C0 71.4636 0.5376 72 1.2 72H4.8H6H54H55.2H58.8C59.4624 72 60 71.4636 60 70.8C60 70.1364 59.4624 69.6 58.8 69.6ZM16.4376 25.5168C14.4108 24.1644 13.2 21.9024 13.2 19.4664V7.2H46.8V19.4664C46.8 21.9024 45.5892 24.1644 43.5624 25.5168L30 34.5576L16.4376 25.5168ZM13.2 52.5336C13.2 50.0976 14.4108 47.8356 16.4376 46.4832L30 37.4424L43.5624 46.4832C45.5892 47.8356 46.8 50.0976 46.8 52.5336V64.8H13.2V52.5336Z"
               fill="#2B3C4E"
             />
-             <g clip-path="url(#clip--hourglass)">
-    <rect x="9" rx="10" id="sand" width="40" height="20" fill="#10dbb3" stroke="#2B3C4E" />
-    
-  </g>
+            <g clip-path="url(#clip--hourglass)">
+              <rect
+                x="9"
+                rx="10"
+                id="sand"
+                width="40"
+                height="20"
+                fill="#10dbb3"
+                stroke="#2B3C4E"
+              />
+            </g>
           </svg>
         </div>
         <!-- //api response -->
@@ -129,22 +138,25 @@
         </p>
         <button
           type="submit"
-          class="btn-signup"
+          class="btn-test"
           v-if="!timer"
           @click="startTimer"
         >
           Take Assessment
         </button>
       </div>
-        
-                    <div class="image_wrapper">
-                        <img src="../../assets/victory.png" alt="congratulaton_icon">
-                    </div>
-                  <router-link to="/"> <button class="homePage">Home</button></router-link>  
-             
-    </div>
+      <div class="image-group assessment-section">
 
-  
+        <div class="image_wrapper ">
+          <img src="../../assets/victory.png" alt="congratulaton_icon" />
+        </div>
+        <p class="image_text mt-4">We have received your assessment test, we will get back to you soon.
+<span>Best of luck</span></p>
+        <router-link to="/">
+          <button class="homePage mt-4">Home</button></router-link
+        >
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -225,9 +237,34 @@ export default {
       $(".upload-button").on("click", function() {
         $(".file-upload").click();
       });
+
+       
     });
+
+    
+     $(document).ready(function () {
+        $(".image-wrapper").hide();
+       $('.resp-part').show();
+       $('text-msg').hide();
+
+           
+        $('.btn-test').on('click', function(){
+            $('.resp-part').hide();
+             $('text-msg').show();
+             $(".image-wrapper").animate({
+                 'opacity':'1',
+                'height':'toggle',
+                  }).show(); 
+            });
+            
+                      
+            });
+
+
   }
-};
+  }
+
+
 </script>
 
 <style scoped>
@@ -374,12 +411,12 @@ export default {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  width: 50%;
+  width: 30%;
 }
 .hourglass-icon {
-  margin-left: 3em;
+  margin-left: 6em;
 }
-.btn-signup {
+.btn-test {
   margin-top: 1em;
   padding: 0.5rem 2em;
 
@@ -403,7 +440,6 @@ export default {
   animation: moveSand 6s ease-in-out infinite;
 }
 @keyframes rotateHourglass {
-  
   95% {
     transform: rotate(0deg);
   }
@@ -417,14 +453,27 @@ export default {
     transform: translateY(50px);
   }
 }
-.homePage{
-  background: #31D283;
-border-radius: 4px;
-font-weight: bold;
-font-size: 16px;
-line-height: 19px;
-color: #FFFFFF;
-border: none;
-padding: 0.5rem 5em;
+.homePage {
+  background: #31d283;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: #ffffff;
+  border: none;
+  padding: 0.5rem 5em;
+   margin-left: 10em;
 }
+
+.image_wrapper{
+  margin-left: 11em;
+}
+.image_text{
+  text-align: center;
+  width: 120%;
+}
+/* .image_text span{
+  
+  text-indent: -10em;
+} */
 </style>

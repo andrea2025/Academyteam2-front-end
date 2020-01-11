@@ -95,6 +95,7 @@ font-size: 14px;
 font-weight: normal;
 font-size: 14px;
 line-height: 17px;
+border: none;
 }
 a{
     

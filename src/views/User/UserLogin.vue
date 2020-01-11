@@ -54,7 +54,7 @@ label {
 .btn-signup {
   margin-top: 2em;
   padding: 0.5rem 17em;
-
+border: none;
   background: #2b3c4e;
   border-radius: 4px;
   color: #ffff;
