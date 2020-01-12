@@ -6,47 +6,49 @@
     </div>
     <div class="item mt-4">
       <form @submit.prevent="Apply" class="formBody">
-        <input type="file" id="file" />
-        <label for="file" class="btn-1"><i>+</i>&nbsp;&nbsp;&nbsp; Upload CV</label>
+        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
+        <label for="file" class="btn-1">
+          <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
+        </label>
 
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" class="form-control" />
+            <input type="text" name="firstName" class="form-control" v-model="appForm.firstName" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" class="form-control" />
+            <input type="text" name="lastName" class="form-control" v-model="appForm.lastName" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="mail">Email Address</label>
-            <input type="email" name="mail" class="form-control" />
+            <input type="email" name="mail" class="form-control" v-model="appForm.email" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="dob">Date of Birth</label>
-            <input type="date" name="dob" class="form-control" />
+            <input type="date" name="dob" class="form-control" v-model="appForm.birthday" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="Address">Address</label>
-            <input type="Address" name="Address" class="form-control" />
+            <input type="Address" name="Address" class="form-control" v-model="appForm.address" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="University">University</label>
-            <input type="text" name="University" class="form-control" />
+            <input type="text" name="University" class="form-control" v-model="appForm.school" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="course">Course of Study</label>
-            <input type="course" name="course" class="form-control" />
+            <input type="course" name="course" class="form-control" v-model="appForm.courseOfStudy" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="cgpa">CGPA</label>
-            <input type="number" name="cgpa" class="form-control" />
+            <input type="number" name="cgpa" class="form-control" v-model="appForm.cgpa" />
           </div>
         </div>
         <button type="submit" class="btn-signup">Submit</button>
@@ -60,6 +62,22 @@ export default {
   name: "UserForm",
   components: {
     logo
+  },
+  data() {
+    return {
+      file: "",
+      appForm: {}
+    };
+  },
+  methods: {
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+    },
+    sendForm() {
+      let formData = new FormData();
+      formData.append("file", this.file, this.file.name);
+      formData.append(this.appForm);
+    }
   }
 };
 </script>
@@ -81,11 +99,10 @@ export default {
 }
 input {
   background: #ffffff;
-  
-  
-border: 1.5px solid #2B3C4E;
-box-sizing: border-box;
-border-radius: 4px;
+
+  border: 1.5px solid #2b3c4e;
+  box-sizing: border-box;
+  border-radius: 4px;
 }
 label {
   margin-top: 2em;
@@ -98,6 +115,7 @@ label {
   padding: 0.5rem 10em;
   width: 50%;
   background: #2b3c4e;
+  border: none;
   border-radius: 4px;
   color: #ffff;
   font-weight: bold;
