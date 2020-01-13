@@ -5,7 +5,7 @@
       <h3>Application Form</h3>
     </div>
     <div class="item mt-4">
-      <form @submit.prevent="Apply" class="formBody">
+      <form @submit.prevent="Apply" class="formBody" enctype="multipart/form-data">
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
         <label for="file" class="btn-1">
           <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
@@ -70,13 +70,24 @@ export default {
     };
   },
   methods: {
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-    },
     sendForm() {
       let formData = new FormData();
       formData.append("file", this.file, this.file.name);
       formData.append(this.appForm);
+      console.log(formData);
+
+      this.$http
+        .post("http://localhost:4000/login", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          console.log(response);
+        });
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
     }
   }
 };
