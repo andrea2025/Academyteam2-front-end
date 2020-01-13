@@ -69,7 +69,6 @@ export default new Vuex.Store({
             type: "success",
             message: response.data.message
           }
-
           context.commit('getResponse', responseObject)
         })
         .catch(error => {
@@ -84,11 +83,6 @@ export default new Vuex.Store({
       Axios.post("http://localhost:4000/login", val)
         .then(response => {
           const token = response.data.token;
-          let userProfile = {
-            firstName: response.data.data.firstName,
-            lastName: response.data.data.lastName,
-            email: response.data.data.email
-          }
 
           let responseObject = {
             type: "success",
@@ -98,7 +92,6 @@ export default new Vuex.Store({
           localStorage.setItem("token", token)
 
           context.commit('retrieveToken', token)
-          context.commit('userDetails', userProfile)
           context.commit('getResponse', responseObject)
         })
         .catch(error => {
@@ -106,7 +99,6 @@ export default new Vuex.Store({
             type: 'failed',
             message: error.response.data.message
           }
-
           context.commit('getResponse', responseObject)
         })
     },
@@ -118,26 +110,60 @@ export default new Vuex.Store({
             Name: response.data.name,
             email: response.data.email
           }
-
           let responseObject = {
             type: "success",
             message: response.data.message
           }
-
           localStorage.setItem("token", token)
 
           context.commit('retrieveToken', token)
           context.commit('adminProfile', AdminDetail)
           context.commit('Adminresp', responseObject)
         })
+      .catch(error => {
+        let responseObject = {
+          type: 'failed',
+          message: error.response.data.message
+        }
+        context.commit('Adminresp', responseObject)
+      });
+    },
+    sendApp(context, val) {
+      let formData = new FormData();
+
+      formData.append("file", val.file);
+      formData.append("firstName", val.firstName);
+      formData.append("lastName", val.lastName);
+      formData.append("email", val.email);
+      formData.append("birthday", val.birthday);
+      formData.append("address", val.address);
+      formData.append("school", val.school);
+      formData.append("courseOfStudy", val.courseOfStudy);
+      formData.append("cgpa", val.cgpa);
+
+      Axios.post("http://localhost:4000/newApp", formData)
+
+        .then(response => {
+          let responseObject = {
+            type: "success",
+            message: response.data.message
+          }
+          let userProfile = {
+            firstName: response.data.newEntry.firstName,
+            lastName: response.data.newEntry.lastName,
+            email: response.data.newEntry.email
+          }
+
+          context.commit('userDetails', userProfile)
+          context.commit('getResponse', responseObject)
+        })
         .catch(error => {
           let responseObject = {
             type: 'failed',
             message: error.response.data.message
           }
-
-          context.commit('Adminresp', responseObject)
-        })
+          context.commit('getResponse', responseObject)
+        });
     }
   },
   modules: {}
