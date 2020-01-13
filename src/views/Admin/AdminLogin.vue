@@ -14,14 +14,15 @@
       </div>
 
       <div class="bottom">
-        <form>
+         <p class="alert__message">{{ adminLog.message }}</p>
+        <form @submit.prevent="adminRole" action="/login" method="post">
           <div class="form-group">
             <label for="exampleInputEmail1">Email Address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" />
+            <input type="email" name='email' class="form-control" id="exampleInputEmail1" v-model="adminLogin.email" />
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" />
+            <input type="password" name='psw' class="form-control" id="exampleInputPassword1" v-model="adminLogin.password" />
           </div>
 
           <button type="submit" class="btn btn-primary">Sign In</button>
@@ -36,9 +37,36 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "AdminLogin",
-  components: {}
+  components: {},
+  data() {
+    return {
+      adminLogin: {
+         email: "",
+        password: ""
+      }
+    };
+  },
+  computed:{
+    ...mapGetters(['adminLog'])
+  },
+  methods:{
+    ...mapActions(['loginAdmin']),
+   adminRole() {
+      this.loginAdmin(this.adminLogin);
+    }
+  },
+  watch: {
+    adminLog(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push({ name: "AdminDashboard" });
+        }, 1000);
+      }
+    }
+  }
 };
 </script>
 

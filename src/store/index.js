@@ -10,16 +10,26 @@ export default new Vuex.Store({
       type: '',
       message: ''
     },
+    Adminresponse: {
+      type: "",
+      message: ""
+    },
     profile: {
       firstName: '',
       lastName: '',
       email: ''
     },
+    admin:{
+      name:'',
+      email:''
+    },
     token: localStorage.getItem("token") || null
   },
   getters: {
     apiResponse: state => state.response,
-    profileDetails: state => state.profile
+    profileDetails: state => state.profile,
+    AdminDetails:state => state.admin,
+    adminLog:state => state.Adminresponse
   },
   mutations: {
     retrieveToken(state, token) {
@@ -31,11 +41,23 @@ export default new Vuex.Store({
         message: payload.message
       }
     },
+    Adminresp(state, payload){
+      state.Adminresponse ={
+        type:payload.type,
+        message:payload.message
+      }
+    },
     userDetails(state, payload) {
       state.profile = {
         firstName: payload.firstName,
         lastName: payload.lastName,
         email: payload.email
+      }
+    },
+    adminProfile(state,payload){
+      state.admin = {
+        name:payload.name,
+        email:payload.email
       }
     }
   },
@@ -86,6 +108,35 @@ export default new Vuex.Store({
           }
 
           context.commit('getResponse', responseObject)
+        })
+    },
+    loginAdmin(context, val) {
+      Axios.post("http://localhost:4000/admin/login", val)
+        .then(response => {
+          const token = response.data.token;
+          let AdminDetail = {
+            Name: response.data.name,
+            email: response.data.email
+          }
+
+          let responseObject = {
+            type: "success",
+            message: response.data.message
+          }
+
+          localStorage.setItem("token", token)
+
+          context.commit('retrieveToken', token)
+          context.commit('adminProfile', AdminDetail)
+          context.commit('Adminresp', responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+
+          context.commit('Adminresp', responseObject)
         })
     }
   },
