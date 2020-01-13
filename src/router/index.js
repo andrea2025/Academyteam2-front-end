@@ -52,6 +52,10 @@ const routes = [{
         path: "/adminlogin",
         name: "AdminLogin",
         component: AdminLogin,
+        meta: { 
+            requiresAuth: true,
+            isAdmin : true
+        }
 
     },
     {
