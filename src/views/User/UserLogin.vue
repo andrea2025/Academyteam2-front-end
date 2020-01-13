@@ -2,22 +2,30 @@
   <div>
     <logo />
     <div class="item pageTitle">
-      <h3><i>Applicant Log In</i></h3>
+      <h3>
+        <i>Applicant Log In</i>
+      </h3>
     </div>
     <div class="item">
+      <p class="alert__message">{{ apiResponse.message }}</p>
       <form @submit.prevent="loginFile" class="formBody">
         <div class="form__item__name col text-left">
           <label for="mail">Email Address</label>
-          <input type="email" name="mail" class="form-control" />
+          <input type="email" name="mail" class="form-control" v-model="userLogin.email" />
         </div>
 
         <div class="form__item__name col text-left">
           <label for="password">Password</label>
-          <input type="password" name="password" class="form-control" />
+          <input type="password" name="password" class="form-control" v-model="userLogin.password" />
         </div>
         <button type="submit" class="btn-signup">Sign In</button>
-        <div class="alt-signin d-flex  justify-content-between">
-          <p>Don’t have an account yet?<router-link to="/"> <a href="">Sign Up</a></router-link></p>
+        <div class="alt-signin d-flex justify-content-between">
+          <p>
+            Don’t have an account yet?
+            <router-link to="/">
+              <a href>Sign Up</a>
+            </router-link>
+          </p>
           <p>Forgot Password?</p>
         </div>
       </form>
@@ -26,10 +34,36 @@
 </template>
 <script>
 import logo from "@/components/logo.vue";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "UserLogin",
   components: {
     logo
+  },
+  data() {
+    return {
+      userLogin: {}
+    };
+  },
+  computed: {
+    ...mapGetters(["apiResponse"])
+  },
+  methods: {
+    ...mapActions(["loginUser"]),
+    loginFile() {
+      this.loginUser(this.userLogin);
+    }
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push("/userform");
+          val.message = "";
+        }, 1000);
+      }
+    }
   }
 };
 </script>
@@ -40,6 +74,7 @@ export default {
   font-size: 24px;
   line-height: 29px;
   color: #2b3c4e;
+  text-align: center;
 }
 .formBody {
   width: 30%;
@@ -54,7 +89,7 @@ label {
 .btn-signup {
   margin-top: 2em;
   padding: 0.5rem 17em;
-border: none;
+  border: none;
   background: #2b3c4e;
   border-radius: 4px;
   color: #ffff;

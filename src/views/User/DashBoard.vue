@@ -3,37 +3,37 @@
     <div class="sideBar">
       <div class="side_bar_content">
         <div class="avatar-wrapper">
-          <img class="profile-pic" src="" />
+          <img class="profile-pic" src />
           <div class="upload-button">
             <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
           </div>
           <input class="file-upload" type="file" accept="image/*" />
         </div>
         <div class="nameAttr">
-         <p>{{name}}</p>
-           <p>{{email}}</p>
+          <p>{{profileDetails.firstName}}</p>
+          <p>{{profileDetails.email}}</p>
         </div>
       </div>
 
       <div class="dashboard mt-4">
-        <router-link to="/dashboard"
-          ><div class="d-flex">
+        <router-link to="/dashboard">
+          <div class="d-flex">
             <img src="../../assets/Group.png" alt="dashboard icon" />
             <p id="dashboard_item">Dashboard</p>
-          </div></router-link
-        >
-        <router-link to="/assessment"
-          ><div class="d-flex ">
+          </div>
+        </router-link>
+        <router-link to="/assessment">
+          <div class="d-flex">
             <img src="../../assets/Vector.png" alt="assessment icon" />
             <p>Assessment</p>
-          </div></router-link
-        >
-        <router-link to="/userlogin"
-          ><div class="d-flex mt-4">
+          </div>
+        </router-link>
+        <router-link to="/userlogin">
+          <div class="d-flex mt-4">
             <img src="../../assets/Layer.png" alt="logout icon" />
             <p>Log out</p>
-          </div></router-link
-        >
+          </div>
+        </router-link>
       </div>
     </div>
     <div class="mainContent">
@@ -49,14 +49,13 @@
         <div class="status">
           <p>Application Status</p>
         </div>
-        
       </div>
       <div class="d-flex justify-content-between mt-5">
         <div class="update_item">
           <h3>Updates</h3>
         </div>
         <div class="update_item mr-5">
-          <h3> Take Assessment</h3>
+          <h3>Take Assessment</h3>
         </div>
       </div>
     </div>
@@ -64,14 +63,18 @@
 </template>
 <script>
 import $ from "jquery";
+import { mapGetters } from "vuex";
+
 export default {
   name: "DashBoard",
-   data(){
-return{
-      name:'jane doe',
-      email:'jane@gmal.com'
-}
-
+  data() {
+    return {
+      name: "jane doe",
+      email: "jane@gmal.com"
+    };
+  },
+  computed: {
+    ...mapGetters(["profileDetails"])
   },
   mounted() {
     $(document).ready(function() {
@@ -181,8 +184,6 @@ return{
   font-weight: normal;
   font-size: 16px;
   line-height: 19px;
- 
-
 }
 .dashboard a {
   color: #2b3c4e;
@@ -214,8 +215,8 @@ img {
   font-size: 43.5555px;
   line-height: 52px;
   letter-spacing: -0.02em;
-   padding-top: 2.5em;
-   font-style: normal;
+  padding-top: 2.5em;
+  font-style: normal;
 }
 .status_update {
   margin-top: 6em;
@@ -225,18 +226,17 @@ img {
 .status {
   margin-left: 8em;
 }
-.update_item h3{
+.update_item h3 {
   font-weight: bold;
-font-size: 16px;
-line-height: 19px;
-letter-spacing: -0.02em;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
 }
-.update_item{
-  border: 1px solid #ECECF9;
-box-sizing: border-box;
-border-radius: 4px;
-padding: 30px;
-width: 45%;
+.update_item {
+  border: 1px solid #ececf9;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 30px;
+  width: 45%;
 }
-
 </style>
