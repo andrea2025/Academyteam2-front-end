@@ -17,6 +17,7 @@
         <div class="form__item__name col text-left">
           <label for="password">Password</label>
           <input type="password" name="password" class="form-control" v-model="userLogin.password" />
+          <i  class="fa fa-eye field-icon toggle-password"></i>
         </div>
         <button type="submit" class="btn-signup">Sign In</button>
         <div class="alt-signin d-flex justify-content-between">
@@ -35,6 +36,7 @@
 <script>
 import logo from "@/components/logo.vue";
 import { mapGetters, mapActions } from "vuex";
+import $ from "jquery";
 
 export default {
   name: "UserLogin",
@@ -54,6 +56,30 @@ export default {
     loginFile() {
       this.loginUser(this.userLogin);
     }
+  },
+  mounted(){
+    $(function(){
+  
+  $('.toggle-password').click(function(){
+       
+        if($(this).hasClass('fa-eye-slash')){
+           
+          $(this).removeClass('fa-eye-slash');
+          
+          $(this).addClass('fa-eye');
+          
+          $('#password').attr('type','text');
+            
+        }else{
+         
+          $(this).removeClass('fa-eye');
+          
+          $(this).addClass('fa-eye-slash');  
+          
+          $('#password').attr('type','password');
+        }
+    });
+});
   },
   watch: {
     apiResponse(val) {
@@ -107,6 +133,15 @@ label {
 a {
   color: #4f4f4f;
   text-decoration: underline;
+}
+.field-icon {
+  float: right;
+  margin-right:1em;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+  cursor:pointer;
+opacity: 0.4;
 }
 @media screen and (max-width: 1000px) {
   .btn-signup {
