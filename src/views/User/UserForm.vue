@@ -5,7 +5,8 @@
       <h3>Application Form</h3>
     </div>
     <div class="item mt-4">
-      <form @submit.prevent="Apply" class="formBody" enctype="multipart/form-data">
+      <p class="alert__message">{{ apiResponse.message }}</p>
+      <form @submit.prevent="sendForm" class="formBody" enctype="multipart/form-data">
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
         <label for="file" class="btn-1">
           <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
@@ -14,41 +15,41 @@
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" class="form-control" v-model="appForm.firstName" />
+            <input type="text" name="firstName" class="form-control" v-model="firstName" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" class="form-control" v-model="appForm.lastName" />
+            <input type="text" name="lastName" class="form-control" v-model="lastName" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="mail">Email Address</label>
-            <input type="email" name="mail" class="form-control" v-model="appForm.email" />
+            <input type="email" name="mail" class="form-control" v-model="email" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="dob">Date of Birth</label>
-            <input type="date" name="dob" class="form-control" v-model="appForm.birthday" />
+            <input type="date" name="dob" class="form-control" v-model="birthday" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="Address">Address</label>
-            <input type="Address" name="Address" class="form-control" v-model="appForm.address" />
+            <input type="Address" name="Address" class="form-control" v-model="address" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="University">University</label>
-            <input type="text" name="University" class="form-control" v-model="appForm.school" />
+            <input type="text" name="University" class="form-control" v-model="school" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="course">Course of Study</label>
-            <input type="course" name="course" class="form-control" v-model="appForm.courseOfStudy" />
+            <input type="course" name="course" class="form-control" v-model="courseOfStudy" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="cgpa">CGPA</label>
-            <input type="number" name="cgpa" class="form-control" v-model="appForm.cgpa" />
+            <input type="number" name="cgpa" class="form-control" v-model="cgpa" />
           </div>
         </div>
         <button type="submit" class="btn-signup">Submit</button>
@@ -58,6 +59,8 @@
 </template>
 <script>
 import logo from "@/components/logo.vue";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "UserForm",
   components: {
@@ -66,28 +69,46 @@ export default {
   data() {
     return {
       file: "",
-      appForm: {}
+      firstName: "",
+      lastName: "",
+      email: "",
+      address: "",
+      birthday: "",
+      school: "",
+      courseOfStudy: "",
+      cgpa: ""
     };
   },
+  computed: {
+    ...mapGetters(["apiResponse"])
+  },
   methods: {
-    sendForm() {
-      let formData = new FormData();
-      formData.append("file", this.file, this.file.name);
-      // formData.append(this.appForm);
-      console.log(formData);
-
-      this.$http
-        .post("http://localhost:4000/newApp", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(response => {
-          console.log(response);
-        });
-    },
+    ...mapActions(["sendApp"]),
     handleFileUpload() {
       this.file = this.$refs.file.files[0];
+    },
+    sendForm() {
+      this.sendApp({
+        file: this.file,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        address: this.address,
+        birthday: this.birthday,
+        school: this.school,
+        courseOfStudy: this.courseOfStudy,
+        cgpa: this.cgpa
+      });
+    }
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push("/dashboard");
+          val.message = "";
+        }, 1000);
+      }
     }
   }
 };
