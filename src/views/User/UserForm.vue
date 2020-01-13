@@ -73,11 +73,11 @@ export default {
     sendForm() {
       let formData = new FormData();
       formData.append("file", this.file, this.file.name);
-      formData.append(this.appForm);
+      // formData.append(this.appForm);
       console.log(formData);
 
       this.$http
-        .post("http://localhost:4000/login", formData, {
+        .post("http://localhost:4000/newApp", formData, {
           headers: {
             "Content-Type": "multipart/form-data"
           }
