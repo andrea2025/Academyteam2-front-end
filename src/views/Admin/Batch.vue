@@ -54,7 +54,7 @@
   </div>
 </template>
 <script>
-import SideBar from "../../components/SideBar";
+import SideBar from "../../components/sideBar";
 
 export default {
   name: "Batch",
@@ -81,7 +81,7 @@ export default {
   align-items: center;
   padding: 0;
   min-height: 100vh;
-  min-width:100vw;
+  min-width: 100vw;
 }
 
 h1 {
