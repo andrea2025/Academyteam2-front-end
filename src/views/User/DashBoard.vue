@@ -68,10 +68,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "DashBoard",
   data() {
-    return {
-      name: "jane doe",
-      email: "jane@gmal.com"
-    };
+    return {};
   },
   computed: {
     ...mapGetters(["profileDetails"])
