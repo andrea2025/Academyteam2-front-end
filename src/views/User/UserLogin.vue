@@ -16,7 +16,7 @@
 
         <div class="form__item__name col text-left">
           <label for="password">Password</label>
-          <input type="password" name="password" class="form-control" v-model="userLogin.password" />
+          <input type="password" name="password" id="password" class="form-control"  v-model="userLogin.password" />
           <i  class="fa fa-eye field-icon toggle-password"></i>
         </div>
         <button type="submit" class="btn-signup">Sign In</button>
@@ -36,8 +36,8 @@
 <script>
 import logo from "@/components/logo.vue";
 import { mapGetters, mapActions } from "vuex";
-import $ from "jquery";
 
+import $ from "jquery";
 export default {
   name: "UserLogin",
   components: {
@@ -80,6 +80,7 @@ export default {
         }
     });
 });
+
   },
   watch: {
     apiResponse(val) {

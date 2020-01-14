@@ -23,6 +23,7 @@
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
             <input type="password" name='psw' class="form-control" id="exampleInputPassword1" v-model="adminLogin.password" />
+            <i  class="fa fa-eye field-icon toggle-password"></i>
           </div>
 
           <button type="submit" class="btn btn-primary">Sign In</button>
@@ -38,6 +39,7 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import $ from "jquery";
 export default {
   name: "AdminLogin",
   components: {},
@@ -57,6 +59,30 @@ export default {
    adminRole() {
       this.loginAdmin(this.adminLogin);
     }
+  },
+  mounted(){
+    $(function(){
+  
+  $('.toggle-password').click(function(){
+       
+        if($(this).hasClass('fa-eye-slash')){
+           
+          $(this).removeClass('fa-eye-slash');
+          
+          $(this).addClass('fa-eye');
+          
+          $('#exampleInputPassword1').attr('type','text');
+            
+        }else{
+         
+          $(this).removeClass('fa-eye');
+          
+          $(this).addClass('fa-eye-slash');  
+          
+          $('#exampleInputPassword1').attr('type','password');
+        }
+    });
+});
   },
   watch: {
     adminLog(val) {
@@ -110,5 +136,15 @@ span {
   float: right;
   padding: 0.8em 0;
   color: white;
+}
+.field-icon {
+  float: right;
+  margin-right:1em;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+  cursor:pointer;
+opacity: 0.4;
+color: #5ABEFD;
 }
 </style>
