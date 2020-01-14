@@ -1,55 +1,82 @@
 <template>
-    <aside>
-     <div class="sidebar">
-      <div class="side_bar_content">
+  <div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar">
+      <div class="sidebar-header">
+        <!-- Profile image display -->
         <div class="avatar-wrapper">
-          <img class="profile-pic" src="" />
+          <img class="profile-pic" src />
           <div class="upload-button">
             <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
           </div>
           <input class="file-upload" type="file" accept="image/*" />
         </div>
-        <div class="nameAttr">
-         <p>{{name}}</p>
-           <p>{{email}}</p>
+
+        <div class="head-details">
+          <h3>{{name}}</h3>
+          <em>
+            <p>{{email}}</p>
+          </em>
         </div>
-      </div> 
-
-      <div class="dashboard mt-4">
-        <router-link to="/dashboard"
-          ><div class="d-flex">
-            <img src="../assets/Group.png" alt="dashboard icon" />
-            <p id="dashboard_item">Dashboard</p>
-          </div></router-link
-        >
-        <router-link to="/assessment"
-          ><div class="d-flex ">
-            <img src="../assets/Vector.png" alt="assessment icon" />
-            <p>Assessment</p>
-          </div></router-link
-        >
-        <router-link to="/userlogin"
-          ><div class="d-flex mt-4">
-            <img src="../assets/Layer.png" alt="logout icon" />
-            <p>Log out</p>
-          </div></router-link
-        >
       </div>
-    </div>  
-    </aside>
-</template>
 
+      <ul class="list-unstyled components">
+        <li class="active">
+          <img src="../assets/dashboard.png" alt />
+          <router-link to="/admindashboard">
+            <span>Dashboard</span>
+          </router-link>
+        </li>
+
+        <li>
+          <img src="../assets/plus.png" alt />
+          <router-link to ="/application">
+            <span>Create Application</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/batch">
+            <img src="../assets/icons8-download-50.png" alt />
+            <span>Application Entries</span>
+          </router-link>
+        </li>
+
+        <li>
+          <img src="../assets/compose.png" alt />
+          <router-link to="/compose">
+            <span class="span">Compose Assessment</span>
+          </router-link>
+        </li>
+
+        <li>
+          <img src="../assets/history.png" alt />
+          <router-link to="/history">
+            <span>Assessment History</span>
+          </router-link>
+        </li>
+
+        <li>
+          <img src="../assets/result.png" alt />
+          <router-link to="/Results">
+            <span>Results</span>
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</template>
 <script>
 import $ from "jquery";
 export default {
-  name: "sideBar",
-   data(){
-return{
-      name:'jane doe',
-      email:'jane@gmal.com'
-}
-
+  name: "SideBar",
+  data() {
+    return {
+      name: "John Doe",
+      email: "j.doe@gmal.com"
+    };
   },
+
   mounted() {
     $(document).ready(function() {
       var readURL = function(input) {
@@ -76,26 +103,34 @@ return{
 };
 </script>
 <style scoped>
-.side_bar_content {
-  background: #2b3c4e;
-  padding: 20px;
-  min-height: 50px;
+.wrapper {
+  min-height: 100vh;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  font-family: Lato;
 }
-/* .sidebar {
-  min-height: calc(100vh - 80px);
-  color: #fff;
+
+.sidebar-header {
+  background: #5abefd;
+  padding: 4em 6em;
+  
+}
+/* #sidebar{
+padding: 3em;
 } */
-.sidebar {
-    min-height: calc(120vh - 80px);
-    width: 200%;
-  background: #ffffff;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+
+.head-details {
+  text-align: center;
 }
+
+/* .components img {
+  padding: 0 1em 0 2em;
+} */
+
 .avatar-wrapper {
   position: relative;
   height: 100px;
   width: 100px;
-  margin: 50px auto;
+  margin: auto;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 1px 1px 15px -5px black;
@@ -147,7 +182,30 @@ return{
 .upload-button:hover .fa-arrow-circle-up {
   opacity: 0.9;
 }
-.nameAttr {
-  color: #fff;
+
+ul {
+  padding: 2em;
+
+}
+
+li {
+  display: flex;
+  align-items: center;
+  padding: 0 0 1em 0;
+  
+}
+
+a {
+  color: black;
+  
+}
+
+span {
+  padding: 0 0 0 1em;
+}
+
+a.router-link-exact-active {
+  color: #2b3c4e;
+  font-weight: bold;
 }
 </style>

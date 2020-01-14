@@ -120,6 +120,7 @@ export default {
   font-size: 24px;
   line-height: 29px;
   color: #2b3c4e;
+  text-align: center;
 }
 .formBody {
   width: 70%;
