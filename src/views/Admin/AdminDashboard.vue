@@ -13,19 +13,19 @@
           <div class="form-group">
             <!-- Text inside is a placeholder -->
             <p>Current Applications</p>
-            <h1>233</h1>
-            <p>Academy 2.0</p>
+            <h1>{{allAppEntries.length}}</h1>
+            <p>Academy {{}}</p>
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
             <p>Total Applications</p>
-            <h1>4253</h1>
+            <h1>{{allAppEntries.length}}</h1>
             <p>All entries so far</p>
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
             <p>Academys</p>
-            <h1>4</h1>
+            <h1>{{adminApplications.length}}</h1>
             <p>So far</p>
           </div>
         </div>
@@ -38,10 +38,10 @@
             </div>
             <table>
               <tbody class="hoverable-tr">
-                <tr id="tr">
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
+                <tr id="tr" v-for="app in adminApplications" :key="app._id" @reload="fetchApp">
+                  <td>Batch {{app.batch}}</td>
+                  <td>{{allAppEntries.length}} students</td>
+                  <td>Started {{app.date}}</td>
                 </tr>
               </tbody>
             </table>
@@ -65,12 +65,26 @@
   </div>
 </template>
 <script>
-import SideBar from "../../components/SideBar";
+import SideBar from "../../components/sideBar";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "AdminDashboard",
   components: {
     SideBar
+  },
+  computed: {
+    ...mapGetters(["adminApplications", "AdminDetails", "allAppEntries"])
+  },
+  mounted() {
+    this.fetchApp();
+  },
+  methods: {
+    ...mapActions(["getCreatedApp", "getAllEntries"]),
+    fetchApp() {
+      this.getCreatedApp();
+      this.getAllEntries();
+    }
   }
 };
 </script>
@@ -120,7 +134,6 @@ button {
   width: calc(50% - 4em);
 }
 
-
 .flex2 {
   display: flex;
   justify-content: space-between;
@@ -145,11 +158,10 @@ button {
 table {
   border-collapse: unset;
   border-spacing: 0;
-} 
+}
 
 .tab {
   height: fit-content;
-  
 }
 
 td {
@@ -169,6 +181,4 @@ td {
   width: 90%;
   margin: 2em auto;
 }
-
-
 </style>

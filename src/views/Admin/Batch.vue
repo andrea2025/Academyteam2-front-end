@@ -7,7 +7,7 @@
     <div class="div-form">
       <!-- Page title -->
       <h1>
-        Results - Batch 2
+        Results - Batch X
         <select name="batch" class="special-select">
           <option value="0"></option>
           <option value="1">Batch 1</option>
@@ -35,17 +35,25 @@
                 CGPA
                 <select name="grade"></select>
               </th>
-              <th scope="col">
+              <!-- <th scope="col">
                 Test Scores
                 <select name="scores"></select>
-              </th>
+              </th>-->
             </tr>
           </thead>
-          <tbody class="hoverable-tr">
+          <tbody
+            class="hoverable-tr"
+            v-for="entry in allAppEntries"
+            :key="entry._id"
+            @reload="fetchEntries"
+          >
             <tr>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <td>{{entry.firstName}} {{entry.lastName}}</td>
+              <td>{{entry.email}}</td>
+              <td>{{entry.birthday}}</td>
+              <td>{{entry.address}}</td>
+              <td>{{entry.school}}</td>
+              <td>{{entry.cgpa}}</td>
             </tr>
           </tbody>
         </table>
@@ -54,25 +62,26 @@
   </div>
 </template>
 <script>
-import SideBar from "../../components/SideBar";
+import SideBar from "../../components/sideBar";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Batch",
   components: {
     SideBar
+  },
+  computed: {
+    ...mapGetters(["allAppEntries"])
+  },
+  mounted() {
+    this.fetchEntries();
+  },
+  methods: {
+    ...mapActions(["getAllEntries"]),
+    fetchEntries() {
+      this.getAllEntries();
+    }
   }
-  //   data() {
-  //     return {
-  //       number: 0,
-  //       number2: 0
-  //     };
-  //   }
-
-  //   methods: {
-  //     setTime() {
-  //       this.number = 2;
-  //     }
-  //   }
 };
 </script>
 <style scoped>
@@ -81,7 +90,7 @@ export default {
   align-items: center;
   padding: 0;
   min-height: 100vh;
-  min-width:100vw;
+  min-width: 100vw;
 }
 
 h1 {

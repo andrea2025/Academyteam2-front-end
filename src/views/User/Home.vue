@@ -161,6 +161,10 @@ export default {
   width: 70%;
   margin: auto;
 }
+.alert__message {
+  color: red;
+  font-size: 12px;
+}
 label {
   margin-top: 2em;
   font-size: 14px;

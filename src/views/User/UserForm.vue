@@ -5,9 +5,10 @@
       <h3>Application Form</h3>
     </div>
     <div class="item mt-4">
-      <p class="alert__message">{{ apiResponse.message }}</p>
+      <span class="alert__message">{{ apiResponse.message }}</span>
+      <span class="alert__message">{{alert.message}}</span>
       <form @submit.prevent="sendForm" class="formBody" enctype="multipart/form-data">
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
+        <input type="file" id="file" ref="file" />
         <label for="file" class="btn-1">
           <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
         </label>
@@ -76,7 +77,10 @@ export default {
       birthday: "",
       school: "",
       courseOfStudy: "",
-      cgpa: ""
+      cgpa: "",
+      alert: {
+        message: ""
+      }
     };
   },
   computed: {
@@ -84,21 +88,32 @@ export default {
   },
   methods: {
     ...mapActions(["sendApp"]),
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-    },
     sendForm() {
-      this.sendApp({
-        file: this.file,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
-        address: this.address,
-        birthday: this.birthday,
-        school: this.school,
-        courseOfStudy: this.courseOfStudy,
-        cgpa: this.cgpa
-      });
+      this.file = this.$refs.file.files[0];
+      var allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ];
+      if (!this.file) {
+        this.alert.message = "Please upload a file (pdf/doc)";
+      } else if (!allowedTypes.includes(this.file.type)) {
+        this.alert.message = "Wrong file type, Please upload a file";
+      } else if (this.file.size > 500000) {
+        this.alert.message = "Too large, max size allowed is 500kb";
+      } else {
+        this.sendApp({
+          file: this.file,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          address: this.address,
+          birthday: this.birthday,
+          school: this.school,
+          courseOfStudy: this.courseOfStudy,
+          cgpa: this.cgpa
+        });
+      }
     }
   },
   watch: {
@@ -108,6 +123,13 @@ export default {
           this.$router.push("/dashboard");
           val.message = "";
         }, 1000);
+      }
+    },
+    alert(val) {
+      if (val.message) {
+        setTimeout(() => {
+          val.message = "";
+        }, 500);
       }
     }
   }
@@ -129,6 +151,10 @@ export default {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   padding: 20px 40px;
+}
+.alert__message {
+  color: red;
+  font-size: 12px;
 }
 input {
   background: #ffffff;

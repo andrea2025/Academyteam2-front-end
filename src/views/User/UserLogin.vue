@@ -17,13 +17,13 @@
         <div class="form__item__name col text-left">
           <label for="password">Password</label>
           <input type="password" name="password" class="form-control" v-model="userLogin.password" />
-          <i  class="fa fa-eye field-icon toggle-password"></i>
+          <i class="fa fa-eye field-icon toggle-password"></i>
         </div>
         <button type="submit" class="btn-signup">Sign In</button>
         <div class="alt-signin d-flex justify-content-between">
           <p>
             Don’t have an account yet?
-            <router-link to="/">
+            <router-link to="/signup">
               <a href>Sign Up</a>
             </router-link>
           </p>
@@ -49,7 +49,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["apiResponse"])
+    ...mapGetters(["apiResponse", "entryStatus"])
   },
   methods: {
     ...mapActions(["loginUser"]),
@@ -57,35 +57,34 @@ export default {
       this.loginUser(this.userLogin);
     }
   },
-  mounted(){
-    $(function(){
-  
-  $('.toggle-password').click(function(){
-       
-        if($(this).hasClass('fa-eye-slash')){
-           
-          $(this).removeClass('fa-eye-slash');
-          
-          $(this).addClass('fa-eye');
-          
-          $('#password').attr('type','text');
-            
-        }else{
-         
-          $(this).removeClass('fa-eye');
-          
-          $(this).addClass('fa-eye-slash');  
-          
-          $('#password').attr('type','password');
+  mounted() {
+    $(function() {
+      $(".toggle-password").click(function() {
+        if ($(this).hasClass("fa-eye-slash")) {
+          $(this).removeClass("fa-eye-slash");
+
+          $(this).addClass("fa-eye");
+
+          $("#password").attr("type", "text");
+        } else {
+          $(this).removeClass("fa-eye");
+
+          $(this).addClass("fa-eye-slash");
+
+          $("#password").attr("type", "password");
         }
+      });
     });
-});
   },
   watch: {
     apiResponse(val) {
       if (val.type == "success") {
         setTimeout(() => {
-          this.$router.push("/userform");
+          if (this.entryStatus.status) {
+            this.$router.push("/dashboard");
+          } else {
+            this.$router.push("/userform");
+          }
           val.message = "";
         }, 1000);
       }
@@ -105,6 +104,10 @@ export default {
 .formBody {
   width: 30%;
   margin: auto;
+}
+.alert__message {
+  color: red;
+  font-size: 12px;
 }
 label {
   margin-top: 2em;
@@ -136,12 +139,12 @@ a {
 }
 .field-icon {
   float: right;
-  margin-right:1em;
+  margin-right: 1em;
   margin-top: -25px;
   position: relative;
   z-index: 2;
-  cursor:pointer;
-opacity: 0.4;
+  cursor: pointer;
+  opacity: 0.4;
 }
 @media screen and (max-width: 1000px) {
   .btn-signup {
