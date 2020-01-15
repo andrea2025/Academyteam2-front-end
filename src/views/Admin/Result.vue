@@ -81,21 +81,16 @@ export default {
   min-height: 100vh;
 }
 
-h1 {
-  font-style: normal;
-  font-weight: 300;
-}
-
 select {
   font-style: normal;
   font-weight: 300;
 }
 
 .div-form {
-  margin: 3.5em auto;
-  /* width: 70%; */
-  padding: 0 0 2em 0;
+  margin: 3em auto;
+  width: 78%;
   position: relative;
+  padding: 0 0 2em 0;
 }
 
 .side-bar {
@@ -118,10 +113,12 @@ thead {
 }
 
 #tr:hover {
-  border-radius: 3px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-radius: 8px;
 }
 
-@media screen and (max-width: 600px) {
+td,
+th {
+  text-align: center;
 }
 </style>

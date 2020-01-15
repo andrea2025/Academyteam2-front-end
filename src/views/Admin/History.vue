@@ -95,7 +95,7 @@
           </div>
         </div>
 
-        <div id="btn">
+        <div id="btn" class="btn-margin-top">
           <button class="btn">Next</button>
         </div>
       </div>
@@ -134,14 +134,16 @@ export default {
   padding: 0;
 }
 
-h1 {
+p {
   font-style: normal;
-  font-weight: 300;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
 }
 
 .div-form {
-  margin: 3.5em auto;
-  width: 70%;
+  margin: 3em auto;
+  width: 78%;
   position: relative;
   padding: 0 0 2em 0;
 }
@@ -194,6 +196,10 @@ button {
   color: white;
 }
 
+.btn-margin-top {
+  margin-top: 2em;
+}
+
 .text-area {
   height: 8em;
 }
@@ -208,20 +214,22 @@ thead {
 }
 
 #tr:hover {
-  border-radius: 3px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-radius: 8px;
 }
 
 .box-shadow {
   padding: 1em 3em;
-  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-radius: 8px;
 }
 
 select {
   background: #2b3c4e;
 }
 
-@media screen and (max-width: 600px) {
+td,
+th {
+  text-align: center;
 }
 </style>

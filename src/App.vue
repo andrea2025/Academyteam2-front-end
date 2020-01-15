@@ -24,6 +24,11 @@
   padding: 30px;
 }
 
+h1 {
+  font-style: normal;
+  font-weight: 300;
+}
+
 #nav a {
   font-weight: bold;
   color: #2c3e50;

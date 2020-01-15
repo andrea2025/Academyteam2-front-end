@@ -62,22 +62,15 @@ export default {
   min-height: 100vh;
 }
 
-h1 {
-  font-style: normal;
-  font-weight: 300;
-}
-
 .div-form {
   margin: auto;
-  width: 70%;
+  width: 75%;
+  margin-top: 3em;
   padding: 0 0 2em 0;
   position: relative;
 }
 
 .side-bar {
-  /* position: relative;
-  top: 0;
-  left: 0; */
   height: 100%;
   padding: 0 0 2em 0;
 }
@@ -90,6 +83,7 @@ h1 {
 
 #btn {
   text-align: center;
+  margin-top: 2em;
 }
 
 .btn {
@@ -108,8 +102,5 @@ button {
 
 .flex > div {
   width: calc(50% - 4em);
-}
-
-@media screen and (max-width: 600px) {
 }
 </style>

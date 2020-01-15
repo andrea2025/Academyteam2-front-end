@@ -150,16 +150,18 @@ export default {
   min-height: 100vh;
 }
 
-h1 {
+p {
   font-style: normal;
-  font-weight: 300;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
 }
 
 .div-form {
   margin: 0 auto;
-  width: 70%;
+  width: 75%;
   position: relative;
-  margin-top: 3.5em;
+  margin-top: 3em;
   padding: 0 0 2em 0;
 }
 
@@ -216,8 +218,5 @@ h1 {
 
 .flex > div {
   width: calc(50% - 4em);
-}
-
-@media screen and (max-width: 600px) {
 }
 </style>

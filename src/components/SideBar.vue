@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <!-- Sidebar Holder -->
-    <nav id="sidebar">
+    <nav id="sidebar" class="navigation">
       <div class="sidebar-header">
         <!-- Profile image display -->
         <div class="avatar-wrapper">
@@ -22,43 +22,44 @@
 
       <ul class="list-unstyled components">
         <li class="active">
-          <img src="../assets/dashboard.png" alt />
-          <router-link to="/admindashboard" class-active="active">
+          <router-link to="/admindashboard">
+            <img src="../assets/dashboard.png" alt />
             <span>Dashboard</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/plus.png" alt />
-          <router-link to="/application" class-active="active">
+          <router-link to="/application">
+            <img src="../assets/plus.png" alt />
             <span>Create Application</span>
           </router-link>
         </li>
 
         <li>
-          <router-link to="/entries" class-active="active">
+          <router-link to="/entries">
             <img src="../assets/icons8-download-50.png" alt />
             <span>Application Entries</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/compose.png" alt />
-          <router-link to="/compose" class-active="active">
+          <router-link to="/compose">
+            <img src="../assets/compose.png" alt />
             <span class="span">Compose Assessment</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/history.png" alt />
-          <router-link to="/history" class-active="active">
+          <router-link to="/history">
+            <img src="../assets/history.png" alt />
             <span>Assessment History</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/result.png" alt />
-          <router-link to="/result" class-active="active">
+          <router-link to="/result">
+            <img src="../assets/result.png" alt />
+
             <span>Results</span>
           </router-link>
         </li>
@@ -99,19 +100,6 @@ export default {
         $(".file-upload").click();
       });
     });
-
-    $(document).ready(function() {
-      console.log(window.location);
-      console.log(window.location.pathname);
-      var currentPath = window.location.pathname;
-      if (currentPath[currentPath.length - 1] == "/")
-        currentPath = currentPath.substring(0, currentPath.length - 1);
-      var pageName = currentPath.substr(currentPath.lastIndexOf("/") + 1);
-      var targets = document.querySelectorAll("a[href=" + pageName + "]");
-      if (targets.length > 0) {
-        targets[0].parentNode.style.background = " #31D283";
-      }
-    });
   }
 };
 </script>
@@ -130,10 +118,6 @@ export default {
 .head-details {
   text-align: center;
 }
-
-/* .components img {
-  padding: 0 1em 0 2em;
-} */
 
 .avatar-wrapper {
   position: relative;
@@ -193,13 +177,14 @@ export default {
 }
 
 ul {
-  padding: 1em;
+  margin: 1em 1.4em 1em 0;
 }
 
-li {
+li a {
   display: flex;
   align-items: center;
-  padding: 0 0 1em 0;
+  padding: 0 0 0 1em;
+  margin-bottom: 1em;
 }
 
 a {
@@ -210,14 +195,14 @@ a:hover {
   text-decoration: none;
 }
 
-/* a:focus {
-  background: #31d283;
-} */
-
-span {
-  padding: 0 0 0 1em;
+.navigation a.router-link-exact-active {
+  border-left: 4px solid #31d283;
+  border-radius: 2px 0 0 2px;
+  font-weight: bold;
+  color: #2c3e50;
 }
 
-@media screen and (max-width: 600px) {
+span {
+  margin-left: 0.7em;
 }
 </style>

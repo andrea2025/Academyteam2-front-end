@@ -6,7 +6,7 @@
 
     <div class="div-form">
       <!-- Page title -->
-      <h1>Dashboard</h1>
+      <h1 id="h1">Dashboard</h1>
 
       <div>
         <div class="flex">
@@ -79,22 +79,23 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  /* align-items: center; */
   padding: 0;
   min-height: 100vh;
 }
 
-h1 {
-  font-style: normal;
-  font-weight: 300;
-}
-
 .div-form {
   margin: 0 auto;
-  width: 70%;
+  width: 78%;
   position: relative;
-  margin-top: 3.5em;
+  margin-top: 3em;
   padding: 0 0 2em 0;
+}
+
+h6 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
 }
 
 .side-bar {
@@ -112,7 +113,6 @@ h1 {
 }
 
 button {
-  /* width: 40%; */
   background: #cecece;
   color: white;
 }
@@ -149,16 +149,13 @@ td {
 }
 
 #tr:hover {
-  border-radius: 3px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
 }
 
 .content {
   text-align: center;
   width: 90%;
   margin: 2em auto;
-}
-
-@media screen and (max-width: 600px) {
 }
 </style>

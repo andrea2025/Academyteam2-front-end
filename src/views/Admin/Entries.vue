@@ -7,7 +7,7 @@
     <div class="div-form">
       <!-- Page title -->
       <h1>
-        Results -
+        Entries -
         <select name="batch" class="special-select">
           <option value="0" disabled></option>
           <option value="1">Batch 1</option>
@@ -19,7 +19,7 @@
         <p>Comprises of all that applied for batch 2</p>
       </em>
 
-      <div class="box-shadow">
+      <div>
         <table class="table table-borderless">
           <thead>
             <tr>
@@ -88,21 +88,15 @@ export default {
   min-height: 100vh;
 }
 
-h1 {
-  font-style: normal;
-  font-weight: 300;
-}
-
 select {
-  font-style: normal;
   font-weight: 300;
 }
 
 .div-form {
   margin: 0 auto;
-  width: 70%;
+  width: 78%;
   position: relative;
-  margin-top: 3.5em;
+  margin-top: 3em;
   padding: 0 0 2em 0;
 }
 
@@ -125,16 +119,12 @@ thead {
 }
 
 #tr:hover {
-  border-radius: 3px;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-radius: 8px;
 }
 
-.box-shadow {
-  padding: 1em 3em;
-  box-shadow: 2px 4px 4px rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
-}
-
-@media screen and (max-width: 600px) {
+td,
+th {
+  text-align: center;
 }
 </style>
