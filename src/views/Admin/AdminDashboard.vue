@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <div class="side-bar">
-      <SideBar />
+    <div>
+      <SideBar class="side-bar" />
     </div>
 
     <div class="div-form">
       <!-- Page title -->
-      <h1>Create Application</h1>
+      <h1>Dashboard</h1>
 
       <div>
         <div class="flex">
@@ -37,7 +37,7 @@
               <p>Last Update</p>
             </div>
             <table>
-              <tbody class="hoverable-tr">
+              <tbody>
                 <tr id="tr">
                   <td>Mark</td>
                   <td>Otto</td>
@@ -55,7 +55,9 @@
                 <p>Create test question for an incoming academy students</p>
               </div>
               <div>
-                <button class="btn">Create Assessment</button>
+                <router-link to="Compose">
+                  <button class="btn">Create Assessment</button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -77,25 +79,30 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  align-items: center;
+  /* align-items: center; */
   padding: 0;
   min-height: 100vh;
 }
 
 h1 {
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 300;
 }
 
 .div-form {
   margin: 0 auto;
   width: 70%;
   position: relative;
+  margin-top: 3.5em;
+  padding: 0 0 2em 0;
 }
 
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
+  height: 100%;
+  padding: 0 0 2em 0;
 }
 
 .flex {
@@ -127,17 +134,10 @@ button {
   padding: 1em;
 }
 
-.hoverable-tr:hover {
-  background: white;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 0.4em;
-}
-
 .faint-border {
   border: 2px solid #ececf9;
   box-sizing: border-box;
   border-radius: 4px;
-  /* padding: 1em; */
 }
 
 .tab {
@@ -148,12 +148,9 @@ td {
   padding: 1em 2em;
 }
 
-#tr {
-  border-radius: 3px;
-}
-
 #tr:hover {
   border-radius: 3px;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 .content {

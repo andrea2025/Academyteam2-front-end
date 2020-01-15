@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="side-bar">
-      <SideBar />
+    <div>
+      <SideBar class="side-bar" />
     </div>
 
     <div class="div-form">
@@ -21,13 +21,21 @@
         <!-- Timer for each question -->
         <div class="form-group">
           <label for="number">Set Time</label>
-          <div
+          <span>
+            <select id="minutes"></select>
+            min
+          </span>
+          <span>
+            <select id="seconds"></select>
+            sec
+          </span>
+          <!-- <div
             v-if="this.number > 0"
             class="sub-flex"
           >{{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
           <input min="0" class="form-control" id="number" type="number" v-model="number" />
           <div>{{this.number2.length === 2 ? this.number2 : `00${this.number2}` }}</div>
-          <input min="0" class="form-control" id="number2" type="number" v-model="number2" />
+          <input min="0" class="form-control" id="number2" type="number" v-model="number2" />-->
         </div>
       </div>
 
@@ -76,6 +84,7 @@
   </div>
 </template>
 <script>
+import $ from "jquery";
 import SideBar from "../../components/SideBar";
 import FileUpload from "../../components/FileUpload";
 
@@ -85,46 +94,81 @@ export default {
     SideBar,
     FileUpload
   },
-  data() {
-    return {
-      number: 0,
-      number2: 0
-    };
-  },
+  // data() {
+  //   return {
+  //     number: 0,
+  //     number2: 0
+  //   };
+  // },
+  mounted() {
+    $(document).ready(function() {
+      // var html = "";
+      // for (var count = 0; count < 60; count++) {
+      //   // html += `<option value='${}'></option>`;
+      //   html += "<option value = '" + count + "' >" + "0" + count + "</option>";
+      // }
 
-  computed: {
-    // minutes: function() {
-    //   if (this.number.length === 2) {
-    //     return this.number;
-    //   } else {
-    //     `0${this.number}`;
-    //   }
-    // }
+      // var html = "";
+      // for (var count = 0; count < 60; count++) {
+      //   html += `<options value={count.length < 2 ? 00${count} : ${count}}></options>`;
+      // }
+
+      var html = "";
+      for (var i = 0; i < 60; i++) {
+        html += "<option value = '" + i + "' >" + i + "</option>";
+      }
+
+      $("#minutes").append(html);
+      var d = new Date();
+      var n = d.getMinutes();
+      $("#minutes").val(n);
+
+      var htm = "";
+      for (var j = 0; j < 60; j++) {
+        htm += "<option value = '" + j + "' >" + j + "</option>";
+      }
+
+      $("#seconds").append(htm);
+      var dt = new Date();
+      var h = dt.getSeconds();
+      $("#seconds").val(h);
+    });
   }
+
+  // methods: {
+  //   minutes: function() {
+  //     this.number.length === 2 ? this.number : `0${this.number}`
+
+  //   }
+  // }
 };
 </script>
 <style scoped>
 .container {
   display: flex;
-  align-items: center;
   padding: 0;
   min-height: 100vh;
 }
 
 h1 {
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 300;
 }
 
 .div-form {
   margin: 0 auto;
   width: 70%;
   position: relative;
+  margin-top: 3.5em;
+  padding: 0 0 2em 0;
 }
 
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
+  height: 100%;
+  padding: 0 0 2em 0;
 }
 
 .flex {
@@ -143,7 +187,7 @@ h1 {
 }
 
 #submit-btn {
-  margin: 0 auto;
+  margin: 2em auto;
   width: 40%;
 }
 

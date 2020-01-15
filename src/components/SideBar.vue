@@ -23,20 +23,20 @@
       <ul class="list-unstyled components">
         <li class="active">
           <img src="../assets/dashboard.png" alt />
-          <router-link to="/Dashboard">
+          <router-link to="/admindashboard" class-active="active">
             <span>Dashboard</span>
           </router-link>
         </li>
 
         <li>
           <img src="../assets/plus.png" alt />
-          <router-link to="/Create-Application">
+          <router-link to="/application" class-active="active">
             <span>Create Application</span>
           </router-link>
         </li>
 
         <li>
-          <router-link to="/Application-Entries">
+          <router-link to="/entries" class-active="active">
             <img src="../assets/icons8-download-50.png" alt />
             <span>Application Entries</span>
           </router-link>
@@ -44,21 +44,21 @@
 
         <li>
           <img src="../assets/compose.png" alt />
-          <router-link to="/Compose-Assessment">
+          <router-link to="/compose" class-active="active">
             <span class="span">Compose Assessment</span>
           </router-link>
         </li>
 
         <li>
           <img src="../assets/history.png" alt />
-          <router-link to="/Assessment-History">
+          <router-link to="/history" class-active="active">
             <span>Assessment History</span>
           </router-link>
         </li>
 
         <li>
           <img src="../assets/result.png" alt />
-          <router-link to="/Results">
+          <router-link to="/result" class-active="active">
             <span>Results</span>
           </router-link>
         </li>
@@ -98,6 +98,19 @@ export default {
       $(".upload-button").on("click", function() {
         $(".file-upload").click();
       });
+    });
+
+    $(document).ready(function() {
+      console.log(window.location);
+      console.log(window.location.pathname);
+      var currentPath = window.location.pathname;
+      if (currentPath[currentPath.length - 1] == "/")
+        currentPath = currentPath.substring(0, currentPath.length - 1);
+      var pageName = currentPath.substr(currentPath.lastIndexOf("/") + 1);
+      var targets = document.querySelectorAll("a[href=" + pageName + "]");
+      if (targets.length > 0) {
+        targets[0].parentNode.style.background = " #31D283";
+      }
     });
   }
 };
@@ -192,6 +205,14 @@ li {
 a {
   color: black;
 }
+
+a:hover {
+  text-decoration: none;
+}
+
+/* a:focus {
+  background: #31d283;
+} */
 
 span {
   padding: 0 0 0 1em;

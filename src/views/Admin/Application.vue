@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="side-bar">
-      <SideBar />
+    <div>
+      <SideBar class="side-bar" />
     </div>
 
     <div class="div-form">
@@ -63,19 +63,23 @@ export default {
 }
 
 h1 {
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 300;
 }
 
 .div-form {
-  margin: 0 auto;
+  margin: auto;
   width: 70%;
+  padding: 0 0 2em 0;
   position: relative;
 }
 
 .side-bar {
-  position: relative;
+  /* position: relative;
   top: 0;
-  left: 0;
+  left: 0; */
+  height: 100%;
+  padding: 0 0 2em 0;
 }
 
 .flex {

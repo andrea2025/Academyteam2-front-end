@@ -10,7 +10,8 @@ import AdminDashboard from '../views/Admin/AdminDashboard.vue'
 import AdminLogin from '../views/Admin/AdminLogin.vue'
 import Application from '../views/Admin/Application.vue'
 import Compose from '../views/Admin/Compose.vue'
-import Batch from '../views/Admin/Batch.vue'
+import Entries from '../views/Admin/Entries.vue'
+import Result from '../views/Admin/Result.vue'
 import History from '../views/Admin/History.vue'
 
 
@@ -67,9 +68,15 @@ const routes = [{
 
     },
     {
-        path: "/batch",
-        name: "Batch",
-        component: Batch,
+        path: "/entries",
+        name: "Entries",
+        component: Entries,
+
+    },
+    {
+        path: "/result",
+        name: "Result",
+        component: Result,
 
     },
     {
