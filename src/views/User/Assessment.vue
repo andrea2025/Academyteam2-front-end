@@ -3,7 +3,7 @@
     <div class="sideBar">
       <div class="side_bar_content">
         <div class="avatar-wrapper">
-          <img class="profile-pic" src="" />
+          <img class="profile-pic" src />
           <div class="upload-button">
             <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
           </div>
@@ -16,36 +16,24 @@
       </div>
 
       <div class="dashboard mt-4">
-        <router-link to="/dashboard"
-          ><div class="d-flex">
-            <img
-              class="image-icon"
-              src="../../assets/Group.png"
-              alt="dashboard icon"
-            />
+        <router-link to="/dashboard">
+          <div class="d-flex">
+            <img class="image-icon" src="../../assets/Group.png" alt="dashboard icon" />
             <p id="dashboard_item">Dashboard</p>
-          </div></router-link
-        >
-        <router-link to="/assessment"
-          ><div class="d-flex ">
-            <img
-              class="image-icon"
-              src="../../assets/Vector.png"
-              alt="assessment icon"
-            />
+          </div>
+        </router-link>
+        <router-link to="/assessment">
+          <div class="d-flex">
+            <img class="image-icon" src="../../assets/Vector.png" alt="assessment icon" />
             <p>Assessment</p>
-          </div></router-link
-        >
-        <router-link to="/userlogin"
-          ><div class="d-flex mt-4">
-            <img
-              class="image-icon"
-              src="../../assets/Layer.png"
-              alt="logout icon"
-            />
+          </div>
+        </router-link>
+        <router-link to="/userlogin">
+          <div class="d-flex mt-4">
+            <img class="image-icon" src="../../assets/Layer.png" alt="logout icon" />
             <p>Log out</p>
-          </div></router-link
-        >
+          </div>
+        </router-link>
       </div>
     </div>
     <div class="mainContent">
@@ -57,7 +45,7 @@
             Click the button below to start assessment, you have limited time
             for this test
           </p>
-          <p class="resp mt-4 text-msg" >Thank you!</p>
+          <p class="resp mt-4 text-msg">Thank you!</p>
         </div>
 
         <div class="mainContent_text mr-4">
@@ -68,8 +56,14 @@
                 <h6 class="title text-left">{{ title }}</h6>
 
                 <div id="timer">
-                  <span id="minutes">{{ minutes }} <small>mins</small> </span>
-                  <span id="seconds">{{ seconds }}<small>secs</small></span>
+                  <span id="minutes">
+                    {{ minutes }}
+                    <small>mins</small>
+                  </span>
+                  <span id="seconds">
+                    {{ seconds }}
+                    <small>secs</small>
+                  </span>
                 </div>
 
                 <div id="buttons">
@@ -80,7 +74,7 @@
       v-if="!timer"
       @click="startTimer">
         <i class="far fa-play-circle"></i>
-    </button> -->
+                  </button>-->
                   <!--     Pause Timer -->
                   <!-- <button 
       id="stop" 
@@ -88,7 +82,7 @@
       v-if="timer"
       @click="stopTimer">
         <i class="far fa-pause-circle"></i>
-    </button> -->
+                  </button>-->
                   <!-- Restart Timer
     <button 
       id="reset" 
@@ -96,7 +90,7 @@
       v-if="resetButton"
       @click="resetTimer">
         <i class="fas fa-undo"></i>
-    </button> -->
+                  </button>-->
                 </div>
               </div>
             </div>
@@ -119,42 +113,28 @@
               fill="#2B3C4E"
             />
             <g clip-path="url(#clip--hourglass)">
-              <rect
-                x="9"
-                rx="10"
-                id="sand"
-                width="40"
-                height="20"
-                fill="#10dbb3"
-                stroke="#2B3C4E"
-              />
+              <rect x="9" rx="10" id="sand" width="40" height="20" fill="#10dbb3" stroke="#2B3C4E" />
             </g>
           </svg>
         </div>
         <!-- //api response -->
         <p class="pt-3">
-          We have 4 days left until the next assessment<br />
-          Watch this space
+          We have 4 days left until the next assessment
+          <br />Watch this space
         </p>
-        <button
-          type="submit"
-          class="btn-test"
-          v-if="!timer"
-          @click="startTimer"
-        >
-          Take Assessment
-        </button>
+        <button type="submit" class="btn-test" v-if="!timer" @click="startTimer">Take Assessment</button>
       </div>
       <div class="image-group assessment-section">
-
-        <div class="image_wrapper ">
+        <div class="image_wrapper">
           <img src="../../assets/victory.png" alt="congratulaton_icon" />
         </div>
-        <p class="image_text mt-4">We have received your assessment test, we will get back to you soon.
-<span>Best of luck</span></p>
+        <p class="image_text mt-4">
+          We have received your assessment test, we will get back to you soon.
+          <span>Best of luck</span>
+        </p>
         <router-link to="/">
-          <button class="homePage mt-4">Home</button></router-link
-        >
+          <button class="homePage mt-4">Home</button>
+        </router-link>
       </div>
     </div>
   </div>
@@ -237,34 +217,26 @@ export default {
       $(".upload-button").on("click", function() {
         $(".file-upload").click();
       });
-
-       
     });
 
-    
-     $(document).ready(function () {
-        $(".image-wrapper").hide();
-       $('.resp-part').show();
-       $('text-msg').hide();
+    $(document).ready(function() {
+      $(".image-wrapper").hide();
+      $(".resp-part").show();
+      $("text-msg").hide();
 
-           
-        $('.btn-test').on('click', function(){
-            $('.resp-part').hide();
-             $('text-msg').show();
-             $(".image-wrapper").animate({
-                 'opacity':'1',
-                'height':'toggle',
-                  }).show(); 
-            });
-            
-                      
-            });
-
-
+      $(".btn-test").on("click", function() {
+        $(".resp-part").hide();
+        $("text-msg").show();
+        $(".image-wrapper")
+          .animate({
+            opacity: "1",
+            height: "toggle"
+          })
+          .show();
+      });
+    });
   }
-  }
-
-
+};
 </script>
 
 <style scoped>
@@ -462,13 +434,13 @@ export default {
   color: #ffffff;
   border: none;
   padding: 0.5rem 5em;
-   margin-left: 10em;
+  margin-left: 10em;
 }
 
-.image_wrapper{
+.image_wrapper {
   margin-left: 11em;
 }
-.image_text{
+.image_text {
   text-align: center;
   width: 120%;
 }

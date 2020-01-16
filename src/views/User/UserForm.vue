@@ -5,8 +5,10 @@
       <h3>Application Form</h3>
     </div>
     <div class="item mt-4">
-      <form @submit.prevent="Apply" class="formBody">
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()" />
+      <span class="alert__message">{{ apiResponse.message }}</span>
+      <span class="alert__message">{{alert.message}}</span>
+      <form @submit.prevent="sendForm" class="formBody" enctype="multipart/form-data">
+        <input type="file" id="file" ref="file" />
         <label for="file" class="btn-1">
           <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
         </label>
@@ -14,41 +16,41 @@
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" class="form-control" v-model="appForm.firstName" />
+            <input type="text" name="firstName" class="form-control" v-model="firstName" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" class="form-control" v-model="appForm.lastName" />
+            <input type="text" name="lastName" class="form-control" v-model="lastName" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="mail">Email Address</label>
-            <input type="email" name="mail" class="form-control" v-model="appForm.email" />
+            <input type="email" name="mail" class="form-control" v-model="email" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="dob">Date of Birth</label>
-            <input type="date" name="dob" class="form-control" v-model="appForm.birthday" />
+            <input type="date" name="dob" class="form-control" v-model="birthday" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="Address">Address</label>
-            <input type="Address" name="Address" class="form-control" v-model="appForm.address" />
+            <input type="Address" name="Address" class="form-control" v-model="address" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="University">University</label>
-            <input type="text" name="University" class="form-control" v-model="appForm.school" />
+            <input type="text" name="University" class="form-control" v-model="school" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="course">Course of Study</label>
-            <input type="course" name="course" class="form-control" v-model="appForm.courseOfStudy" />
+            <input type="course" name="course" class="form-control" v-model="courseOfStudy" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="cgpa">CGPA</label>
-            <input type="number" name="cgpa" class="form-control" v-model="appForm.cgpa" />
+            <input type="number" name="cgpa" class="form-control" v-model="cgpa" />
           </div>
         </div>
         <button type="submit" class="btn-signup">Submit</button>
@@ -58,6 +60,8 @@
 </template>
 <script>
 import logo from "@/components/logo.vue";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "UserForm",
   components: {
@@ -66,17 +70,67 @@ export default {
   data() {
     return {
       file: "",
-      appForm: {}
+      firstName: "",
+      lastName: "",
+      email: "",
+      address: "",
+      birthday: "",
+      school: "",
+      courseOfStudy: "",
+      cgpa: "",
+      alert: {
+        message: ""
+      }
     };
   },
+  computed: {
+    ...mapGetters(["apiResponse"])
+  },
   methods: {
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-    },
+    ...mapActions(["sendApp"]),
     sendForm() {
-      let formData = new FormData();
-      formData.append("file", this.file, this.file.name);
-      formData.append(this.appForm);
+      this.file = this.$refs.file.files[0];
+      var allowedTypes = [
+        "application/pdf",
+        "application/msword",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ];
+      if (!this.file) {
+        this.alert.message = "Please upload a file (pdf/doc)";
+      } else if (!allowedTypes.includes(this.file.type)) {
+        this.alert.message = "Wrong file type, Please upload a file";
+      } else if (this.file.size > 500000) {
+        this.alert.message = "Too large, max size allowed is 500kb";
+      } else {
+        this.sendApp({
+          file: this.file,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          email: this.email,
+          address: this.address,
+          birthday: this.birthday,
+          school: this.school,
+          courseOfStudy: this.courseOfStudy,
+          cgpa: this.cgpa
+        });
+      }
+    }
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push("/dashboard");
+          val.message = "";
+        }, 1000);
+      }
+    },
+    alert(val) {
+      if (val.message) {
+        setTimeout(() => {
+          val.message = "";
+        }, 500);
+      }
     }
   }
 };
@@ -97,6 +151,10 @@ export default {
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   padding: 20px 40px;
+}
+.alert__message {
+  color: red;
+  font-size: 12px;
 }
 input {
   background: #ffffff;

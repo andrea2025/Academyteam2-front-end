@@ -28,12 +28,14 @@
             <p>Assessment</p>
           </div>
         </router-link>
-        <router-link to="/userlogin">
-          <div class="d-flex mt-4">
-            <img src="../../assets/Layer.png" alt="logout icon" />
-            <p>Log out</p>
-          </div>
-        </router-link>
+        <div class @click="logoutUser">
+          <router-link to="/">
+            <div class="d-flex mt-4">
+              <img src="../../assets/Layer.png" alt="logout icon" />
+              <p>Log out</p>
+            </div>
+          </router-link>
+        </div>
       </div>
     </div>
     <div class="mainContent">
@@ -63,15 +65,12 @@
 </template>
 <script>
 import $ from "jquery";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "DashBoard",
   data() {
-    return {
-      name: "jane doe",
-      email: "jane@gmal.com"
-    };
+    return {};
   },
   computed: {
     ...mapGetters(["profileDetails"])
@@ -98,6 +97,13 @@ export default {
         $(".file-upload").click();
       });
     });
+  },
+  methods: {
+    ...mapActions(["logoutPerson"]),
+    logoutUser() {
+      this.logoutPerson();
+      this.$router.push({ name: "home" });
+    }
   }
 };
 </script>

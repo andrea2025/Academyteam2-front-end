@@ -14,22 +14,34 @@
       </div>
 
       <div class="bottom">
-         <p class="alert__message">{{ adminLog.message }}</p>
+        <p class="alert__message">{{ adminLog.message }}</p>
         <form @submit.prevent="adminRole" action="/login" method="post">
           <div class="form-group">
             <label for="exampleInputEmail1">Email Address</label>
-            <input type="email" name='email' class="form-control" id="exampleInputEmail1" v-model="adminLogin.email" />
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              v-model="adminLogin.email"
+            />
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" name='psw' class="form-control" id="exampleInputPassword1" v-model="adminLogin.password" />
+            <input
+              type="password"
+              name="psw"
+              class="form-control"
+              id="exampleInputPassword1"
+              v-model="adminLogin.password"
+            />
           </div>
-
           <button type="submit" class="btn btn-primary">Sign In</button>
-
+          <!--
           <router-link to="#">
             <span>Forgot Password ?</span>
           </router-link>
+          -->
         </form>
       </div>
     </div>
@@ -44,17 +56,17 @@ export default {
   data() {
     return {
       adminLogin: {
-         email: "",
+        email: "",
         password: ""
       }
     };
   },
-  computed:{
-    ...mapGetters(['adminLog'])
+  computed: {
+    ...mapGetters(["adminLog"])
   },
-  methods:{
-    ...mapActions(['loginAdmin']),
-   adminRole() {
+  methods: {
+    ...mapActions(["loginAdmin"]),
+    adminRole() {
       this.loginAdmin(this.adminLogin);
     }
   },
@@ -93,7 +105,10 @@ input {
   border: 1px solid white;
   color: white;
 }
-
+.alert__message {
+  color: red;
+  font-size: 12px;
+}
 .btn {
   width: 100%;
   background: white;
