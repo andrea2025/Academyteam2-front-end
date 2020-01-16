@@ -12,36 +12,65 @@
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" class="form-control" v-model="newUser.firstName" />
+            <input
+              type="text"
+              name="firstName"
+              class="form-control"
+              v-model="newUser.firstName"
+            />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" class="form-control" v-model="newUser.lastName" />
+            <input
+              type="text"
+              name="lastName"
+              class="form-control"
+              v-model="newUser.lastName"
+            />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="mail">Email Address</label>
-            <input type="email" name="mail" class="form-control" v-model="newUser.email" />
+            <input
+              type="email"
+              name="mail"
+              class="form-control"
+              v-model="newUser.email"
+            />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="phone">Phone Number</label>
-            <input type="number" name="phone" class="form-control" v-model="newUser.phone" />
+            <input
+              type="number"
+              name="phone"
+              class="form-control"
+              v-model="newUser.phone"
+            />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="password">Password</label>
-            <input type="password" name="password" class="form-control" v-model="newUser.password" />
+            <input
+              type="password"
+              name="password"
+              class="form-control password-icon"
+        
+              v-model="newUser.password"
+            />
+            <i class="fa fa-eye field-icon toggle-password"></i>
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="confirmPassword">Confirm Password</label>
             <input
               type="password"
               name="confirmPassword"
-              class="form-control"
+              class="form-control password-icon"
+          
               v-model="confirmPassword"
             />
+            <i class="fa fa-eye field-icon toggle-password"></i>
           </div>
         </div>
         <button type="submit" class="btn-signup">Sign Up</button>
@@ -60,6 +89,7 @@
 <script>
 import logo from "@/components/logo.vue";
 import { mapGetters, mapActions } from "vuex";
+import $ from "jquery";
 
 export default {
   name: "ApplicantSignUp",
@@ -77,6 +107,25 @@ export default {
     // apiResponse: {
     //   message: ""
     // }
+  },
+  mounted() {
+    $(function() {
+      $(".toggle-password").click(function() {
+        if ($(this).hasClass("fa-eye-slash")) {
+          $(this).removeClass("fa-eye-slash");
+
+          $(this).addClass("fa-eye");
+
+          $(".password-icon").attr("type", "text");
+        } else {
+          $(this).removeClass("fa-eye");
+
+          $(this).addClass("fa-eye-slash");
+
+          $(".password-icon").attr("type", "password");
+        }
+      });
+    });
   },
   methods: {
     ...mapActions(["createUser"]),
@@ -140,5 +189,14 @@ label {
 a {
   color: #4f4f4f;
   text-decoration: underline;
+}
+.field-icon {
+  float: right;
+  margin-right: 1em;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  opacity: 0.4;
 }
 </style>

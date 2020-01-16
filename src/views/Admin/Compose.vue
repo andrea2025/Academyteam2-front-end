@@ -76,7 +76,7 @@
   </div>
 </template>
 <script>
-import SideBar from "../../components/SideBar";
+import SideBar from "../../components/sideBar";
 import FileUpload from "../../components/FileUpload";
 
 export default {
