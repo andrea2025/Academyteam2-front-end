@@ -1,14 +1,14 @@
 <template>
   <div class="container">
-    <div class="sidebar">
-      <SideBar />
+    <div>
+      <SideBar class="side-bar" />
     </div>
 
     <div class="div-form">
       <!-- Page title -->
       <h1>Assessment History</h1>
 
-      <div>
+      <div class="box-shadow">
         <table class="table table-borderless">
           <thead>
             <tr>
@@ -19,74 +19,85 @@
               <th scope="col">Status</th>
             </tr>
           </thead>
-          <tbody class="hoverable-tr">
+          <tbody>
             <tr id="tr">
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <td>Batch 1</td>
+              <td>12/07/94</td>
+              <td>30</td>
+              <td>30mins</td>
+              <td>Taken</td>
+            </tr>
+            <tr id="tr">
+              <td>Batch 1</td>
+              <td>12/07/94</td>
+              <td>30</td>
+              <td>30mins</td>
+              <td>Taken</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Number of questions composed -->
-      <div>
-        <p>15/30</p>
-      </div>
+      <div class="compose-div">
+        <!-- Number of questions composed -->
+        <div id="page-num">
+          <p>15/30</p>
+        </div>
 
-      <div class="space-around">
+        <div class="space-around">
+          <div>
+            <FileUpload />
+          </div>
+
+          <!-- Timer for each question -->
+          <div class="form-group">
+            <label for="number">Set Time</label>
+            <div
+              v-if="this.number > 0"
+              class="sub-flex"
+            >{{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
+            <input min="0" class="form-control" id="number" type="number" v-model="number" />
+            <div>{{this.number2.length === 2 ? this.number2 : `00${this.number2}` }}</div>
+            <input min="0" class="form-control" id="number2" type="number" v-model="number2" />
+          </div>
+
+          <div id="btn">
+            <button type="submit" id="edit-btn">Edit</button>
+          </div>
+        </div>
+
         <div>
-          <FileUpload />
+          <div class="form-group">
+            <label>Questions</label>
+            <input class="form-control" type="text" />
+          </div>
         </div>
 
-        <!-- Timer for each question -->
-        <div class="form-group">
-          <label for="number">Set Time</label>
-          <div
-            v-if="this.number > 0"
-            class="sub-flex"
-          >{{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
-          <input min="0" class="form-control" id="number" type="number" v-model="number" />
-          <div>{{this.number2.length === 2 ? this.number2 : `00${this.number2}` }}</div>
-          <input min="0" class="form-control" id="number2" type="number" v-model="number2" />
+        <div class="flex">
+          <div class="form-group">
+            <label>Option A</label>
+            <input class="form-control" type="text" />
+          </div>
+          <div class="form-group">
+            <label>Option B</label>
+            <input class="form-control" type="text" />
+          </div>
         </div>
 
-        <div id="btn">
-          <button type="submit" id="edit-btn">Edit</button>
+        <div class="flex">
+          <div class="form-group">
+            <label>Option C</label>
+            <input class="form-control" type="text" />
+          </div>
+          <div class="form-group">
+            <label>Option D</label>
+            <input class="form-control" type="text" />
+          </div>
         </div>
-      </div>
 
-      <div>
-        <div class="form-group">
-          <label>Questions</label>
-          <input class="form-control" type="text" />
+        <div id="btn" class="btn-margin-top">
+          <button type="submit" class="btn">Next</button>
         </div>
-      </div>
-
-      <div class="flex">
-        <div class="form-group">
-          <label>Option A</label>
-          <input class="form-control" type="text" />
-        </div>
-        <div class="form-group">
-          <label>Option B</label>
-          <input class="form-control" type="text" />
-        </div>
-      </div>
-
-      <div class="flex">
-        <div class="form-group">
-          <label>Option C</label>
-          <input class="form-control" type="text" />
-        </div>
-        <div class="form-group">
-          <label>Option D</label>
-          <input class="form-control" type="text" />
-        </div>
-      </div>
-
-      <div id="btn">
-        <button type="submit" class="btn">Next</button>
       </div>
     </div>
   </div>
@@ -120,27 +131,38 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  /* align-items: center; */
   padding: 0;
-  min-height: 100vh;
-  min-width: 100vw;
 }
 
-h1 {
-  font-weight: 400;
+p {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
 }
 
 .div-form {
-  margin: 0 auto;
-  width: 76%;
-  padding-top: 6em;
-  /* position: relative; */
+  margin: 3em auto;
+  width: 78%;
+  position: relative;
+  padding: 0 0 2em 0;
 }
 
+.side-bar {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100%;
+  padding: 0 0 2em 0;
+}
 .flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+#page-num {
+  margin: 2em 0 0 0;
 }
 
 .space-around {
@@ -151,6 +173,10 @@ h1 {
 
 #btn {
   text-align: center;
+}
+
+.compose-div {
+  margin: 0 2em;
 }
 
 .btn {
@@ -170,6 +196,10 @@ button {
   color: white;
 }
 
+.btn-margin-top {
+  margin-top: 2em;
+}
+
 .text-area {
   height: 8em;
 }
@@ -183,20 +213,23 @@ thead {
   color: white;
 }
 
-.hoverable-tr:hover {
-  background: white;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 3px;
+#tr:hover {
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-radius: 8px;
 }
 
-#tr:hover {
-  border-radius: 3px;
+.box-shadow {
+  padding: 1em 3em;
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-radius: 8px;
 }
 
 select {
   background: #2b3c4e;
 }
 
-@media screen and (max-width: 600px) {
+td,
+th {
+  text-align: center;
 }
 </style>

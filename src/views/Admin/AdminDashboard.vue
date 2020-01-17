@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="side-bar">
-      <SideBar />
+    <div>
+      <SideBar class="side-bar" />
     </div>
 
     <div class="div-form">
@@ -37,7 +37,7 @@
               <p>Last Update</p>
             </div>
             <table>
-              <tbody class="hoverable-tr">
+              <tbody>
                 <tr id="tr" v-for="app in adminApplications" :key="app._id" @reload="fetchApp">
                   <td>Batch {{app.batch}}</td>
                   <td>{{allAppEntries.length}} students</td>
@@ -55,7 +55,9 @@
                 <p>Create test question for an incoming academy students</p>
               </div>
               <div>
-                <button class="btn">Create Assessment</button>
+                <router-link to="Compose">
+                  <button class="btn">Create Assessment</button>
+                </router-link>
               </div>
             </div>
           </div>
@@ -91,28 +93,32 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  align-items: center;
   padding: 0;
   min-height: 100vh;
-  min-width: 100vw;
-}
-
-h1 {
-  font-weight: 400;
 }
 
 .div-form {
-  padding-bottom: 12em;
-  margin: auto;
-  width: 76%;
-  /* position: relative; */
+  margin: 0 auto;
+  width: 78%;
+  position: relative;
+  margin-top: 3em;
+  padding: 0 0 2em 0;
 }
 
-/* .side-bar {
+h6 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.side-bar {
   position: relative;
   top: 0;
-  right: 4;
-} */
+  left: 0;
+  height: 100%;
+  padding: 0 0 2em 0;
+}
 
 .flex {
   display: flex;
@@ -121,7 +127,6 @@ h1 {
 }
 
 button {
-  /* width: 40%; */
   background: #cecece;
   color: white;
 }
@@ -143,21 +148,10 @@ button {
   padding: 1em;
 }
 
-.hoverable-tr:hover {
-  background: white;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 0.4em;
-}
-
 .faint-border {
   border: 2px solid #ececf9;
   box-sizing: border-box;
   border-radius: 4px;
-  /* padding: 1em; */
-}
-table {
-  border-collapse: unset;
-  border-spacing: 0;
 }
 
 .tab {
@@ -168,12 +162,9 @@ td {
   padding: 1em 2em;
 }
 
-#tr {
-  border-radius: 3px;
-}
-
 #tr:hover {
-  border-radius: 3px;
+  border-radius: 8px;
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
 }
 
 .content {

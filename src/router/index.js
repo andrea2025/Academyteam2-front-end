@@ -10,10 +10,11 @@ import AdminDashboard from '../views/Admin/AdminDashboard.vue'
 import AdminLogin from '../views/Admin/AdminLogin.vue'
 import Application from '../views/Admin/Application.vue'
 import Compose from '../views/Admin/Compose.vue'
-import Batch from '../views/Admin/Batch.vue'
+import Entries from '../views/Admin/Entries.vue'
+import Result from '../views/Admin/Result.vue'
 import History from '../views/Admin/History.vue'
 
-import store from '../store/index'
+// import store from '../store/index'
 
 
 Vue.use(VueRouter)
@@ -32,44 +33,44 @@ const routes = [{
         path: "/userform",
         name: "UserForm",
         component: UserForm,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn) {
-                next('/login')
-            } else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn) {
+        //         next('/login')
+        //     } else next()
+        // }
     },
     {
         path: "/dashboard",
         name: "DashBoard",
         component: DashBoard,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn) {
-                next('/login')
-            } else if (!store.getters.entryStatus) {
-                next('/userform')
-            } else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn) {
+        //         next('/login')
+        //     } else if (!store.getters.entryStatus) {
+        //         next('/userform')
+        //     } else next()
+        // }
     },
     {
         path: "/assessment",
         name: "Assessment",
         component: Assessment,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-                next('/adminlogin')
-            } else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
 
     },
     {
         path: "/admindashboard",
         name: "AdminDashboard",
         component: AdminDashboard,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-                next('/adminlogin')
-            } else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
 
     },
     {
@@ -82,44 +83,45 @@ const routes = [{
         path: "/application",
         name: "Application",
         component: Application,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-                next('/adminlogin')
-            } else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
 
     },
     {
         path: "/compose",
         name: "Compose",
         component: Compose,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-                next('/adminlogin')
-            } else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
 
     },
     {
-        path: "/batch",
-        name: "Batch",
-        component: Batch,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-                next('/adminlogin')
-            } else next()
-        }
+        path: "/entries",
+        name: "Entries",
+        component: Entries,
+
+    },
+    {
+        path: "/result",
+        name: "Result",
+        component: Result,
 
     },
     {
         path: "/history",
         name: "History",
         component: History,
-        beforeEnter: (to, from, next) => {
-            if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-                next('/adminlogin')
-            } else next()
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
 
     },
     {
@@ -130,7 +132,7 @@ const routes = [{
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-            import( /* webpackChunkName: "about" */ '../views/About.vue')
+            import ( /* webpackChunkName: "about" */ '../views/About.vue')
     }
 ]
 
