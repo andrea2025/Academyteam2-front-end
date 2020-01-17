@@ -1,15 +1,15 @@
 <template>
   <div class="container">
-    <div class="side-bar">
-      <SideBar />
+    <div>
+      <sideBar class="side-bar" />
     </div>
 
     <div class="div-form">
       <!-- Page title -->
       <h1>
-        Results - Batch X
+        Results -
         <select name="batch" class="special-select">
-          <option value="0"></option>
+          <option value="0" disabled></option>
           <option value="1">Batch 1</option>
           <option value="2">Batch 2</option>
           <option value="3">Batch 3</option>
@@ -35,25 +35,28 @@
                 CGPA
                 <select name="grade"></select>
               </th>
-              <!-- <th scope="col">
+              <th scope="col">
                 Test Scores
                 <select name="scores"></select>
-              </th>-->
+              </th>
             </tr>
           </thead>
-          <tbody
-            class="hoverable-tr"
-            v-for="entry in allAppEntries"
-            :key="entry._id"
-            @reload="fetchEntries"
-          >
-            <tr>
-              <td>{{entry.firstName}} {{entry.lastName}}</td>
-              <td>{{entry.email}}</td>
-              <td>{{entry.birthday}}</td>
-              <td>{{entry.address}}</td>
-              <td>{{entry.school}}</td>
-              <td>{{entry.cgpa}}</td>
+          <tbody>
+            <tr id="tr">
+              <td>Ify Chinke</td>
+              <td>ify@enyata.com</td>
+              <td>12/07/94</td>
+              <td>3 Sabo Ave, Yaba, Lagos</td>
+              <td>University of Nigeria</td>
+              <td>5.0</td>
+              <td>15</td>
+            </tr>
+            <tr id="tr">
+              <td>Batch 1</td>
+              <td>12/07/94</td>
+              <td>30</td>
+              <td>30mins</td>
+              <td>Taken</td>
             </tr>
           </tbody>
         </table>
@@ -62,62 +65,45 @@
   </div>
 </template>
 <script>
-import SideBar from "../../components/sideBar";
-import { mapGetters, mapActions } from "vuex";
+import sideBar from "../../components/sideBar";
 
 export default {
-  name: "Batch",
+  name: "Result",
   components: {
-    SideBar
-  },
-  computed: {
-    ...mapGetters(["allAppEntries"])
-  },
-  mounted() {
-    this.fetchEntries();
-  },
-  methods: {
-    ...mapActions(["getAllEntries"]),
-    fetchEntries() {
-      this.getAllEntries();
-    }
+    sideBar
   }
 };
 </script>
 <style scoped>
 .container {
   display: flex;
-  align-items: center;
   padding: 0;
   min-height: 100vh;
-  min-width: 100vw;
 }
 
-h1 {
-  font-weight: 400;
+select {
+  font-style: normal;
+  font-weight: 300;
 }
 
 .div-form {
-  margin: 0 auto;
-  width: 76%;
-  padding-bottom: 26em;
+  margin: 3em auto;
+  width: 78%;
+  position: relative;
+  padding: 0 0 2em 0;
 }
 
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
+  height: 100%;
+  padding: 0 0 2em 0;
 }
 
 thead {
   background: #2b3c4e;
   color: white;
-}
-
-.hoverable-tr:hover {
-  background: white;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 0.4em;
 }
 
 .special-select {
@@ -126,6 +112,13 @@ thead {
   outline: none;
 }
 
-@media screen and (max-width: 600px) {
+#tr:hover {
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-radius: 8px;
+}
+
+td,
+th {
+  text-align: center;
 }
 </style>

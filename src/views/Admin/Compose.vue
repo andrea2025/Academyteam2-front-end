@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="side-bar">
-      <SideBar />
+    <div>
+      <SideBar class="side-bar" />
     </div>
 
     <div class="div-form">
@@ -106,27 +106,32 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  align-items: center;
   padding: 0;
   min-height: 100vh;
-  min-width: 100vw;
 }
 
-h1 {
-  font-weight: 400;
+p {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
 }
 
 .div-form {
   margin: 0 auto;
-  width: 76%;
-  /* position: relative; */
+  width: 75%;
+  position: relative;
+  margin-top: 3em;
+  padding: 0 0 2em 0;
 }
 
-/* .side-bar {
+.side-bar {
   position: relative;
   top: 0;
   left: 0;
-} */
+  height: 100%;
+  padding: 0 0 2em 0;
+}
 
 .flex {
   display: flex;
@@ -144,7 +149,7 @@ h1 {
 }
 
 #submit-btn {
-  margin: 0 auto;
+  margin: 2em auto;
   width: 40%;
 }
 
@@ -173,8 +178,5 @@ h1 {
 
 .flex > div {
   width: calc(50% - 4em);
-}
-
-@media screen and (max-width: 600px) {
 }
 </style>

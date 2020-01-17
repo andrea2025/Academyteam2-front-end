@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <!-- Sidebar Holder -->
-    <nav id="sidebar">
+    <nav id="sidebar" class="navigation">
       <div class="sidebar-header">
         <!-- Profile image display -->
         <div class="avatar-wrapper">
@@ -21,44 +21,44 @@
       </div>
 
       <ul class="list-unstyled components">
-        <li class="active">
-          <img src="../assets/dashboard.png" alt />
+        <li>
           <router-link to="/admindashboard">
+            <img src="../assets/dashboard.png" alt />
             <span>Dashboard</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/plus.png" alt />
-          <router-link to ="/application">
+          <router-link to="/application">
+            <img src="../assets/plus.png" alt />
             <span>Create Application</span>
           </router-link>
         </li>
 
         <li>
-          <router-link to="/batch">
+          <router-link to="/entries">
             <img src="../assets/icons8-download-50.png" alt />
             <span>Application Entries</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/compose.png" alt />
           <router-link to="/compose">
+            <img src="../assets/compose.png" alt />
             <span class="span">Compose Assessment</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/history.png" alt />
           <router-link to="/history">
+            <img src="../assets/history.png" alt />
             <span>Assessment History</span>
           </router-link>
         </li>
 
         <li>
-          <img src="../assets/result.png" alt />
-          <router-link to="/Results">
+          <router-link to="/result">
+            <img src="../assets/result.png" alt />
             <span>Results</span>
           </router-link>
         </li>
@@ -111,20 +111,12 @@ export default {
 
 .sidebar-header {
   background: #5abefd;
-  padding: 4em 6em;
-  
+  padding: 2em 0;
 }
-/* #sidebar{
-padding: 3em;
-} */
 
 .head-details {
   text-align: center;
 }
-
-/* .components img {
-  padding: 0 1em 0 2em;
-} */
 
 .avatar-wrapper {
   position: relative;
@@ -184,28 +176,32 @@ padding: 3em;
 }
 
 ul {
-  padding: 2em;
-
+  margin: 1em 1.4em 1em 0;
 }
 
-li {
+li a {
   display: flex;
   align-items: center;
-  padding: 0 0 1em 0;
-  
+  padding: 0 0 0 1em;
+  margin-bottom: 1em;
 }
 
 a {
   color: black;
-  
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.navigation a.router-link-exact-active {
+  border-left: 4px solid #31d283;
+  border-radius: 2px 0 0 2px;
+  font-weight: bold;
+  color: #2c3e50;
 }
 
 span {
-  padding: 0 0 0 1em;
-}
-
-a.router-link-exact-active {
-  color: #2b3c4e;
-  font-weight: bold;
+  margin-left: 0.7em;
 }
 </style>

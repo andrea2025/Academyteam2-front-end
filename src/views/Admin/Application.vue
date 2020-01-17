@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="side-bar">
-      <SideBar />
+    <div>
+      <SideBar class="side-bar" />
     </div>
     <form class="div-form" @submit.prevent="createAppl" enctype="multipart/form-data">
       <p class="alert__message">{{ apiResponse.message }}</p>
@@ -132,29 +132,24 @@ i {
   align-items: center;
   padding: 0;
   min-height: 100vh;
-  min-width: 100vw;
-}
-
-h1 {
-  font-weight: 400;
 }
 
 .div-form {
-  padding-bottom: 10em;
-  margin: 0 auto;
-  width: 76%;
-  /* position: relative; */
+  margin: auto;
+  width: 75%;
+  margin-top: 3em;
+  padding: 0 0 2em 0;
+  position: relative;
 }
 .alert__message {
   color: red;
   font-size: 12px;
 }
 
-/* .side-bar {
-  position: relative;
-  top: 0;
-  left: 0;
-} */
+.side-bar {
+  height: 100%;
+  padding: 0 0 2em 0;
+}
 
 .flex {
   display: flex;
@@ -164,6 +159,7 @@ h1 {
 
 #btn {
   text-align: center;
+  margin-top: 2em;
 }
 
 .btn {
