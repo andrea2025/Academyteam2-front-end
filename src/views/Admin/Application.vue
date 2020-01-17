@@ -3,8 +3,8 @@
     <div class="side-bar">
       <SideBar />
     </div>
-    <p class="alert__message">{{ apiResponse.message }}</p>
     <form class="div-form" @submit.prevent="createAppl" enctype="multipart/form-data">
+      <p class="alert__message">{{ apiResponse.message }}</p>
       <!-- Page title -->
       <h1>Create Application</h1>
 
@@ -82,6 +82,15 @@ export default {
           batch: this.batch,
           instructions: this.instructions
         });
+      }
+    }
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push({ name: "AdminDashboard" });
+        }, 1000);
       }
     }
   }

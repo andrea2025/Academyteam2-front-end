@@ -254,8 +254,7 @@ export default new Vuex.Store({
         })
     },
     createBatch(context, val) {
-      let formData = new FormData();
-
+      var formData = new FormData();
       formData.append('fileapplicant', val.fileapplicant)
       formData.append("link", val.link);
       formData.append("date", val.date);
