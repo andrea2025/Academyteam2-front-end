@@ -10,8 +10,8 @@
           <input class="file-upload" type="file" accept="image/*" />
         </div>
         <div class="nameAttr">
-          <p>{{ name }}</p>
-          <p>{{ email }}</p>
+          <p>{{profileDetails.firstName}}</p>
+          <p>{{profileDetails.email}}</p>
         </div>
       </div>
 
@@ -45,11 +45,10 @@
             Click the button below to start assessment, you have limited time
             for this test
           </p>
-          <p class="resp mt-4 text-msg">Thank you!</p>
+          <!-- <p class="resp mt-4 text-msg">Thank you!</p> -->
         </div>
 
         <div class="mainContent_text mr-4">
-          <!-- our template -->
           <section id="app" class="hero">
             <div class="hero-body">
               <div class="container">
@@ -64,33 +63,6 @@
                     {{ seconds }}
                     <small>secs</small>
                   </span>
-                </div>
-
-                <div id="buttons">
-                  <!--     Start TImer -->
-                  <!-- <button 
-      id="start" 
-      class="button is-dark is-large" 
-      v-if="!timer"
-      @click="startTimer">
-        <i class="far fa-play-circle"></i>
-                  </button>-->
-                  <!--     Pause Timer -->
-                  <!-- <button 
-      id="stop" 
-      class="button is-dark is-large" 
-      v-if="timer"
-      @click="stopTimer">
-        <i class="far fa-pause-circle"></i>
-                  </button>-->
-                  <!-- Restart Timer
-    <button 
-      id="reset" 
-      class="button is-dark is-large" 
-      v-if="resetButton"
-      @click="resetTimer">
-        <i class="fas fa-undo"></i>
-                  </button>-->
                 </div>
               </div>
             </div>
@@ -122,10 +94,55 @@
           We have 4 days left until the next assessment
           <br />Watch this space
         </p>
-        <button type="submit" class="btn-test" v-if="!timer" @click="startTimer">Take Assessment</button>
+        <button type="submit" class="btn-test" v-if="!timer" @click="beginTimer">Take Assessment</button>
       </div>
-      <div class="image-group assessment-section">
+
+      <div
+        class="questionArea image-group assessment-section"
+        v-for="(question, index) in getAssessments"
+        :key="index"
+        v-show="index === questionIndex"
+      >
+        <div class="question">
+          <p>Question {{index + 1}}</p>
+          <h5>
+            <i>{{question.question}}</i>
+          </h5>
+        </div>
+        <div class="questionOptions" v-for="(o, index) in question.options" :key="index">
+          <input type="radio" :id="index" :value="o" v-model="answer" />
+          <label :for="index">{{" " + o }}</label>
+          <br />
+          <!-- <input type="radio" id="two" value="1" v-model="answers" />
+          <label for="two">B: {{question.options[1]}}</label>
+          <br />
+          <input type="radio" id="three" value="2" v-model="answers" />
+          <label for="three">C: {{question.options[2]}}</label>
+          <br />
+          <input type="radio" id="four" value="3" v-model="answers" />
+          <label for="four">D: {{question.options[3]}}</label>-->
+        </div>
+        <div class="questionArea">
+          <div class="questionNav">
+            <div class>
+              <button class="btn-prev" v-if="questionIndex > 0" @click="prevQ">Prev</button>
+            </div>
+            <div class>
+              <button
+                class="btn-next"
+                v-if="questionIndex < getAssessments.length -1"
+                @click="nextQ"
+              >Next</button>
+            </div>
+          </div>
+          <button class="btn-submit" @click="sendAnswer">Submit</button>
+        </div>
+      </div>
+      <!-- <div class="image-group assessment-section">
         <div class="image_wrapper">
+
+          v-show="questionIndex === getAssessments.length - 1"
+
           <img src="../../assets/victory.png" alt="congratulaton_icon" />
         </div>
         <p class="image_text mt-4">
@@ -135,43 +152,69 @@
         <router-link to="/">
           <button class="homePage mt-4">Home</button>
         </router-link>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
 <script>
 import $ from "jquery";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "Assessment",
   data() {
     return {
-      name: "jane doe",
-      email: "jane@gmal.com",
-      timer: null,
+      timer: 0,
       totalTime: 4 * 60,
-      resetButton: false,
-      title: "Timer"
+      title: "Timer",
+      questionIndex: 0,
+      qArray: [],
+      answer: "",
+      userTest: {
+        questions: [],
+        answers: []
+      }
     };
   },
   methods: {
+    ...mapActions(["getAssessment"]),
+    beginTimer() {
+      this.getAssessment();
+      this.startTimer();
+    },
+    sendAnswer() {
+      this.stopTimer();
+      for (let q in this.qArray) {
+        console.log(q._id);
+        this.userTest.questions.push(q._id);
+      }
+      console.log(this.userTest);
+      this.$router.push("/result");
+    },
+    prevQ() {
+      this.userTest.answers.pop(this.answer);
+      this.questionIndex--;
+    },
+    nextQ() {
+      this.userTest.answers.push(this.answer);
+      this.questionIndex++;
+    },
     startTimer: function() {
       this.timer = setInterval(() => this.countdown(), 1000);
-      this.resetButton = true;
       this.title = "Start test!!";
     },
     stopTimer: function() {
       clearInterval(this.timer);
       this.timer = null;
-      this.resetButton = true;
       this.title = "Time has elasped!!";
     },
-    resetTimer: function() {
-      this.totalTime = 4 * 60;
-      clearInterval(this.timer);
-      this.timer = null;
-      this.resetButton = false;
-      // this.title = "Let the countdown begin!!"
-    },
+    // resetTimer: function() {
+    //   this.totalTime = 4 * 60;
+    //   clearInterval(this.timer);
+    //   this.timer = null;
+    //   this.resetButton = false;
+    //   // this.title = "Let the countdown begin!!"
+    // },
     padTime: function(time) {
       return (time < 10 ? "0" : "") + time;
     },
@@ -180,12 +223,13 @@ export default {
         this.totalTime--;
       } else {
         this.totalTime = 0;
-        this.resetTimer();
+        this.sendAnswer();
       }
     }
   },
-  // ========================
   computed: {
+    ...mapGetters(["getAssessments", "profileDetails"]),
+
     minutes: function() {
       const minutes = Math.floor(this.totalTime / 60);
       return this.padTime(minutes);
@@ -196,7 +240,8 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
+    this.qArray = this.getAssessments;
     $(document).ready(function() {
       var readURL = function(input) {
         if (input.files && input.files[0]) {

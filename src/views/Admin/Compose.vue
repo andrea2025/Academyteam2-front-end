@@ -10,62 +10,80 @@
 
       <!-- Number of questions composed -->
       <div>
-        <p>15/30</p>
+        <p>{{questionCount}}/30</p>
       </div>
 
+      <p class="alert__message">{{ apiResponse.message }}</p>
+      <p class="alert__message">{{ alert.message }}</p>
       <div class="flex">
         <div>
-          <FileUpload />
+          <div>
+            <input type="file" id="file" ref="file" />
+            <label for="file" class="btn-1">
+              <i>+</i>&nbsp;&nbsp;&nbsp; Upload picture
+            </label>
+          </div>
         </div>
 
         <!-- Timer for each question -->
         <div class="form-group">
           <label for="number">Set Time</label>
-          <div
+          <!-- <div
             v-if="this.number > 0"
             class="sub-flex"
-          >{{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
+          >
+          {{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
           <input min="0" class="form-control" id="number" type="number" v-model="number" />
           <div>{{this.number2.length === 2 ? this.number2 : `00${this.number2}` }}</div>
-          <input min="0" class="form-control" id="number2" type="number" v-model="number2" />
+          <input min="0" class="form-control" id="number2" type="number" v-model="number2" />-->
         </div>
       </div>
 
       <div>
         <div class="form-group">
           <label>Questions</label>
-          <input class="form-control" type="text" />
+          <input class="form-control" type="text" v-model="question" />
         </div>
       </div>
 
       <div class="flex">
         <div class="form-group">
           <label>Option A</label>
-          <input class="form-control" type="text" />
+          <input class="form-control" type="text" v-model="options[0]" />
         </div>
         <div class="form-group">
           <label>Option B</label>
-          <input class="form-control" type="text" />
+          <input class="form-control" type="text" v-model="options[1]" />
         </div>
       </div>
 
       <div class="flex">
         <div class="form-group">
           <label>Option C</label>
-          <input class="form-control" type="text" />
+          <input class="form-control" type="text" v-model="options[2]" />
         </div>
         <div class="form-group">
           <label>Option D</label>
-          <input class="form-control" type="text" />
+          <input class="form-control" type="text" v-model="options[3]" />
         </div>
       </div>
-
+      <div class="correct-ans">
+        <label for="answer">Answer:</label>
+        <br />
+        <select id v-model="selected">
+          <option disabled value>...Choose answer</option>
+          <option value="0">Option A</option>
+          <option value="1">Option B</option>
+          <option value="2">Option C</option>
+          <option value="3">Option D</option>
+        </select>
+      </div>
       <div id="special-btn">
         <div class="form-group">
           <button class="btn btn-primary">Previous</button>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary">Next</button>
+          <button class="btn btn-primary" @click="sendQuestion">Next</button>
         </div>
       </div>
 
@@ -77,21 +95,27 @@
 </template>
 <script>
 import SideBar from "../../components/sideBar";
-import FileUpload from "../../components/FileUpload";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Compose",
   components: {
-    SideBar,
-    FileUpload
+    SideBar
   },
   data() {
     return {
       number: 0,
-      number2: 0
+      number2: 0,
+      alert: {
+        message: ""
+      },
+      questionCount: 0,
+      file: "",
+      question: "",
+      options: [],
+      selected: ""
     };
   },
-
   computed: {
     // minutes: function() {
     //   if (this.number.length === 2) {
@@ -100,16 +124,100 @@ export default {
     //     `0${this.number}`;
     //   }
     // }
+    ...mapGetters(["apiResponse", "getAssessments"])
+  },
+  methods: {
+    ...mapActions(["composeQuestion"]),
+    sendQuestion() {
+      if (this.questionCount < 30) {
+        this.file = this.$refs.file.files[0];
+        var allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
+        if (!this.file) {
+          this.alert.message = "Please upload a picture";
+        } else if (!allowedTypes.includes(this.file.type)) {
+          this.alert.message = "Wrong file type, Please upload a picture";
+        } else if (this.file.size > 100000) {
+          this.alert.message = "Too large, max size allowed is 100kb";
+        } else {
+          let formData = new FormData();
+          // this.answer = this.options[this.selected];
+          formData.append("file", this.file);
+          formData.append("answer", this.selected);
+          formData.append("question", this.question);
+          formData.append("options", this.options[0]);
+          formData.append("options", this.options[1]);
+          formData.append("options", this.options[2]);
+          formData.append("options", this.options[3]);
+          console.log(this.selected, " ", this.options);
+          this.composeQuestion(formData);
+          this.questionCount++;
+          (this.file = ""),
+            (this.question = ""),
+            (this.options = ""),
+            (this.answer = "");
+        }
+      }
+    }
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          // this.$router.push("");
+          val.message = "";
+        }, 1000);
+      }
+    },
+    alert(val) {
+      if (val.message) {
+        setTimeout(() => {
+          val.message = "";
+        }, 500);
+      }
+    }
   }
 };
 </script>
 <style scoped>
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  border: 1.5px dotted #2b3c4e;
+  width: 100%;
+
+  border-radius: 5px;
+  color: #2b3c4e;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Avenir;
+  font-size: 16px;
+  line-height: 22px;
+
+  margin-bottom: 1rem;
+  outline: none;
+  padding: 1em;
+  position: relative;
+  transition: all 0.3s;
+  vertical-align: middle;
+}
+i {
+  font-size: 20px;
+  color: #2b3c4e;
+  font-weight: 900;
+}
 .container {
   display: flex;
   padding: 0;
   min-height: 100vh;
 }
-
+.alert__message {
+  color: red;
+  font-size: 12px;
+}
 p {
   font-style: normal;
   font-weight: bold;

@@ -15,12 +15,16 @@ export default new Vuex.Store({
       message: ""
     },
     profile: {
+      id: '',
       firstName: '',
       lastName: '',
       email: ''
     },
     userEntryStatus: {
       type: ''
+    },
+    testStatus: {
+      status: ''
     },
     admin: {
       name: '',
@@ -36,7 +40,8 @@ export default new Vuex.Store({
     },
     isAdmin: {
       status: ''
-    }
+    },
+    questionArray: []
   },
   getters: {
     apiResponse: state => state.response,
@@ -54,7 +59,9 @@ export default new Vuex.Store({
     },
     isAdmin: state => state.isAdmin,
     entryStatus: state => state.userEntryStatus,
-    allAppEntries: state => state.appEntries
+    takenTest: state => state.testStatus,
+    allAppEntries: state => state.appEntries,
+    getAssessments: state => state.questionArray
   },
   mutations: {
     retrieveToken(state, token) {
@@ -82,6 +89,7 @@ export default new Vuex.Store({
     },
     userDetails(state, payload) {
       state.profile = {
+        id: payload.id,
         firstName: payload.firstName,
         lastName: payload.lastName,
         email: payload.email
@@ -104,12 +112,20 @@ export default new Vuex.Store({
         status: payload.type
       }
     },
+    takenTest(state, payload) {
+      state.testStatus = {
+        status: payload.status
+      }
+    },
     batchInfo(state, payload) {
       state.batchInfo = {
         id: payload.id,
         date: payload.date,
         batch: payload.batch
       }
+    },
+    getQuestions(state, payload) {
+      state.questionArray = payload
     }
   },
   actions: {
@@ -139,17 +155,22 @@ export default new Vuex.Store({
             type: "success",
             message: response.data.message
           }
+          let testStatus = {
+            status: response.data.data.takenTest
+          }
           let entryStatus = {
             type: response.data.data.sentEntry
           }
           let userProfile = {
-            firstName: response.data.checkEntry.firstName,
-            lastName: response.data.checkEntry.lastName,
-            email: response.data.checkEntry.email
+            id: response.data.data._id,
+            firstName: response.data.data.firstName,
+            lastName: response.data.data.lastName,
+            email: response.data.data.email
           }
 
           localStorage.setItem("token", token)
 
+          context.commit('takenTest', testStatus)
           context.commit('userDetails', userProfile)
           context.commit('userEntryStatus', entryStatus)
           context.commit('retrieveToken', token)
@@ -292,6 +313,40 @@ export default new Vuex.Store({
           let allEntries = response.data.data
 
           context.commit('allAppEntries', allEntries)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    composeQuestion(context, val) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.post("http://localhost:4000/tests/test", val)
+        .then(response => {
+          let responseObject = {
+            type: 'success',
+            message: response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    getAssessment(context) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.get("http://localhost:4000/tests/all-test")
+        .then(response => {
+          let questionObject = response.data.questionData
+
+          context.commit("getQuestions", questionObject)
         })
         .catch(error => {
           let responseObject = {

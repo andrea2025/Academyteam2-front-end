@@ -99,8 +99,8 @@ export default {
         this.alert.message = "Please upload a file (pdf/doc)";
       } else if (!allowedTypes.includes(this.file.type)) {
         this.alert.message = "Wrong file type, Please upload a file";
-      } else if (this.file.size > 500000) {
-        this.alert.message = "Too large, max size allowed is 500kb";
+      } else if (this.file.size > 1000000) {
+        this.alert.message = "Too large, max size allowed is 1MB";
       } else {
         this.sendApp({
           file: this.file,

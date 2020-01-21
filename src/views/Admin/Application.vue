@@ -13,7 +13,7 @@
           <div>
             <input type="file" id="file" ref="file" />
             <label for="file" class="btn-1">
-              <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
+              <i>+</i>&nbsp;&nbsp;&nbsp; Upload picture
             </label>
           </div>
           <div class="form-group">

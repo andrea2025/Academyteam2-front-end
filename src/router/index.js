@@ -5,6 +5,8 @@ import UserLogin from '../views/User/UserLogin.vue'
 import UserForm from '../views/User/UserForm.vue'
 import DashBoard from '../views/User/DashBoard.vue'
 import Assessment from '../views/User/Assessment.vue'
+import Test from '../views/User/Test.vue'
+import ResultUser from '../views/User/Result.vue'
 
 import AdminDashboard from '../views/Admin/AdminDashboard.vue'
 import AdminLogin from '../views/Admin/AdminLogin.vue'
@@ -63,6 +65,16 @@ const routes = [{
 
     },
     {
+        path: "/test",
+        name: "Test",
+        component: Test
+    },
+    {
+        path: "/result",
+        name: "ResultUser",
+        component: ResultUser
+    },
+    {
         path: "/admindashboard",
         name: "AdminDashboard",
         component: AdminDashboard,
@@ -108,7 +120,7 @@ const routes = [{
 
     },
     {
-        path: "/result",
+        path: "/adminresult",
         name: "Result",
         component: Result,
 
@@ -132,7 +144,7 @@ const routes = [{
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/About.vue')
+            import( /* webpackChunkName: "about" */ '../views/About.vue')
     }
 ]
 

@@ -23,7 +23,7 @@
         <div class="alt-signin d-flex justify-content-between">
           <p>
             Don’t have an account yet?
-            <router-link to="/signup">
+            <router-link to="/">
               <a href>Sign Up</a>
             </router-link>
           </p>

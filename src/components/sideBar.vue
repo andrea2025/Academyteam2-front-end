@@ -57,7 +57,7 @@
         </li>
 
         <li>
-          <router-link to="/result">
+          <router-link to="/adminresult">
             <img src="../assets/result.png" alt />
             <span>Results</span>
           </router-link>
