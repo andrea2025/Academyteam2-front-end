@@ -73,9 +73,6 @@ export default {
     ...mapGetters(["allAppEntries"])
   },
   methods: {
-    // setTime() {
-    //   this.number = 2;
-    // }
     ...mapActions(["getAllEntries"]),
     getEntries() {
       this.getAllEntries();

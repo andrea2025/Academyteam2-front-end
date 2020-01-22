@@ -96,9 +96,9 @@
         </p>
         <button type="submit" class="btn-test" v-if="!timer" @click="beginTimer">Take Assessment</button>
       </div>
-
+      <p class="alert__message">{{ apiResponse.message }}</p>
       <div
-        class="questionArea image-group assessment-section"
+        class="questionArea image-group text-msg assessment-section"
         v-for="(question, index) in getAssessments"
         :key="index"
         v-show="index === questionIndex"
@@ -113,14 +113,11 @@
           <input type="radio" :id="index" :value="o" v-model="answer" />
           <label :for="index">{{" " + o }}</label>
           <br />
-          <!-- <input type="radio" id="two" value="1" v-model="answers" />
-          <label for="two">B: {{question.options[1]}}</label>
-          <br />
-          <input type="radio" id="three" value="2" v-model="answers" />
-          <label for="three">C: {{question.options[2]}}</label>
-          <br />
-          <input type="radio" id="four" value="3" v-model="answers" />
-          <label for="four">D: {{question.options[3]}}</label>-->
+        </div>
+        <div class="finishMessage" v-if="questionIndex === getAssessments.length">
+          <h3>
+            Thank You for completing the Assessment. Click to Submit your answers
+          </h3>
         </div>
         <div class="questionArea">
           <div class="questionNav">
@@ -130,29 +127,18 @@
             <div class>
               <button
                 class="btn-next"
-                v-if="questionIndex < getAssessments.length -1"
+                v-if="questionIndex < getAssessments.length - 1"
                 @click="nextQ"
               >Next</button>
             </div>
           </div>
-          <button class="btn-submit" @click="sendAnswer">Submit</button>
+          <button
+            class="btn-submit"
+            v-show="questionIndex === getAssessments.length - 1"
+            @click="sendAnswer"
+          >Submit</button>
         </div>
       </div>
-      <!-- <div class="image-group assessment-section">
-        <div class="image_wrapper">
-
-          v-show="questionIndex === getAssessments.length - 1"
-
-          <img src="../../assets/victory.png" alt="congratulaton_icon" />
-        </div>
-        <p class="image_text mt-4">
-          We have received your assessment test, we will get back to you soon.
-          <span>Best of luck</span>
-        </p>
-        <router-link to="/">
-          <button class="homePage mt-4">Home</button>
-        </router-link>
-      </div>-->
     </div>
   </div>
 </template>
@@ -177,19 +163,18 @@ export default {
     };
   },
   methods: {
-    ...mapActions(["getAssessment"]),
+    ...mapActions(["getAssessment", "submitAns"]),
     beginTimer() {
       this.getAssessment();
       this.startTimer();
     },
     sendAnswer() {
+      this.userTest.answers.push(this.answer);
       this.stopTimer();
-      for (let q in this.qArray) {
-        console.log(q._id);
-        this.userTest.questions.push(q._id);
+      for (let q = 0; q < this.getAssessments.length; q++) {
+        this.userTest.questions.push(this.getAssessments[q]._id);
       }
-      console.log(this.userTest);
-      this.$router.push("/result");
+      this.submitAns(this.userTest);
     },
     prevQ() {
       this.userTest.answers.pop(this.answer);
@@ -207,14 +192,8 @@ export default {
       clearInterval(this.timer);
       this.timer = null;
       this.title = "Time has elasped!!";
+      this.sendAnswer();
     },
-    // resetTimer: function() {
-    //   this.totalTime = 4 * 60;
-    //   clearInterval(this.timer);
-    //   this.timer = null;
-    //   this.resetButton = false;
-    //   // this.title = "Let the countdown begin!!"
-    // },
     padTime: function(time) {
       return (time < 10 ? "0" : "") + time;
     },
@@ -223,12 +202,11 @@ export default {
         this.totalTime--;
       } else {
         this.totalTime = 0;
-        this.sendAnswer();
       }
     }
   },
   computed: {
-    ...mapGetters(["getAssessments", "profileDetails"]),
+    ...mapGetters(["getAssessments", "profileDetails", "apiResponse"]),
 
     minutes: function() {
       const minutes = Math.floor(this.totalTime / 60);
@@ -241,7 +219,6 @@ export default {
   },
 
   async mounted() {
-    this.qArray = this.getAssessments;
     $(document).ready(function() {
       var readURL = function(input) {
         if (input.files && input.files[0]) {
@@ -254,32 +231,33 @@ export default {
           reader.readAsDataURL(input.files[0]);
         }
       };
-
       $(".file-upload").on("change", function() {
         readURL(this);
       });
-
       $(".upload-button").on("click", function() {
         $(".file-upload").click();
       });
     });
 
     $(document).ready(function() {
-      $(".image-wrapper").hide();
       $(".resp-part").show();
-      $("text-msg").hide();
+      $(".text-msg").hide();
 
       $(".btn-test").on("click", function() {
         $(".resp-part").hide();
         $("text-msg").show();
-        $(".image-wrapper")
-          .animate({
-            opacity: "1",
-            height: "toggle"
-          })
-          .show();
       });
     });
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push({ name: "ResultUser" });
+          val.message = "";
+        }, 1000);
+      }
+    }
   }
 };
 </script>

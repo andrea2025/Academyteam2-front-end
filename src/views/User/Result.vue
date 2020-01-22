@@ -46,7 +46,7 @@
         We have received your assessment test, we will get back to you soon.
         <span>Best of luck</span>
       </p>
-      <router-link to="/">
+      <router-link to="/dashboard">
         <button class="homePage mt-4">Home</button>
       </router-link>
     </div>

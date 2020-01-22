@@ -41,7 +41,8 @@ export default new Vuex.Store({
     isAdmin: {
       status: ''
     },
-    questionArray: []
+    questionArray: [],
+    resultProfile: []
   },
   getters: {
     apiResponse: state => state.response,
@@ -61,7 +62,8 @@ export default new Vuex.Store({
     entryStatus: state => state.userEntryStatus,
     takenTest: state => state.testStatus,
     allAppEntries: state => state.appEntries,
-    getAssessments: state => state.questionArray
+    getAssessments: state => state.questionArray,
+    getResult: state => state.resultProfile
   },
   mutations: {
     retrieveToken(state, token) {
@@ -126,6 +128,9 @@ export default new Vuex.Store({
     },
     getQuestions(state, payload) {
       state.questionArray = payload
+    },
+    scoreResult(state, payload) {
+      state.resultProfile = payload
     }
   },
   actions: {
@@ -347,6 +352,50 @@ export default new Vuex.Store({
           let questionObject = response.data.questionData
 
           context.commit("getQuestions", questionObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    submitAns(context, val) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.post("http://localhost:4000/tests/calc-test", {
+          questionId: val.questions,
+          answer: val.answers
+        })
+        .then(response => {
+          let responseObject = {
+            type: 'success',
+            message: response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    getScores(context) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.get("http://localhost:4000/tests/scores")
+        .then(response => {
+
+          let responseObject = {
+            type: "success",
+            message: response.data.message
+          }
+          let resultProfile = response.data.data
+          console.log(resultProfile)
+
+          context.commit("getResponse", responseObject)
+          context.commit("scoreResult", resultProfile)
         })
         .catch(error => {
           let responseObject = {

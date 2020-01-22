@@ -42,22 +42,22 @@
             </tr>
           </thead>
           <tbody>
-            <tr id="tr">
-              <td>Ify Chinke</td>
-              <td>ify@enyata.com</td>
-              <td>12/07/94</td>
-              <td>3 Sabo Ave, Yaba, Lagos</td>
-              <td>University of Nigeria</td>
-              <td>5.0</td>
-              <td>15</td>
+            <tr id="tr" v-for="(result, index) in getResult" :key="index">
+              <td>{{result.userProfile.firstName}} {{result.userProfile.lastName}}</td>
+              <td>{{result.userProfile.email}}</td>
+              <td>{{result.userProfile.birthday}}</td>
+              <td>{{result.userProfile.address}}</td>
+              <td>{{result.userProfile.school}}</td>
+              <td>{{result.userProfile.cgpa}}</td>
+              <td>{{result.score}}</td>
             </tr>
-            <tr id="tr">
+            <!-- <tr id="tr">
               <td>Batch 1</td>
               <td>12/07/94</td>
               <td>30</td>
               <td>30mins</td>
               <td>Taken</td>
-            </tr>
+            </tr>-->
           </tbody>
         </table>
       </div>
@@ -66,11 +66,21 @@
 </template>
 <script>
 import sideBar from "../../components/sideBar";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Result",
   components: {
     sideBar
+  },
+  computed: {
+    ...mapGetters(["getResult"])
+  },
+  async mounted() {
+    await this.getScores();
+  },
+  methods: {
+    ...mapActions(["getScores"])
   }
 };
 </script>
