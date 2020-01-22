@@ -175,15 +175,36 @@ export default {
   opacity: 0.9;
 }
 
+h3 {
+  font-family: Lato;
+  font-weight: bold;
+  color: #2b3c4e;
+}
+
+p {
+  font-family: Lato;
+  color: #2b3c4e;
+  font-size: 16px;
+  line-height: 19px;
+}
+
 ul {
-  margin: 1em 1.4em 1em 0;
+  margin: 2.5em 1.4em 1em 0em;
+}
+
+li {
+  padding: 0.5em 0;
+  margin: 0.2em 0;
+  font-family: Lato;
+  color: #2b3c4e;
 }
 
 li a {
   display: flex;
   align-items: center;
-  padding: 0 0 0 1em;
-  margin-bottom: 1em;
+  text-align: center;
+  padding: 0 0 0 3em;
+  /* margin-bottom: 1em; */
 }
 
 a {
@@ -196,6 +217,7 @@ a:hover {
 
 .navigation a.router-link-exact-active {
   border-left: 4px solid #31d283;
+  height: 49px;
   border-radius: 2px 0 0 2px;
   font-weight: bold;
   color: #2c3e50;

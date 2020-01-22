@@ -5,6 +5,8 @@ import UserLogin from '../views/User/UserLogin.vue'
 import UserForm from '../views/User/UserForm.vue'
 import DashBoard from '../views/User/DashBoard.vue'
 import Assessment from '../views/User/Assessment.vue'
+import Congratulations from '../views/User/Congratulations.vue'
+
 
 import AdminDashboard from '../views/Admin/AdminDashboard.vue'
 import AdminLogin from '../views/Admin/AdminLogin.vue'
@@ -55,6 +57,17 @@ const routes = [{
         path: "/assessment",
         name: "Assessment",
         component: Assessment,
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
+
+    },
+    {
+        path: "/congratulations",
+        name: "Congratulations",
+        component: Congratulations,
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
         //         next('/adminlogin')

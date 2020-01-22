@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div>
-      <sideBar class="side-bar" />
+    <div class="side-bar">
+      <sideBar class="side-nav" />
     </div>
 
     <div class="div-form">
@@ -83,33 +83,53 @@ export default {
 <style scoped>
 .container {
   display: flex;
-  /* align-items: center; */
   padding: 0;
   min-height: 100vh;
-}
-
-select {
-  font-weight: 300;
-}
-
-.div-form {
-  margin: 0 auto;
-  width: 78%;
-  position: relative;
-  margin-top: 3em;
-  padding: 0 0 2em 0;
 }
 
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
+  min-height: 100%;
+  width: 22.2%;
+}
+
+.side-nav {
   height: 100%;
   padding: 0 0 2em 0;
 }
+
+h1 {
+  font-weight: 300;
+  font-size: 43.5555px;
+  line-height: 52px;
+  letter-spacing: -0.02em;
+  color: #2b3c4e;
+}
+
+em {
+  font-family: Lato;
+  /* font-weight: bold; */
+  line-height: 16px;
+  color: #4f4f4f;
+}
+.div-form {
+  margin: 4em auto 0;
+  width: 80%;
+  padding: 0 3em 3em;
+}
+select {
+  font-weight: 300;
+}
+
 thead {
   background: #2b3c4e;
   color: white;
+}
+
+td {
+  margin-top: 1em;
 }
 
 .special-select {

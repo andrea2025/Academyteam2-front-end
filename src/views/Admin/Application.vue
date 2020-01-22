@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div>
-      <SideBar class="side-bar" />
+    <div class="side-bar">
+      <SideBar class="side-nav" />
     </div>
 
     <p class="alert__message">{{ apiResponse.message }}</p>
@@ -14,7 +14,8 @@
           <div>
             <input type="file" id="file" ref="file" />
             <label for="file" class="btn-1">
-              <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
+              <!-- <br /> -->
+              <i>+</i>&nbsp;&nbsp;&nbsp; Choose file
             </label>
           </div>
           <div class="form-group">
@@ -25,7 +26,13 @@
         <div class="flex">
           <div class="form-group">
             <label>Application closure date</label>
-            <input class="form-control" type="date" placeholder="dd/mm/yy" v-model="date" />
+            <input
+              class="italic form-control"
+              type="text"
+              onfocus="(this.type='date')"
+              placeholder="dd/mm/yy"
+              v-model="date"
+            />
           </div>
           <div class="form-group">
             <label>Batch ID</label>
@@ -96,57 +103,75 @@ export default {
 }
 
 [type="file"] + label {
-  border: 1.5px dotted #2b3c4e;
+  border: 1.6px dashed #2b3c4e;
   width: 100%;
-
   border-radius: 5px;
   color: #2b3c4e;
   cursor: pointer;
   display: inline-block;
+  text-align: center;
   font-family: Avenir;
   font-size: 16px;
-  line-height: 22px;
-
-  margin-bottom: 1rem;
-  outline: none;
-  padding: 1em;
-  position: relative;
-  transition: all 0.3s;
-  vertical-align: middle;
+  padding: 3em 1em;
 }
 i {
   font-size: 20px;
   color: #2b3c4e;
   font-weight: 900;
 }
+
+input {
+  border: 1.5px solid #2b3c4e;
+}
+
+label {
+  color: #2b3c4e;
+}
+
+.italic::placeholder {
+  font-style: italic !important;
+  font-family: Lato;
+  color: #cecece;
+}
+
 .container {
   display: flex;
-  align-items: center;
   padding: 0;
   min-height: 100vh;
 }
 
-.div-form {
-  margin: auto;
-  width: 75%;
-  margin-top: 3em;
-  padding: 0 0 2em 0;
+.side-bar {
   position: relative;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  width: 22.2%;
+}
+
+.side-nav {
+  height: 100%;
+  padding: 0 0 2em 0;
+}
+
+.div-form {
+  margin: 4em auto 0;
+  width: 80%;
+  padding: 0 3em 3em;
 }
 .alert__message {
   color: red;
   font-size: 12px;
 }
 
-.side-bar {
-  height: 100%;
-  padding: 0 0 2em 0;
+h1 {
+  margin-bottom: 1.5em;
 }
 
 .flex {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 2em;
 }
 
 #btn {
@@ -165,6 +190,8 @@ i {
 button {
   background: #2b3c4e;
   border: none;
+  padding: 0.8em 0;
+  font-family: Lato;
 }
 
 .text-area {

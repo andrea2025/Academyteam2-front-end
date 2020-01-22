@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div>
-      <SideBar class="side-bar" />
+    <div class="side-bar">
+      <SideBar class="side-nav" />
     </div>
 
     <div class="div-form">
@@ -12,21 +12,21 @@
         <div class="flex">
           <div class="form-group">
             <!-- Text inside is a placeholder -->
-            <p>Current Applications</p>
-            <h1>{{allAppEntries.length}}</h1>
-            <p>Academy {{}}</p>
+            <p class="sans">Current Applications</p>
+            <h1 class="lato">{{allAppEntries.length}}</h1>
+            <p class="px">Academy {{}}</p>
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
-            <p>Total Applications</p>
-            <h1>{{allAppEntries.length}}</h1>
-            <p>All entries so far</p>
+            <p class="sans">Total Applications</p>
+            <h1 class="lato">{{allAppEntries.length}}</h1>
+            <p class="px">All entries so far</p>
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
-            <p>Academys</p>
-            <h1>{{adminApplications.length}}</h1>
-            <p>So far</p>
+            <p class="sans">Academys</p>
+            <h1 class="lato">{{adminApplications.length}}</h1>
+            <p class="px">So far</p>
           </div>
         </div>
 
@@ -34,7 +34,7 @@
           <div class="tab">
             <div>
               <h6>History</h6>
-              <p>Last Update</p>
+              <p class="px">Last Update 18:24, 22/02/19</p>
             </div>
             <table>
               <tbody>
@@ -47,7 +47,7 @@
             </table>
           </div>
           <div class="form-group faint-border">
-            <div>
+            <div class="pad-left">
               <h6>Create Assessment</h6>
             </div>
             <div class="content">
@@ -97,27 +97,59 @@ export default {
   min-height: 100vh;
 }
 
-.div-form {
-  margin: 0 auto;
-  width: 78%;
-  position: relative;
-  margin-top: 3em;
-  padding: 0 0 2em 0;
-}
-
-h6 {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-}
-
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
+  min-height: 100%;
+  width: 22.2%;
+}
+
+.side-nav {
   height: 100%;
   padding: 0 0 2em 0;
+}
+
+.div-form {
+  margin: 4em auto 0;
+  width: 80%;
+  padding: 0 3em 3em;
+}
+
+h1 {
+  font-weight: 300;
+  font-size: 43.5555px;
+  line-height: 52px;
+  letter-spacing: -0.02em;
+  color: #2b3c4e;
+}
+
+.lato {
+  font-family: Lato;
+}
+
+.sans {
+  color: #4f4f4f;
+}
+
+.px {
+  color: #4f4f4f;
+  font-size: 14px;
+}
+
+.pad-left {
+  padding-left: 1em;
+  /* margin-top: 0; */
+}
+
+h6 {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  color: #2b3c4e;
 }
 
 .flex {
@@ -127,12 +159,8 @@ h6 {
 }
 
 button {
-  background: #cecece;
+  background: #b1b1b1;
   color: white;
-}
-
-.text-area {
-  height: 8em;
 }
 
 .flex > div {
@@ -145,17 +173,19 @@ button {
 }
 
 .flex2 > div {
-  padding: 1em;
+  margin: 1em 0;
 }
 
 .faint-border {
   border: 2px solid #ececf9;
   box-sizing: border-box;
   border-radius: 4px;
+  padding: 1em;
 }
 
 .tab {
   height: fit-content;
+  padding-top: 1em;
 }
 
 td {
@@ -170,6 +200,6 @@ td {
 .content {
   text-align: center;
   width: 90%;
-  margin: 2em auto;
+  margin: 3em auto;
 }
 </style>

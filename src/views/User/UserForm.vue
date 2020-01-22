@@ -1,17 +1,24 @@
 <template>
   <div class="container">
-    <logo />
-    <div class="item pageTitle">
-      <h3>Application Form</h3>
+    <div class="head">
+      <div>
+        <img src="../../assets/enyata_logo.png" alt />
+      </div>
+      <div>
+        <h2 class="logoName">enyata</h2>
+        <h3>Application Form</h3>
+      </div>
     </div>
     <div class="item mt-4">
       <span class="alert__message">{{ apiResponse.message }}</span>
       <span class="alert__message">{{alert.message}}</span>
       <form @submit.prevent="sendForm" class="formBody" enctype="multipart/form-data">
-        <input type="file" id="file" ref="file" />
-        <label for="file" class="btn-1">
-          <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
-        </label>
+        <div class="file-upload">
+          <input type="file" id="file" ref="file" />
+          <label for="file" class="btn-1">
+            <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
+          </label>
+        </div>
 
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
@@ -53,19 +60,21 @@
             <input type="number" name="cgpa" class="form-control" v-model="cgpa" />
           </div>
         </div>
-        <button type="submit" class="btn-signup">Submit</button>
+        <div id="submit-btn">
+          <button type="submit" class="btn-signup">Submit</button>
+        </div>
       </form>
     </div>
   </div>
 </template>
 <script>
-import logo from "@/components/logo.vue";
+// import logo from "@/components/logo.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "UserForm",
   components: {
-    logo
+    // logo
   },
   data() {
     return {
@@ -136,14 +145,35 @@ export default {
 };
 </script>
 <style scoped>
-.pageTitle {
+.container {
+  /* padding: 0; */
+  margin: 2em;
+  min-height: 100vh;
+}
+
+.head {
+  text-align: center;
+  margin-top: 3em;
+}
+.logoName {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 31.3954px;
+  line-height: 38px;
+  letter-spacing: -0.02em;
+  color: #2b3c4e;
+}
+
+h3 {
+  font-family: Lato;
   font-style: italic;
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
   color: #2b3c4e;
-  text-align: center;
 }
+
 .formBody {
   width: 70%;
   margin: auto;
@@ -156,9 +186,14 @@ export default {
   color: red;
   font-size: 12px;
 }
+
+.file-upload {
+  margin: 0.7em auto;
+  text-align: center;
+}
+
 input {
   background: #ffffff;
-
   border: 1.5px solid #2b3c4e;
   box-sizing: border-box;
   border-radius: 4px;
@@ -169,6 +204,12 @@ label {
   line-height: 17px;
   color: #2b3c4e;
 }
+
+#submit-btn {
+  margin: 1.5em auto;
+  text-align: center;
+}
+
 .btn-signup {
   margin-top: 2em;
   padding: 0.5rem 10em;

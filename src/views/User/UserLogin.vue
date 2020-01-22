@@ -1,11 +1,15 @@
 <template>
   <div>
-    <logo />
-    <div class="item pageTitle">
-      <h3>
-        <i>Applicant Log In</i>
-      </h3>
+    <div class="head">
+      <div>
+        <img src="../../assets/enyata_logo.png" alt />
+      </div>
+      <div>
+        <h2 class="logoName">enyata</h2>
+        <h3>Applicant Log In</h3>
+      </div>
     </div>
+
     <div class="item">
       <p class="alert__message">{{ apiResponse.message }}</p>
       <form @submit.prevent="loginFile" class="formBody">
@@ -19,7 +23,9 @@
           <input type="password" name="password" class="form-control" v-model="userLogin.password" />
           <i class="fa fa-eye field-icon toggle-password"></i>
         </div>
-        <button type="submit" class="btn-signup">Sign In</button>
+        <div class="col" id="submit-btn">
+          <button type="submit" class="btn-signup">Sign In</button>
+        </div>
         <div class="alt-signin d-flex justify-content-between">
           <p>
             Don’t have an account yet?
@@ -34,14 +40,13 @@
   </div>
 </template>
 <script>
-import logo from "@/components/logo.vue";
 import { mapGetters, mapActions } from "vuex";
 import $ from "jquery";
 
 export default {
   name: "UserLogin",
   components: {
-    logo
+
   },
   data() {
     return {
@@ -101,6 +106,33 @@ export default {
   color: #2b3c4e;
   text-align: center;
 }
+div > img {
+  margin-top: 3em;
+}
+
+.head {
+  text-align: center;
+  margin-top: 3em;
+}
+.logoName {
+  font-family: Lato;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 31.3954px;
+  line-height: 38px;
+  letter-spacing: -0.02em;
+  color: #2b3c4e;
+}
+
+h3 {
+  font-family: Lato;
+  font-style: italic;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  color: #2b3c4e;
+}
+
 .formBody {
   width: 30%;
   margin: auto;
@@ -115,17 +147,21 @@ label {
   line-height: 17px;
   color: #4f4f4f;
 }
+
 .btn-signup {
   margin-top: 2em;
-  padding: 0.5rem 17em;
+  width: 100%;
+  padding: 0.5rem 0 0.5rem 0;
   border: none;
   background: #2b3c4e;
   border-radius: 4px;
   color: #ffff;
+  font-family: Lato;
   font-weight: bold;
   font-size: 14px;
 }
 .alt-signin {
+  font-family: Lato;
   color: #4f4f4f;
   font-style: italic;
   font-weight: normal;
@@ -133,6 +169,11 @@ label {
   line-height: 17px;
   margin: 1rem;
 }
+#submit-btn {
+  margin: 1em auto;
+  text-align: center;
+}
+
 a {
   color: #4f4f4f;
   text-decoration: underline;
