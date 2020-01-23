@@ -49,7 +49,8 @@ h1 {
 }
 
 table {
-  border-collapse: unset;
-  border-spacing: 0;
+  /* border-collapse: unset; */
+  border-collapse: separate;
+  border-spacing: 0 1em;
 }
 </style>

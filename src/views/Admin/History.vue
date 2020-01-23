@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div>
-      <SideBar class="side-bar" />
+    <div class="side-bar">
+      <SideBar class="side-nav" />
     </div>
 
     <div class="div-form">
@@ -46,7 +46,12 @@
 
         <div class="space-around">
           <div>
-            <FileUpload />
+            <div>
+              <input type="file" id="file" ref="file" />
+              <label for="file" class="btn-1">
+                <i>+</i>&nbsp;&nbsp;&nbsp; Choose file
+              </label>
+            </div>
           </div>
 
           <!-- Timer for each question -->
@@ -56,7 +61,7 @@
               v-if="this.number > 0"
               class="sub-flex"
             >{{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
-            <input min="0" class="form-control" id="number" type="number" v-model="number" />
+            <input min="0" class="form-control" id="number" type="time" v-model="number" />
             <div>{{this.number2.length === 2 ? this.number2 : `00${this.number2}` }}</div>
             <input min="0" class="form-control" id="number2" type="number" v-model="number2" />
           </div>
@@ -69,7 +74,7 @@
         <div>
           <div class="form-group">
             <label>Questions</label>
-            <input class="form-control" type="text" />
+            <input class="form-control input-height" type="text" />
           </div>
         </div>
 
@@ -104,13 +109,11 @@
 </template>
 <script>
 import SideBar from "../../components/sideBar";
-import FileUpload from "../../components/FileUpload";
 
 export default {
   name: "History",
   components: {
-    SideBar,
-    FileUpload
+    SideBar
   },
   data() {
     return {
@@ -132,6 +135,57 @@ export default {
 .container {
   display: flex;
   padding: 0;
+  min-height: 100vh;
+}
+
+.side-bar {
+  position: relative;
+  top: 0;
+  left: 0;
+  min-height: 100%;
+  width: 22.2%;
+}
+
+.side-nav {
+  height: 100%;
+  padding: 0 0 2em 0;
+}
+
+.div-form {
+  margin: 4em auto 0;
+  width: 80%;
+  padding: 0 3em 3em;
+}
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  border: 1.6px dashed #2b3c4e;
+  width: 100%;
+  border-radius: 5px;
+  color: #2b3c4e;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  font-family: Avenir;
+  font-size: 16px;
+  padding: 3em 10em;
+}
+i {
+  font-size: 20px;
+  color: #2b3c4e;
+  font-weight: 900;
+}
+
+input {
+  border: 1.5px solid #2b3c4e;
+}
+
+label {
+  color: #2b3c4e;
 }
 
 p {
@@ -139,21 +193,6 @@ p {
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
-}
-
-.div-form {
-  margin: 3em auto;
-  width: 78%;
-  position: relative;
-  padding: 0 0 2em 0;
-}
-
-.side-bar {
-  position: relative;
-  top: 0;
-  left: 0;
-  height: 100%;
-  padding: 0 0 2em 0;
 }
 .flex {
   display: flex;
@@ -200,7 +239,7 @@ button {
   margin-top: 2em;
 }
 
-.text-area {
+.input-height {
   height: 8em;
 }
 
@@ -219,7 +258,7 @@ thead {
 }
 
 .box-shadow {
-  padding: 1em 3em;
+  padding: 1em 2em;
   box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
   border-radius: 8px;
 }
