@@ -101,7 +101,7 @@ export default {
 }
 
 .side-bar {
-  position: relative;
+  position: absolute;
   top: 0;
   left: 0;
   min-height: 100%;
@@ -117,8 +117,6 @@ export default {
   margin: 4em auto 0;
   /* width: 80%; */
   padding-left: 20rem;
-  position: absolute;
-  z-index: -1;
 }
 .borderB {
   /* padding-top: 0.7rem; */

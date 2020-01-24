@@ -112,7 +112,7 @@ export default {
       if (val.type == "success") {
         setTimeout(() => {
           this.$router.push({ name: "AdminDashboard" });
-          val.message = ""
+          val.message = "";
         }, 1000);
       }
     }
@@ -173,7 +173,7 @@ label {
 }
 
 .side-bar {
-  position: relative;
+  /* position: absolute; */
   top: 0;
   left: 0;
   min-height: 100%;
@@ -187,8 +187,12 @@ label {
 
 .div-form {
   margin: 4em auto 0;
-  width: 80%;
+  width: 100%;
+  min-width: 900px;
   padding: 0 3em 3em;
+  padding-left: 7rem;
+  /* position: absolute;
+  z-index: -1; */
 }
 .alert__message {
   color: red;

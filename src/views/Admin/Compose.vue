@@ -289,8 +289,12 @@ p {
 
 .div-form {
   margin: 4em auto 0;
-  width: 80%;
+  width: 100%;
+  min-width: 900px;
   padding: 0 3em 3em;
+  padding-left: 7rem;
+  /* position: absolute;
+  z-index: 0; */
 }
 
 [type="file"] {

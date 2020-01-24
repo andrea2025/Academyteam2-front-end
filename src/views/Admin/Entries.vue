@@ -27,18 +27,18 @@
               <th scope="col">Email</th>
               <th scope="col">
                 DOB-Age
-                <select name="age"></select>
+                <span class="fa fa-sort" name="age" @click="sort(birthday)"></span>
               </th>
               <th scope="col">Address</th>
               <th scope="col">University</th>
               <th scope="col">
                 CGPA
-                <select name="grade"></select>
+                <span class="fa fa-sort" name="cgpa" @click="sort(cgpa)"></span>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr id="tr" v-for="entry in allAppEntries" :key="entry._id" @reload="getEntries">
+            <tr id="tr" v-for="entry in sortData" :key="entry._id" @reload="getEntries">
               <td>{{entry.firstName}} {{entry.lastName}}</td>
               <td>{{entry.email}}</td>
               <td>{{entry.birthday}}</td>
@@ -63,20 +63,24 @@ export default {
   },
   data() {
     return {
-      // number: 0,
-      // number2: 0
+      applications: []
     };
   },
-  mounted() {
-    this.getEntries();
+  async mounted() {
+    this.getAllEntries();
+    // this.applications = this.allAppEntries;
   },
   computed: {
     ...mapGetters(["allAppEntries"])
   },
   methods: {
     ...mapActions(["getAllEntries"]),
-    getEntries() {
-      this.getAllEntries();
+    sortData() {
+      this.applications = this.allAppEntries.sort((a, b) => {
+        return new Date(a.birthday).getTime() - new Date(b.birthday).getTime();
+      });
+      // let arr = this.allAppEntries || [];
+      // console.log("Array: ", arr);
     }
   }
 };
@@ -117,8 +121,12 @@ em {
 }
 .div-form {
   margin: 4em auto 0;
-  width: 80%;
-  /* padding: 0 3em 3em; */
+  width: 100%;
+  min-width: 1000px;
+  padding-left: 7rem;
+  /* position: absolute;
+  z-index: -1; */
+  padding-right: 3em;
 }
 select {
   font-weight: 300;

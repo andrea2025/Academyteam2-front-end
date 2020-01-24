@@ -121,12 +121,6 @@ export default {
       number2: 0
     };
   }
-
-  //   methods: {
-  //     setTime() {
-  //       this.number = 2;
-  //     }
-  //   }
 };
 </script>
 
@@ -153,8 +147,12 @@ export default {
 
 .div-form {
   margin: 4em auto 0;
-  width: 80%;
+  width: 100%;
+  min-width: 1000px;
   padding: 0 3em 3em;
+  padding-left: 5rem;
+  /* position: absolute;
+  z-index: -1; */
 }
 [type="file"] {
   height: 0;

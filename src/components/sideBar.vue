@@ -117,6 +117,7 @@ export default {
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
   font-family: Lato;
   width: 250px;
+  position: absolute;
 }
 
 .sidebar-header {

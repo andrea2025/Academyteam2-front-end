@@ -99,8 +99,12 @@ export default {
 
 .div-form {
   margin: 4em auto 0;
-  width: 80%;
+  width: 100%;
   padding: 0 3em 3em;
+  min-width: 1000px;
+  padding-left: 5rem;
+  /* position: absolute;
+  z-index: -1; */
 }
 
 select {
