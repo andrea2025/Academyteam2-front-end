@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div>
-      <sideBar class="side-bar" />
+    <div class="side-bar">
+      <sideBar class="side-nav" />
     </div>
 
     <div class="div-form">
@@ -84,24 +84,28 @@ export default {
   min-height: 100vh;
 }
 
-select {
-  font-style: normal;
-  font-weight: 300;
-}
-
-.div-form {
-  margin: 3em auto;
-  width: 78%;
-  position: relative;
-  padding: 0 0 2em 0;
-}
-
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
+  min-height: 100%;
+  width: 22.2%;
+}
+
+.side-nav {
   height: 100%;
   padding: 0 0 2em 0;
+}
+
+.div-form {
+  margin: 4em auto 0;
+  width: 80%;
+  padding: 0 3em 3em;
+}
+
+select {
+  font-style: normal;
+  font-weight: 300;
 }
 
 thead {

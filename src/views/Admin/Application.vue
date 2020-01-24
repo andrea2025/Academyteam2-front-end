@@ -13,7 +13,6 @@
           <div>
             <input type="file" id="file" ref="file" />
             <label for="file" class="btn-1">
-              <!-- <br /> -->
               <i>+</i>&nbsp;&nbsp;&nbsp; Choose file
             </label>
           </div>

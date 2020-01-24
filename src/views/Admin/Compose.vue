@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div>
-      <SideBar class="side-bar" />
+    <div class="side-bar">
+      <SideBar class="side-nav" />
     </div>
 
     <div class="div-form">
@@ -28,6 +28,7 @@
         <!-- Timer for each question -->
         <div class="form-group">
           <label for="number">Set Time</label>
+          <span>{{}}min</span>
           <!-- <div
             v-if="this.number > 0"
             class="sub-flex"
@@ -42,7 +43,7 @@
       <div>
         <div class="form-group">
           <label>Questions</label>
-          <input class="form-control" type="text" v-model="question" />
+          <input class="form-control input-height" type="text" v-model="question" />
         </div>
       </div>
 
@@ -78,7 +79,7 @@
         </select>
       </div>
       <div id="special-btn">
-        <div class="form-group">
+        <div class="form-group left-btn">
           <button class="btn btn-primary">Previous</button>
         </div>
         <div class="form-group">
@@ -101,6 +102,7 @@ export default {
   components: {
     SideBar
   },
+
   data() {
     return {
       // number: 0,
@@ -109,17 +111,43 @@ export default {
         message: ""
       },
       // questionCount: 0,
+
       file: "",
       question: "",
       options: [],
-      selected: ""
+      selected: "",
+      time: 2000
     };
   },
   computed: {
-    ...mapGetters(["apiResponse", "getAssessments"])
+    ...mapGetters(["apiResponse", "getAssessments"]),
+    mins() {
+      const val = Math.floor(this.time / 60);
+      if (String(val).length === 1) {
+        return `0${val}`;
+      }
+      return val;
+    },
+    secs() {
+      const val = this.time % 60;
+      if (String(val).length === 1) {
+        return `0${val}`;
+      }
+      return val;
+    }
+  },
+  mounted() {
+    this.countdown();
   },
   methods: {
     ...mapActions(["composeQuestion"]),
+    countdown() {
+      setInterval(() => {
+        if (this.time > 0) {
+          this.time--;
+        }
+      });
+    },
     sendQuestion() {
       this.file = this.$refs.file.files[0];
       var allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
@@ -216,20 +244,62 @@ p {
   line-height: 19px;
 }
 
-.div-form {
-  margin: 0 auto;
-  width: 75%;
-  position: relative;
-  margin-top: 3em;
-  padding: 0 0 2em 0;
+.container {
+  display: flex;
+  padding: 0;
+  min-height: 100vh;
 }
 
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
+  min-height: 100%;
+  width: 22.2%;
+}
+
+.side-nav {
   height: 100%;
   padding: 0 0 2em 0;
+}
+
+.div-form {
+  margin: 4em auto 0;
+  width: 80%;
+  padding: 0 3em 3em;
+}
+
+[type="file"] {
+  height: 0;
+  overflow: hidden;
+  width: 0;
+}
+
+[type="file"] + label {
+  border: 1.6px dashed #2b3c4e;
+  width: 100%;
+  border-radius: 5px;
+  color: #2b3c4e;
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  font-family: Avenir;
+  font-size: 16px;
+  padding: 3em 1em;
+}
+
+i {
+  font-size: 20px;
+  color: #2b3c4e;
+  font-weight: 900;
+}
+
+input {
+  border: 1.5px solid #2b3c4e;
+}
+
+label {
+  color: #2b3c4e;
 }
 
 .flex {
@@ -249,7 +319,7 @@ p {
 
 #submit-btn {
   margin: 2em auto;
-  width: 40%;
+  width: 20%;
 }
 
 #submit-btn button {
@@ -268,10 +338,14 @@ p {
 }
 
 #special-btn > div {
-  width: 20%;
+  width: 15%;
 }
 
-.text-area {
+.left-btn {
+  margin-right: 23em;
+}
+
+.input-height {
   height: 8em;
 }
 
