@@ -38,7 +38,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr id="tr" v-for="entry in sortData" :key="entry._id" @reload="getEntries">
+            <tr id="tr" v-for="entry in applications" :key="entry._id">
               <td>{{entry.firstName}} {{entry.lastName}}</td>
               <td>{{entry.email}}</td>
               <td>{{entry.birthday}}</td>
@@ -66,10 +66,6 @@ export default {
       applications: []
     };
   },
-  async mounted() {
-    this.getAllEntries();
-    // this.applications = this.allAppEntries;
-  },
   computed: {
     ...mapGetters(["allAppEntries"])
   },
@@ -82,6 +78,10 @@ export default {
       // let arr = this.allAppEntries || [];
       // console.log("Array: ", arr);
     }
+  },
+  async mounted() {
+    await this.getAllEntries();
+    this.applications = this.allAppEntries;
   }
 };
 </script>
