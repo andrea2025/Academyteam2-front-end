@@ -11,7 +11,7 @@
     </div>
 
     <div class="item">
-      <p class="alert__message">{{ apiResponse.message }}</p>
+      <p class="response" :class="[apiResponse ? apiResponse.type: '']">{{ apiResponse.message }}</p>
       <form @submit.prevent="sendFile" class="formBody">
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
@@ -169,9 +169,14 @@ h3 {
   width: 70%;
   margin: auto;
 }
-.alert__message {
+.response {
+  text-align: center;
+}
+.response.failed {
   color: red;
-  font-size: 12px;
+}
+.response.success {
+  color: green;
 }
 label {
   margin-top: 2em;

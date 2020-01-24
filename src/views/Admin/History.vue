@@ -49,7 +49,7 @@
             <div>
               <input type="file" id="file" ref="file" />
               <label for="file" class="btn-1">
-                <i>+</i>&nbsp;&nbsp;&nbsp; Choose file
+                <b>+</b>&nbsp;&nbsp;&nbsp; Choose file
               </label>
             </div>
           </div>
@@ -251,9 +251,12 @@ thead {
   background: #2b3c4e;
   color: white;
 }
-
+#tr {
+  border-left: 5px solid transparent;
+}
 #tr:hover {
   box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-left: 5px solid #31d283;
   border-radius: 8px;
 }
 

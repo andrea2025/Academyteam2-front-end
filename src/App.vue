@@ -50,7 +50,7 @@ h1 {
 
 table {
   /* border-collapse: unset; */
-  border-collapse: separate;
+  /* border-collapse: separate; */
   border-spacing: 0 1em;
 }
 </style>

@@ -35,12 +35,7 @@ const routes = [{
         component: UserForm,
         meta: {
             requiresGuest: true
-        },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn) {
-        //         next('/login')
-        //     } else next()
-        // }
+        }
     },
     {
         path: "/dashboard",
@@ -48,14 +43,7 @@ const routes = [{
         component: DashBoard,
         meta: {
             requiresGuest: true
-        },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn) {
-        //         next('/login')
-        //     } else if (!store.getters.entryStatus) {
-        //         next('/userform')
-        //     } else next()
-        // }
+        }
     },
     {
         path: "/assessment",
@@ -63,13 +51,7 @@ const routes = [{
         component: Assessment,
         meta: {
             requiresGuest: true
-        },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
+        }
     },
     {
         path: "/congratulations",
@@ -77,13 +59,7 @@ const routes = [{
         component: Congratulations,
         meta: {
             requiresGuest: true
-        },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
+        }
     },
     {
         path: "/admindashboard",
@@ -91,13 +67,7 @@ const routes = [{
         component: AdminDashboard,
         meta: {
             requiresAdmin: true
-        },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
+        }
     },
     {
         path: "/adminlogin",
@@ -111,13 +81,7 @@ const routes = [{
         component: Application,
         meta: {
             requiresAdmin: true
-        },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
+        }
     },
     {
         path: "/compose",
@@ -125,13 +89,7 @@ const routes = [{
         component: Compose,
         meta: {
             requiresAdmin: true
-        },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
+        }
     },
     {
         path: "/entries",
@@ -140,12 +98,6 @@ const routes = [{
         meta: {
             requiresAdmin: true
         },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
     },
     {
         path: "/adminresult",
@@ -154,12 +106,6 @@ const routes = [{
         meta: {
             requiresAdmin: true
         },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
     },
     {
         path: "/history",
@@ -168,12 +114,6 @@ const routes = [{
         meta: {
             requiresAdmin: true
         },
-        // beforeEnter: (to, from, next) => {
-        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
-        //         next('/adminlogin')
-        //     } else next()
-        // }
-
     },
     {
 
@@ -184,7 +124,12 @@ const routes = [{
         // which is lazy-loaded when the route is visited.
         component: () =>
             import( /* webpackChunkName: "about" */ '../views/About.vue')
-    }
+    },
+    {
+        path: '*',
+        name: '404',
+        component: () => import('../views/Error.vue')
+    },
 ]
 
 const router = new VueRouter({

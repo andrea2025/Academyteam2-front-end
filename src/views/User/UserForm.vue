@@ -10,10 +10,10 @@
       </div>
     </div>
     <div class="item mt-4">
-      <span class="alert__message">{{ apiResponse.message }}</span>
+      <span class="response" :class="[apiResponse ? apiResponse.type: '']">{{ apiResponse.message }}</span>
       <span class="alert__message">{{alert.message}}</span>
       <form @submit.prevent="sendForm" class="formBody" enctype="multipart/form-data">
-        <div>
+        <div class="file__input">
           <input
             type="file"
             id="file"
@@ -22,7 +22,7 @@
             v-on:change="handleFileUpload()"
           />
           <label for="file" class="btn-1">
-            <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
+            <b>+</b>&nbsp;&nbsp;&nbsp; Upload CV
           </label>
         </div>
 
@@ -118,6 +118,7 @@ export default {
       } else if (this.file.size > 1000000) {
         this.alert.message = "Too large, max size allowed is 1MB";
       } else {
+        this.alert.message = "";
         $(".btn-1").text(fileName);
       }
     },
@@ -160,7 +161,15 @@ export default {
   margin: 2em;
   min-height: 100vh;
 }
-
+.response {
+  text-align: center;
+}
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
 .head {
   text-align: center;
   margin-top: 3em;
@@ -194,9 +203,12 @@ h3 {
 }
 .alert__message {
   color: red;
+  text-align: center;
   font-size: 12px;
 }
-
+.file__input {
+  text-align: center;
+}
 .file-upload {
   margin: 0.7em auto;
   text-align: center;

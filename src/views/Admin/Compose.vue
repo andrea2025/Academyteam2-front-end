@@ -13,14 +13,20 @@
         <p>/30</p>
       </div>
 
-      <p class="alert__message">{{ apiResponse.message }}</p>
+      <p class="response" :class="[apiResponse ? apiResponse.type: '']">{{ apiResponse.message }}</p>
       <p class="alert__message">{{ alert.message }}</p>
       <div class="flex">
         <div>
           <div>
-            <input type="file" id="file" ref="file" />
+            <input
+              type="file"
+              id="file"
+              ref="file"
+              class="file-upload"
+              v-on:change="handleFileUpload()"
+            />
             <label for="file" class="btn-1">
-              <i>+</i>&nbsp;&nbsp;&nbsp; Upload picture
+              <b>+</b>&nbsp;&nbsp;&nbsp; Upload picture
             </label>
           </div>
         </div>
@@ -28,15 +34,14 @@
         <!-- Timer for each question -->
         <div class="form-group">
           <label for="number">Set Time</label>
-          <span>{{}}min</span>
-          <!-- <div
+          <!-- <span>{{}}min</span> -->
+          <div
             v-if="this.number > 0"
             class="sub-flex"
-          >
-          {{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
+          >{{ this.number.length === 2 ? this.number : `0${this.number}` }}</div>
           <input min="0" class="form-control" id="number" type="number" v-model="number" />
           <div>{{this.number2.length === 2 ? this.number2 : `00${this.number2}` }}</div>
-          <input min="0" class="form-control" id="number2" type="number" v-model="number2" />-->
+          <input min="0" class="form-control" id="number2" type="number" v-model="number2" />
         </div>
       </div>
 
@@ -70,8 +75,8 @@
       <div class="correct-ans">
         <label for="answer">Answer:</label>
         <br />
-        <select id v-model="selected">
-          <option value>...Choose answer</option>
+        <select id="ansOptions" class="form-group" v-model="selected">
+          <option value>Choose answer</option>
           <option value="0">Option A</option>
           <option value="1">Option B</option>
           <option value="2">Option C</option>
@@ -95,6 +100,7 @@
 </template>
 <script>
 import SideBar from "../../components/sideBar";
+import $ from "jquery";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -105,12 +111,12 @@ export default {
 
   data() {
     return {
-      // number: 0,
-      // number2: 0,
+      number: 0,
+      number2: 0,
       alert: {
         message: ""
       },
-      // questionCount: 0,
+      questionCount: 0,
 
       file: "",
       question: "",
@@ -148,7 +154,8 @@ export default {
         }
       });
     },
-    sendQuestion() {
+    handleFileUpload: function() {
+      var fileName = this.$refs.file.files[0].name;
       this.file = this.$refs.file.files[0];
       var allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
       if (!this.file) {
@@ -158,31 +165,34 @@ export default {
       } else if (this.file.size > 100000) {
         this.alert.message = "Too large, max size allowed is 100kb";
       } else {
-        let formData = new FormData();
-
-        formData.append("file", this.file);
-        formData.append("answer", this.selected);
-        formData.append("question", this.question);
-        formData.append("options", this.options[0]);
-        formData.append("options", this.options[1]);
-        formData.append("options", this.options[2]);
-        formData.append("options", this.options[3]);
-        console.log(this.selected, " ", this.options);
-        this.composeQuestion(formData);
-        this.questionCount++;
-
-        this.file = "";
-        this.question = "";
-        this.options = "";
-        this.answer = "";
+        this.alert.message = "";
+        $(".btn-1").text(fileName);
       }
+    },
+    sendQuestion() {
+      let formData = new FormData();
+
+      formData.append("file", this.file);
+      formData.append("answer", this.selected);
+      formData.append("question", this.question);
+      formData.append("options", this.options[0]);
+      formData.append("options", this.options[1]);
+      formData.append("options", this.options[2]);
+      formData.append("options", this.options[3]);
+      console.log(this.selected, " ", this.options);
+      this.composeQuestion(formData);
+      this.questionCount++;
+
+      this.file = "";
+      this.question = "";
+      this.options = "";
+      this.answer = "";
     }
   },
   watch: {
     apiResponse(val) {
       if (val.type == "success") {
         setTimeout(() => {
-          // this.$router.push("");
           val.message = "";
         }, 1000);
       }
@@ -233,6 +243,15 @@ i {
   padding: 0;
   min-height: 100vh;
 }
+.response {
+  text-align: center;
+}
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
 .alert__message {
   color: red;
   font-size: 12px;
@@ -243,7 +262,12 @@ p {
   font-size: 16px;
   line-height: 19px;
 }
-
+#ansOptions {
+  border: 1.5px solid #2b3c4e;
+  border-radius: 4px;
+  padding: 2px;
+  margin-bottom: 2rem;
+}
 .container {
   display: flex;
   padding: 0;

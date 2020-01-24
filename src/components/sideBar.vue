@@ -113,9 +113,10 @@ export default {
 </script>
 <style scoped>
 .wrapper {
-  min-height: 100vh;
+  min-height: 65vw;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
   font-family: Lato;
+  width: 250px;
 }
 
 .sidebar-header {

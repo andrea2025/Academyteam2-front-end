@@ -95,9 +95,10 @@ export default {
 </script>
 <style scoped>
 .wrapper {
-  min-height: 100vh;
+  min-height: 88vw;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
   font-family: Lato;
+  width: 250px;
 }
 
 .sidebar-header {
@@ -196,7 +197,6 @@ li {
   font-family: Lato;
   color: #2b3c4e;
 }
-
 /* li a {
   display: flex;
   align-items: center;

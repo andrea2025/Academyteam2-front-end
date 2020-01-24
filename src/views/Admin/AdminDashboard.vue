@@ -14,18 +14,21 @@
             <!-- Text inside is a placeholder -->
             <p class="sans">Current Applications</p>
             <h1 class="lato">{{allAppEntries.length}}</h1>
-            <p class="px">Academy {{}}</p>
+            <div class="borderB"></div>
+            <p class="px">Academy {{adminApplications[0].batch}}</p>
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
             <p class="sans">Total Applications</p>
             <h1 class="lato">{{allAppEntries.length}}</h1>
+            <div class="borderG"></div>
             <p class="px">All entries so far</p>
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
             <p class="sans">Academys</p>
             <h1 class="lato">{{adminApplications.length}}</h1>
+            <div class="borderP"></div>
             <p class="px">So far</p>
           </div>
         </div>
@@ -112,18 +115,34 @@ export default {
 
 .div-form {
   margin: 4em auto 0;
-  width: 80%;
-  padding: 0 3em 3em;
+  /* width: 80%; */
+  padding-left: 20rem;
+  position: absolute;
+  z-index: -1;
 }
-
+.borderB {
+  /* padding-top: 0.7rem; */
+  width: 140px;
+  border-bottom: 4px solid #006df0;
+}
+.borderG {
+  width: 140px;
+  border-bottom: 4px solid #00f026;
+}
+.borderP {
+  width: 140px;
+  border-bottom: 4px solid #f09000;
+}
 h1 {
   font-weight: 300;
-  font-size: 43.5555px;
+  font-size: 47px;
   line-height: 52px;
   letter-spacing: -0.02em;
   color: #2b3c4e;
 }
-
+.flex h1 {
+  font-size: 49px;
+}
 .lato {
   font-family: Lato;
 }
@@ -134,6 +153,7 @@ h1 {
 
 .px {
   color: #4f4f4f;
+  margin-top: 0.5rem;
   font-size: 14px;
 }
 
@@ -154,8 +174,10 @@ h6 {
 
 .flex {
   display: flex;
+  margin-top: 2rem;
   justify-content: space-between;
   align-items: center;
+  margin-top: 4rem;
 }
 
 button {

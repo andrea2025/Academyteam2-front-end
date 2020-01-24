@@ -21,7 +21,8 @@ export default new Vuex.Store({
     userProfile: {
       firstName: '',
       lastName: '',
-      email: ''
+      email: '',
+      created: ''
     },
     admin: {
       name: '',
@@ -87,7 +88,8 @@ export default new Vuex.Store({
       state.userProfile = {
         firstName: payload.firstName,
         lastName: payload.lastName,
-        email: payload.email
+        email: payload.email,
+        created: payload.created
       }
     },
     getResponse(state, payload) {
@@ -202,9 +204,9 @@ export default new Vuex.Store({
           let userProfile = {
             firstName: response.data.data.firstName,
             lastName: response.data.data.lastName,
-            email: response.data.data.email
+            email: response.data.data.email,
+            created: response.data.data.createdAt
           }
-
           context.commit("userProfile", userProfile)
         })
         .catch(error => {
@@ -245,13 +247,12 @@ export default new Vuex.Store({
     },
     getAdminProfile(context) {
       Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
-      Axios.get(`http://localhost:4000/create/${this.state.adminID}`)
+      Axios.get(`http://localhost:4000/admin/${this.state.adminID}`)
         .then(response => {
           let AdminDetail = {
             name: response.data.data.name,
             email: response.data.data.email
           }
-
           context.commit('adminProfile', AdminDetail)
         })
         .catch(error => {
@@ -290,7 +291,6 @@ export default new Vuex.Store({
             type: "success",
             message: response.data.message
           }
-          // context.commit('userDetails', userProfile)
           context.commit('getResponse', responseObject)
         })
         .catch(error => {

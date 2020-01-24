@@ -14,7 +14,7 @@
       </div>
 
       <div class="bottom">
-        <p class="alert__message">{{ adminLog.message }}</p>
+        <p class="response" :class="[adminLog ? adminLog.type: '']">{{ adminLog.message }}</p>
         <form @submit.prevent="adminRole" action="/login" method="post">
           <div class="form-group">
             <label for="exampleInputEmail1">Email Address</label>
@@ -119,15 +119,19 @@ export default {
   width: 35%;
   margin: 0 auto;
 }
-
+.response {
+  text-align: center;
+}
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
 input {
   background: #111e2b;
   border: 1px solid white;
   color: white;
-}
-.alert__message {
-  color: red;
-  font-size: 12px;
 }
 .btn {
   width: 100%;

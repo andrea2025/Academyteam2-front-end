@@ -4,16 +4,23 @@
       <SideBar class="side-nav" />
     </div>
     <form class="div-form" @submit.prevent="createAppl" enctype="multipart/form-data">
-      <p class="alert__message">{{ apiResponse.message }}</p>
       <!-- Page title -->
       <h1>Create Application</h1>
 
+      <p class="response" :class="[apiResponse ? apiResponse.type: '']">{{ apiResponse.message }}</p>
+      <p class="alert__message">{{ alert.message }}</p>
       <div>
         <div class="flex">
           <div>
-            <input type="file" id="file" ref="file" />
+            <input
+              type="file"
+              id="file"
+              ref="file"
+              class="file-upload"
+              v-on:change="handleFileUpload()"
+            />
             <label for="file" class="btn-1">
-              <i>+</i>&nbsp;&nbsp;&nbsp; Choose file
+              <b>+</b>&nbsp;&nbsp;&nbsp; Choose file
             </label>
           </div>
           <div class="form-group">
@@ -51,6 +58,7 @@
 </template>
 <script>
 import SideBar from "../../components/sideBar";
+import $ from "jquery";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Application",
@@ -63,7 +71,10 @@ export default {
       link: "",
       date: "",
       batch: "",
-      instructions: ""
+      instructions: "",
+      alert: {
+        message: ""
+      }
     };
   },
   computed: {
@@ -71,7 +82,8 @@ export default {
   },
   methods: {
     ...mapActions(["createBatch"]),
-    createAppl() {
+    handleFileUpload: function() {
+      var fileName = this.$refs.file.files[0].name;
       this.file = this.$refs.file.files[0];
       var allowedTypes = ["image/jpeg", "image/jpg", "image/png"];
       if (!this.file) {
@@ -81,14 +93,18 @@ export default {
       } else if (this.file.size > 100000) {
         this.alert.message = "Too large, max size allowed is 100kb";
       } else {
-        this.createBatch({
-          fileapplicant: this.file,
-          link: this.link,
-          date: this.date,
-          batch: this.batch,
-          instructions: this.instructions
-        });
+        this.alert.message = "";
+        $(".btn-1").text(fileName);
       }
+    },
+    createAppl() {
+      this.createBatch({
+        fileapplicant: this.file,
+        link: this.link,
+        date: this.date,
+        batch: this.batch,
+        instructions: this.instructions
+      });
     }
   },
   watch: {
@@ -96,6 +112,7 @@ export default {
       if (val.type == "success") {
         setTimeout(() => {
           this.$router.push({ name: "AdminDashboard" });
+          val.message = ""
         }, 1000);
       }
     }
@@ -126,7 +143,15 @@ i {
   color: #2b3c4e;
   font-weight: 900;
 }
-
+.response {
+  text-align: center;
+}
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
 input {
   border: 1.5px solid #2b3c4e;
 }
@@ -189,10 +214,6 @@ h1 {
 .btn {
   width: 40%;
   color: white;
-}
-.alert__message {
-  color: red;
-  font-size: 12px;
 }
 button {
   background: #2b3c4e;

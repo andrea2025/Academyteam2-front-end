@@ -4,7 +4,7 @@
       <sideBar class="side-nav lato" />
     </div>
 
-    <div class="mainContent" v-show="isLoggedIn">
+    <div class="mainContent">
       <div class="content-container">
         <div>
           <h1 class="mainContent_text">Take Assessment</h1>
@@ -47,7 +47,11 @@
           </svg>
         </div>
         <!-- //api response -->
-        <p class="alert__message" v-if="apiResponse.message">{{ apiResponse.message }}</p>
+        <p
+          class="response"
+          :class="[apiResponse ? apiResponse.type: '']"
+          v-if="apiResponse.message"
+        >{{ apiResponse.message }}</p>
         <div v-else>
           <p class="pt-3 lato">
             We have 4 days left until the next assessment
@@ -63,45 +67,49 @@
       </div>
 
       <div
-        class="questionArea image-group text-msg assessment-section"
+        class="image-group text-msg"
         v-for="(question, index) in getAssessments"
         :key="index"
         v-show="index === questionIndex"
       >
-        <div class="question">
-          <p>Question {{index + 1}}</p>
-          <h5>
-            <i>{{question.question}}</i>
-          </h5>
-        </div>
-        <div class="questionOptions" v-for="(o, index) in question.options" :key="index">
-          <input type="radio" :id="index" :value="o" v-model="answer" />
-          <label :for="index">{{" " + o }}</label>
-          <br />
-        </div>
-        <div class="finishMessage" v-if="questionIndex === getAssessments.length">
-          <h3>Thank You for completing the Assessment. Click to Submit your answers</h3>
-        </div>
-        <div class="questionArea">
-          <div class="questionNav">
-            <div class>
-              <button class="btn-prev" v-if="questionIndex > 0" @click="prevQ">Prev</button>
-            </div>
-            <div class>
-              <button
-                class="btn-next"
-                v-if="questionIndex < getAssessments.length - 1"
-                @click="nextQ"
-              >Next</button>
+        <div class="question" v-show="index === questionIndex">
+          <div class="questionBody">
+            <p>Question {{index + 1}}</p>
+            <h5>
+              <i>{{question.question}}</i>
+            </h5>
+            <div class="questionOptions">
+              <div class v-for="(o, index) in question.options" :key="index">
+                <input type="radio" :id="index" :value="o" v-model="answer" />
+                <label :for="index">{{" " + o }}</label>
+                <br />
+              </div>
             </div>
           </div>
-          <button
-            class="btn-submit"
-            v-show="questionIndex === getAssessments.length - 1"
-            @click="sendAnswer"
-          >Submit</button>
+          <div class="questionButtons">
+            <div class="questionNav">
+              <div class>
+                <button class="btn-prev" :disabled="questionIndex <= 0" @click="prevQ">Prev</button>
+              </div>
+              <div class>
+                <button
+                  class="btn-next"
+                  :disabled="!(questionIndex < getAssessments.length - 1)"
+                  @click="nextQ"
+                >Next</button>
+              </div>
+            </div>
+            <button
+              class="btn-submit"
+              :disabled="questionIndex !== getAssessments.length - 1"
+              @click="sendAnswer"
+            >Submit</button>
+          </div>
         </div>
       </div>
+      <!-- <div class="finishMessage" v-if="questionIndex === getAssessments.length">
+          <h3>Thank You for completing the Assessment. Click to Submit your answers</h3>
+      </div>-->
     </div>
   </div>
 </template>
@@ -121,7 +129,6 @@ export default {
       totalTime: 4 * 60,
       title: "Timer",
       questionIndex: 0,
-      qArray: [],
       answer: "",
       userTest: {
         questions: [],
@@ -189,26 +196,6 @@ export default {
     this.getAssessment();
 
     $(document).ready(function() {
-      var readURL = function(input) {
-        if (input.files && input.files[0]) {
-          var reader = new FileReader();
-
-          reader.onload = function(e) {
-            $(".profile-pic").attr("src", e.target.result);
-          };
-
-          reader.readAsDataURL(input.files[0]);
-        }
-      };
-      $(".file-upload").on("change", function() {
-        readURL(this);
-      });
-      $(".upload-button").on("click", function() {
-        $(".file-upload").click();
-      });
-    });
-
-    $(document).ready(function() {
       $(".resp-part").show();
       $(".text-msg").hide();
 
@@ -237,13 +224,18 @@ export default {
   padding: 0;
   min-height: 100vh;
 }
-
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
 .side-bar {
   position: relative;
   top: 0;
   left: 0;
   min-height: 100%;
-  width: 28.1%;
+  width: 300px;
 }
 
 .side-nav {
@@ -263,7 +255,39 @@ export default {
   justify-content: space-between;
   line-height: 15px;
 }
-
+.image-group {
+  margin: auto;
+  display: block;
+  align-content: center;
+  width: 80vw;
+  min-width: 800px;
+}
+.questionBody {
+  text-align: center;
+}
+.questionOptions {
+  margin: auto;
+  width: 200px;
+  text-align: left;
+}
+.questionButtons {
+  margin: auto;
+  width: 800px;
+  margin-top: 2rem;
+}
+.question {
+  margin: auto;
+  margin-top: 3rem;
+}
+.questionNav {
+  display: flex;
+  justify-content: space-between;
+}
+.btn-submit {
+  display: flex;
+  margin: auto;
+  margin-top: 2rem;
+}
 .time-indicator span {
   font-size: 2em;
   font-weight: 300;
@@ -324,9 +348,12 @@ em {
 
 button {
   padding: 0.3em 2em;
-  background: #b1b1b1;
+  background: #2b3c4e;
   color: white;
   border-radius: 4px;
   border: none;
+}
+button:disabled {
+  background: #cecece;
 }
 </style>

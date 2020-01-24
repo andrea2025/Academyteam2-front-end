@@ -11,8 +11,8 @@
     </div>
 
     <div class="item">
-      <p class="alert__message">{{ apiResponse.message }}</p>
       <form @submit.prevent="loginFile" class="formBody">
+        <p class="response" :class="[apiResponse ? apiResponse.type: '']">{{ apiResponse.message }}</p>
         <div class="form__item__name col text-left">
           <label for="mail">Email Address</label>
           <input type="email" name="mail" class="form-control" v-model="userLogin.email" />
@@ -107,7 +107,15 @@ export default {
 div > img {
   margin-top: 3em;
 }
-
+.response {
+  text-align: center;
+}
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
 .head {
   text-align: center;
   margin-top: 3em;
