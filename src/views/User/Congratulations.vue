@@ -40,7 +40,7 @@
         </div>
 
         <div>
-          <router-link to="/">
+          <router-link to="/dashboard">
             <button class="homePage mt-4 lato">Home</button>
           </router-link>
         </div>

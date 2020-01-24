@@ -38,19 +38,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr id="tr">
-              <td>Ify Chinke</td>
-              <td>ify@enyata.com</td>
-              <td>12/07/94</td>
-              <td>3 Sabo Ave, Yaba, Lagos</td>
-              <td>University of Nigeria</td>
-            </tr>
-            <tr id="tr">
-              <td>Ify Chinke</td>
-              <td>ify@enyata.com</td>
-              <td>12/07/94</td>
-              <td>3 Sabo Ave, Yaba, Lagos</td>
-              <td>University of Nigeria</td>
+            <tr id="tr" v-for="entry in allAppEntries" :key="entry._id" @reload="getEntries">
+              <td>{{entry.firstName}} {{entry.lastName}}</td>
+              <td>{{entry.email}}</td>
+              <td>{{entry.birthday}}</td>
+              <td>{{entry.address}}</td>
+              <td>{{entry.school}}</td>
             </tr>
           </tbody>
         </table>
@@ -60,24 +53,31 @@
 </template>
 <script>
 import sideBar from "../../components/sideBar";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   name: "Entries",
   components: {
     sideBar
+  },
+  data() {
+    return {
+      // number: 0,
+      // number2: 0
+    };
+  },
+  mounted() {
+    this.getEntries();
+  },
+  computed: {
+    ...mapGetters(["allAppEntries"])
+  },
+  methods: {
+    ...mapActions(["getAllEntries"]),
+    getEntries() {
+      this.getAllEntries();
+    }
   }
-  //   data() {
-  //     return {
-  //       number: 0,
-  //       number2: 0
-  //     };
-  //   }
-
-  //   methods: {
-  //     setTime() {
-  //       this.number = 2;
-  //     }
-  //   }
 };
 </script>
 <style scoped>

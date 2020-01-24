@@ -29,7 +29,7 @@
         <div class="alt-signin d-flex justify-content-between">
           <p>
             Don’t have an account yet?
-            <router-link to="/signup">
+            <router-link to="/">
               <a href>Sign Up</a>
             </router-link>
           </p>
@@ -45,9 +45,7 @@ import $ from "jquery";
 
 export default {
   name: "UserLogin",
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       userLogin: {}
@@ -85,7 +83,7 @@ export default {
     apiResponse(val) {
       if (val.type == "success") {
         setTimeout(() => {
-          if (this.entryStatus.status) {
+          if (this.entryStatus) {
             this.$router.push("/dashboard");
           } else {
             this.$router.push("/userform");

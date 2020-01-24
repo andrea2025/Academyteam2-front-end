@@ -16,8 +16,6 @@ import Entries from '../views/Admin/Entries.vue'
 import Result from '../views/Admin/Result.vue'
 import History from '../views/Admin/History.vue'
 
-// import store from '../store/index'
-
 
 Vue.use(VueRouter)
 
@@ -35,6 +33,9 @@ const routes = [{
         path: "/userform",
         name: "UserForm",
         component: UserForm,
+        meta: {
+            requiresGuest: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn) {
         //         next('/login')
@@ -45,6 +46,9 @@ const routes = [{
         path: "/dashboard",
         name: "DashBoard",
         component: DashBoard,
+        meta: {
+            requiresGuest: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn) {
         //         next('/login')
@@ -57,6 +61,9 @@ const routes = [{
         path: "/assessment",
         name: "Assessment",
         component: Assessment,
+        meta: {
+            requiresGuest: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
         //         next('/adminlogin')
@@ -68,6 +75,9 @@ const routes = [{
         path: "/congratulations",
         name: "Congratulations",
         component: Congratulations,
+        meta: {
+            requiresGuest: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
         //         next('/adminlogin')
@@ -79,6 +89,9 @@ const routes = [{
         path: "/admindashboard",
         name: "AdminDashboard",
         component: AdminDashboard,
+        meta: {
+            requiresAdmin: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
         //         next('/adminlogin')
@@ -96,6 +109,9 @@ const routes = [{
         path: "/application",
         name: "Application",
         component: Application,
+        meta: {
+            requiresAdmin: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
         //         next('/adminlogin')
@@ -107,6 +123,9 @@ const routes = [{
         path: "/compose",
         name: "Compose",
         component: Compose,
+        meta: {
+            requiresAdmin: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
         //         next('/adminlogin')
@@ -118,18 +137,37 @@ const routes = [{
         path: "/entries",
         name: "Entries",
         component: Entries,
+        meta: {
+            requiresAdmin: true
+        },
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
 
     },
     {
-        path: "/result",
+        path: "/adminresult",
         name: "Result",
         component: Result,
+        meta: {
+            requiresAdmin: true
+        },
+        // beforeEnter: (to, from, next) => {
+        //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
+        //         next('/adminlogin')
+        //     } else next()
+        // }
 
     },
     {
         path: "/history",
         name: "History",
         component: History,
+        meta: {
+            requiresAdmin: true
+        },
         // beforeEnter: (to, from, next) => {
         //     if (!store.getters.isLoggedIn || !store.getters.isAdmin) {
         //         next('/adminlogin')
@@ -145,7 +183,7 @@ const routes = [{
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/About.vue')
+            import( /* webpackChunkName: "about" */ '../views/About.vue')
     }
 ]
 

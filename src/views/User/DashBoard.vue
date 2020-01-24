@@ -62,7 +62,7 @@ export default {
     return {};
   },
   computed: {
-    ...mapGetters(["profileDetails"])
+    ...mapGetters(["userProfile"])
   },
   mounted() {
     $(document).ready(function() {

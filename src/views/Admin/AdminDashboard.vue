@@ -76,7 +76,7 @@ export default {
     SideBar
   },
   computed: {
-    ...mapGetters(["adminApplications", "AdminDetails", "allAppEntries"])
+    ...mapGetters(["adminApplications", "allAppEntries"])
   },
   mounted() {
     this.fetchApp();

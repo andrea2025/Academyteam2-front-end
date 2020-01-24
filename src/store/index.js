@@ -14,19 +14,22 @@ export default new Vuex.Store({
       type: "",
       message: ""
     },
-    profile: {
+    userEntryStatus: '',
+    testStatus: {
+      status: ''
+    },
+    userProfile: {
       firstName: '',
       lastName: '',
       email: ''
-    },
-    userEntryStatus: {
-      type: ''
     },
     admin: {
       name: '',
       email: ''
     },
     token: localStorage.getItem("token") || null,
+    userID: localStorage.getItem("userID") || null,
+    adminID: localStorage.getItem("adminID") || null,
     appEntries: [],
     adminBatch: [],
     batchInfo: {
@@ -36,11 +39,12 @@ export default new Vuex.Store({
     },
     isAdmin: {
       status: ''
-    }
+    },
+    questionArray: [],
+    resultProfile: []
   },
   getters: {
     apiResponse: state => state.response,
-    profileDetails: state => state.profile,
     AdminDetails: state => state.admin,
     adminLog: state => state.Adminresponse,
     adminApplications: state => state.adminBatch,
@@ -52,9 +56,13 @@ export default new Vuex.Store({
         return true;
       }
     },
+    userProfile: state => state.userProfile,
     isAdmin: state => state.isAdmin,
     entryStatus: state => state.userEntryStatus,
-    allAppEntries: state => state.appEntries
+    takenTest: state => state.testStatus,
+    allAppEntries: state => state.appEntries,
+    getAssessments: state => state.questionArray,
+    getResult: state => state.resultProfile
   },
   mutations: {
     retrieveToken(state, token) {
@@ -62,6 +70,25 @@ export default new Vuex.Store({
     },
     destroyToken(state) {
       state.token = null
+    },
+    getUserID(state, userID) {
+      state.userID = userID
+    },
+    clearUserID(state) {
+      state.userID = null
+    },
+    getAdminID(state, adminID) {
+      state.adminID = adminID
+    },
+    clearAdminID(state) {
+      state.adminID = null
+    },
+    userProfile(state, payload) {
+      state.userProfile = {
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        email: payload.email
+      }
     },
     getResponse(state, payload) {
       state.response = {
@@ -82,6 +109,7 @@ export default new Vuex.Store({
     },
     userDetails(state, payload) {
       state.profile = {
+        id: payload.id,
         firstName: payload.firstName,
         lastName: payload.lastName,
         email: payload.email
@@ -100,8 +128,11 @@ export default new Vuex.Store({
       state.appEntries = payload
     },
     userEntryStatus(state, payload) {
-      state.userEntryStatus = {
-        status: payload.type
+      state.userEntryStatus = payload
+    },
+    takenTest(state, payload) {
+      state.testStatus = {
+        status: payload.status
       }
     },
     batchInfo(state, payload) {
@@ -110,6 +141,12 @@ export default new Vuex.Store({
         date: payload.date,
         batch: payload.batch
       }
+    },
+    getQuestions(state, payload) {
+      state.questionArray = payload
+    },
+    scoreResult(state, payload) {
+      state.resultProfile = payload
     }
   },
   actions: {
@@ -139,21 +176,36 @@ export default new Vuex.Store({
             type: "success",
             message: response.data.message
           }
-          let entryStatus = {
-            type: response.data.data.sentEntry
-          }
-          let userProfile = {
-            firstName: response.data.checkEntry.firstName,
-            lastName: response.data.checkEntry.lastName,
-            email: response.data.checkEntry.email
-          }
+          let entryStatus = response.data.data.sentEntry
+          let userID = response.data.data._id
 
+          localStorage.setItem("userID", userID)
           localStorage.setItem("token", token)
 
-          context.commit('userDetails', userProfile)
-          context.commit('userEntryStatus', entryStatus)
+          context.commit('getUserID', userID)
           context.commit('retrieveToken', token)
+          context.commit('userEntryStatus', entryStatus)
           context.commit('getResponse', responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit('getResponse', responseObject)
+        })
+    },
+    getUserProfile(context) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.get(`http://localhost:4000/${this.state.userID}`)
+        .then(response => {
+          let userProfile = {
+            firstName: response.data.data.firstName,
+            lastName: response.data.data.lastName,
+            email: response.data.data.email
+          }
+
+          context.commit("userProfile", userProfile)
         })
         .catch(error => {
           let responseObject = {
@@ -167,10 +219,6 @@ export default new Vuex.Store({
       Axios.post("http://localhost:4000/admin/login", val)
         .then(response => {
           const token = response.data.token;
-          let AdminDetail = {
-            name: response.data.data.name,
-            email: response.data.data.email
-          }
           let responseObject = {
             type: "success",
             message: response.data.message
@@ -178,12 +226,13 @@ export default new Vuex.Store({
           let isAdmin = {
             status: true
           }
+          let adminID = response.data.data._id
 
+          localStorage.setItem("adminID", adminID)
           localStorage.setItem("token", token)
 
           context.commit('isAdmin', isAdmin)
           context.commit('retrieveToken', token)
-          context.commit('adminProfile', AdminDetail)
           context.commit('Adminresp', responseObject)
         })
         .catch(error => {
@@ -194,9 +243,30 @@ export default new Vuex.Store({
           context.commit('Adminresp', responseObject)
         });
     },
-    logoutPerson: (context) => {
+    getAdminProfile(context) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.get(`http://localhost:4000/create/${this.state.adminID}`)
+        .then(response => {
+          let AdminDetail = {
+            name: response.data.data.name,
+            email: response.data.data.email
+          }
 
+          context.commit('adminProfile', AdminDetail)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit('getResponse', responseObject)
+        })
+    },
+    logoutUser(context) {
+      localStorage.removeItem("userID")
       localStorage.removeItem("token")
+
+      context.commit('clearUserID')
       context.commit('destroyToken')
     },
     sendApp(context, val) {
@@ -213,20 +283,14 @@ export default new Vuex.Store({
       formData.append("cgpa", val.cgpa);
 
       Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
-      Axios.post("http://localhost:4000/newApp", formData)
+      Axios.post("http://localhost:4000/appl/newApp", formData)
 
         .then(response => {
           let responseObject = {
             type: "success",
             message: response.data.message
           }
-          let userProfile = {
-            firstName: response.data.newEntry.firstName,
-            lastName: response.data.newEntry.lastName,
-            email: response.data.newEntry.email
-          }
-
-          context.commit('userDetails', userProfile)
+          // context.commit('userDetails', userProfile)
           context.commit('getResponse', responseObject)
         })
         .catch(error => {
@@ -239,7 +303,7 @@ export default new Vuex.Store({
     },
     getCreatedApp(context) {
       Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
-      Axios.get("http://localhost:4000/admin/all")
+      Axios.get("http://localhost:4000/create/all")
         .then(response => {
           let createdApp = response.data.data
 
@@ -254,8 +318,7 @@ export default new Vuex.Store({
         })
     },
     createBatch(context, val) {
-      let formData = new FormData();
-
+      var formData = new FormData();
       formData.append('fileapplicant', val.fileapplicant)
       formData.append("link", val.link);
       formData.append("date", val.date);
@@ -263,7 +326,7 @@ export default new Vuex.Store({
       formData.append("instructions", val.instructions);
 
       Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
-      Axios.post("http://localhost:4000/admin/new", formData)
+      Axios.post("http://localhost:4000/create/new", formData)
         .then(response => {
           let responseObject = {
             type: "success",
@@ -288,11 +351,88 @@ export default new Vuex.Store({
     },
     getAllEntries(context) {
       Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
-      Axios.get("http://localhost:4000/allApp")
+      Axios.get("http://localhost:4000/appl/allApp")
         .then(response => {
           let allEntries = response.data.data
 
           context.commit('allAppEntries', allEntries)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    composeQuestion(context, val) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.post("http://localhost:4000/tests/test", val)
+        .then(response => {
+          let responseObject = {
+            type: 'success',
+            message: response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    getAssessment(context) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.get("http://localhost:4000/tests/all-test")
+        .then(response => {
+          let questionObject = response.data.questionData
+
+          context.commit("getQuestions", questionObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    submitAns(context, val) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.post("http://localhost:4000/tests/calc-test", {
+          questionId: val.questions,
+          answer: val.answers
+        })
+        .then(response => {
+          let responseObject = {
+            type: 'success',
+            message: response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message
+          }
+          context.commit("getResponse", responseObject)
+        })
+    },
+    getScores(context) {
+      Axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.state.token
+      Axios.get("http://localhost:4000/tests/scores")
+        .then(response => {
+
+          let responseObject = {
+            type: "success",
+            message: response.data.message
+          }
+          let resultProfile = response.data.data
+
+          context.commit("getResponse", responseObject)
+          context.commit("scoreResult", resultProfile)
         })
         .catch(error => {
           let responseObject = {

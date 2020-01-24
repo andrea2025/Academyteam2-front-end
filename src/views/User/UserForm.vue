@@ -13,8 +13,14 @@
       <span class="alert__message">{{ apiResponse.message }}</span>
       <span class="alert__message">{{alert.message}}</span>
       <form @submit.prevent="sendForm" class="formBody" enctype="multipart/form-data">
-        <div class="file-upload">
-          <input type="file" id="file" ref="file" />
+        <div>
+          <input
+            type="file"
+            id="file"
+            ref="file"
+            class="file-upload"
+            v-on:change="handleFileUpload()"
+          />
           <label for="file" class="btn-1">
             <i>+</i>&nbsp;&nbsp;&nbsp; Upload CV
           </label>
@@ -70,7 +76,7 @@
 <script>
 // import logo from "@/components/logo.vue";
 import { mapGetters, mapActions } from "vuex";
-
+import $ from "jquery";
 export default {
   name: "UserForm",
   components: {
@@ -97,7 +103,8 @@ export default {
   },
   methods: {
     ...mapActions(["sendApp"]),
-    sendForm() {
+    handleFileUpload: function() {
+      var fileName = this.$refs.file.files[0].name;
       this.file = this.$refs.file.files[0];
       var allowedTypes = [
         "application/pdf",
@@ -108,21 +115,24 @@ export default {
         this.alert.message = "Please upload a file (pdf/doc)";
       } else if (!allowedTypes.includes(this.file.type)) {
         this.alert.message = "Wrong file type, Please upload a file";
-      } else if (this.file.size > 500000) {
-        this.alert.message = "Too large, max size allowed is 500kb";
+      } else if (this.file.size > 1000000) {
+        this.alert.message = "Too large, max size allowed is 1MB";
       } else {
-        this.sendApp({
-          file: this.file,
-          firstName: this.firstName,
-          lastName: this.lastName,
-          email: this.email,
-          address: this.address,
-          birthday: this.birthday,
-          school: this.school,
-          courseOfStudy: this.courseOfStudy,
-          cgpa: this.cgpa
-        });
+        $(".btn-1").text(fileName);
       }
+    },
+    sendForm() {
+      this.sendApp({
+        file: this.file,
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        address: this.address,
+        birthday: this.birthday,
+        school: this.school,
+        courseOfStudy: this.courseOfStudy,
+        cgpa: this.cgpa
+      });
     }
   },
   watch: {

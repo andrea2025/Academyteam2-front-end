@@ -13,9 +13,9 @@
         </div>
 
         <div class="head-details">
-          <h3>{{name}}</h3>
+          <h3>{{AdminDetails.name}}</h3>
           <em>
-            <p>{{email}}</p>
+            <p>{{AdminDetails.email}}</p>
           </em>
         </div>
       </div>
@@ -57,7 +57,7 @@
         </li>
 
         <li>
-          <router-link to="/result">
+          <router-link to="/adminresult">
             <img src="../assets/result.png" alt />
             <span>Results</span>
           </router-link>
@@ -68,16 +68,25 @@
 </template>
 <script>
 import $ from "jquery";
+import { mapGetters, mapActions } from "vuex";
+
 export default {
   name: "SideBar",
   data() {
     return {
-      name: "John Doe",
-      email: "j.doe@gmal.com"
+      name: "",
+      email: ""
     };
   },
+  computed: {
+    ...mapGetters(["AdminDetails"])
+  },
+  methods: {
+    ...mapActions(["getAdminProfile"])
+  },
+  async mounted() {
+    this.getAdminProfile();
 
-  mounted() {
     $(document).ready(function() {
       var readURL = function(input) {
         if (input.files && input.files[0]) {

@@ -4,7 +4,7 @@
       <sideBar class="side-nav lato" />
     </div>
 
-    <div class="mainContent">
+    <div class="mainContent" v-show="isLoggedIn">
       <div class="content-container">
         <div>
           <h1 class="mainContent_text">Take Assessment</h1>
@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <div class="content-container2">
+      <div class="content-container2 resp-part">
         <div>
           <svg
             width="60"
@@ -46,16 +46,60 @@
             </g>
           </svg>
         </div>
-
-        <div>
+        <!-- //api response -->
+        <p class="alert__message" v-if="apiResponse.message">{{ apiResponse.message }}</p>
+        <div v-else>
           <p class="pt-3 lato">
             We have 4 days left until the next assessment
             <br />Watch this space
           </p>
+          <button
+            type="submit"
+            class="btn-test lato"
+            v-if="!timer"
+            @click="beginTimer"
+          >Take Assessment</button>
         </div>
+      </div>
 
-        <div>
-          <button type="submit" class="lato" v-if="!timer" @click="startTimer">Take Assessment</button>
+      <div
+        class="questionArea image-group text-msg assessment-section"
+        v-for="(question, index) in getAssessments"
+        :key="index"
+        v-show="index === questionIndex"
+      >
+        <div class="question">
+          <p>Question {{index + 1}}</p>
+          <h5>
+            <i>{{question.question}}</i>
+          </h5>
+        </div>
+        <div class="questionOptions" v-for="(o, index) in question.options" :key="index">
+          <input type="radio" :id="index" :value="o" v-model="answer" />
+          <label :for="index">{{" " + o }}</label>
+          <br />
+        </div>
+        <div class="finishMessage" v-if="questionIndex === getAssessments.length">
+          <h3>Thank You for completing the Assessment. Click to Submit your answers</h3>
+        </div>
+        <div class="questionArea">
+          <div class="questionNav">
+            <div class>
+              <button class="btn-prev" v-if="questionIndex > 0" @click="prevQ">Prev</button>
+            </div>
+            <div class>
+              <button
+                class="btn-next"
+                v-if="questionIndex < getAssessments.length - 1"
+                @click="nextQ"
+              >Next</button>
+            </div>
+          </div>
+          <button
+            class="btn-submit"
+            v-show="questionIndex === getAssessments.length - 1"
+            @click="sendAnswer"
+          >Submit</button>
         </div>
       </div>
     </div>
@@ -63,7 +107,9 @@
 </template>
 <script>
 import $ from "jquery";
+import { mapGetters, mapActions } from "vuex";
 import sideBar from "../../components/sideBarUser";
+
 export default {
   name: "Assessment",
   components: {
@@ -71,32 +117,49 @@ export default {
   },
   data() {
     return {
-      name: "jane doe",
-      email: "jane@gmal.com",
-      timer: null,
+      timer: 0,
       totalTime: 4 * 60,
-      resetButton: false,
-      title: "Timer"
+      title: "Timer",
+      questionIndex: 0,
+      qArray: [],
+      answer: "",
+      userTest: {
+        questions: [],
+        answers: []
+      }
     };
   },
   methods: {
+    ...mapActions(["getAssessment", "submitAns"]),
+    beginTimer() {
+      this.startTimer();
+    },
+    sendAnswer() {
+      this.userTest.answers.push(this.answer || null);
+      this.stopTimer();
+      for (let q = 0; q < this.getAssessments.length; q++) {
+        this.userTest.questions.push(this.getAssessments[q]._id);
+      }
+      this.submitAns(this.userTest);
+      this.$router.push({ name: "Congratulations" });
+    },
+    prevQ() {
+      this.userTest.answers.pop(this.answer);
+      this.questionIndex--;
+    },
+    nextQ() {
+      this.userTest.answers.push(this.answer || null);
+      this.answer = "";
+      this.questionIndex++;
+    },
     startTimer: function() {
       this.timer = setInterval(() => this.countdown(), 1000);
-      this.resetButton = true;
       this.title = "Start test!!";
     },
     stopTimer: function() {
       clearInterval(this.timer);
       this.timer = null;
-      this.resetButton = true;
       this.title = "Time has elasped!!";
-    },
-    resetTimer: function() {
-      this.totalTime = 4 * 60;
-      clearInterval(this.timer);
-      this.timer = null;
-      this.resetButton = false;
-      // this.title = "Let the countdown begin!!"
     },
     padTime: function(time) {
       return (time < 10 ? "0" : "") + time;
@@ -106,12 +169,12 @@ export default {
         this.totalTime--;
       } else {
         this.totalTime = 0;
-        this.resetTimer();
       }
     }
   },
-  // ========================
   computed: {
+    ...mapGetters(["getAssessments", "apiResponse", "isLoggedIn"]),
+
     minutes: function() {
       const minutes = Math.floor(this.totalTime / 60);
       return this.padTime(minutes);
@@ -122,7 +185,9 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
+    this.getAssessment();
+
     $(document).ready(function() {
       var readURL = function(input) {
         if (input.files && input.files[0]) {
@@ -135,32 +200,33 @@ export default {
           reader.readAsDataURL(input.files[0]);
         }
       };
-
       $(".file-upload").on("change", function() {
         readURL(this);
       });
-
       $(".upload-button").on("click", function() {
         $(".file-upload").click();
       });
     });
 
     $(document).ready(function() {
-      $(".image-wrapper").hide();
       $(".resp-part").show();
-      $("text-msg").hide();
+      $(".text-msg").hide();
 
       $(".btn-test").on("click", function() {
         $(".resp-part").hide();
-        $("text-msg").show();
-        $(".image-wrapper")
-          .animate({
-            opacity: "1",
-            height: "toggle"
-          })
-          .show();
+        $(".text-msg").show();
       });
     });
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push({ name: "Congratulations" });
+          val.message = "";
+        }, 1000);
+      }
+    }
   }
 };
 </script>

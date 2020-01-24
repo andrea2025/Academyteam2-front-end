@@ -13,9 +13,9 @@
         </div>
 
         <div class="head-details">
-          <h3>{{name}}</h3>
+          <h3>{{userProfile.firstName ||" "}} {{userProfile.lastName||" "}}</h3>
           <em>
-            <p>{{email}}</p>
+            <p>{{userProfile.email || " "}}</p>
           </em>
         </div>
       </div>
@@ -34,8 +34,8 @@
           </router-link>
         </li>
 
-        <li class="logout-margin">
-          <router-link to="/userlogin">
+        <li class="logout-margin" @click="logout">
+          <router-link to>
             <img src="../assets/Layer.png" alt="logout icon" />
             <span>Log out</span>
           </router-link>
@@ -47,15 +47,28 @@
 
 <script>
 import $ from "jquery";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "sideBar",
   data() {
     return {
-      name: "jane doe",
-      email: "jane@gmal.com"
+      name: "",
+      email: ""
     };
   },
-  mounted() {
+  computed: {
+    ...mapGetters(["userProfile"])
+  },
+  methods: {
+    ...mapActions(["logoutUser", "getUserProfile"]),
+    logout() {
+      this.logoutUser();
+      this.$router.push("/");
+    }
+  },
+  async mounted() {
+    this.getUserProfile();
+
     $(document).ready(function() {
       var readURL = function(input) {
         if (input.files && input.files[0]) {
