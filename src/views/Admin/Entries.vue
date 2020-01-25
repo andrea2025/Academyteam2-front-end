@@ -27,13 +27,13 @@
               <th scope="col">Email</th>
               <th scope="col">
                 DOB-Age
-                <span class="fa fa-sort" name="age" @click="sort(birthday)"></span>
+                <span class="fa fa-sort" name="age" @click="sort('birthday')"></span>
               </th>
               <th scope="col">Address</th>
               <th scope="col">University</th>
               <th scope="col">
                 CGPA
-                <span class="fa fa-sort" name="cgpa" @click="sort(cgpa)"></span>
+                <span class="fa fa-sort" name="cgpa" @click="sort('cgpa')"></span>
               </th>
             </tr>
           </thead>
@@ -41,7 +41,7 @@
             <tr id="tr" v-for="entry in applications" :key="entry._id">
               <td>{{entry.firstName}} {{entry.lastName}}</td>
               <td>{{entry.email}}</td>
-              <td>{{entry.birthday}}</td>
+              <td>{{entry.birthday}} / {{calcAge(entry.birthday)}}</td>
               <td>{{entry.address}}</td>
               <td>{{entry.school}}</td>
               <td>{{entry.cgpa}}</td>
@@ -63,7 +63,11 @@ export default {
   },
   data() {
     return {
-      applications: []
+      applications: [],
+      sortState: {
+        birthday: "desc",
+        cgpa: "desc"
+      }
     };
   },
   computed: {
@@ -71,16 +75,30 @@ export default {
   },
   methods: {
     ...mapActions(["getAllEntries"]),
-    sortData() {
+    sort(sortKey) {
+      this.sortState[sortKey] =
+        this.sortState[sortKey] === "asc" ? "desc" : "asc";
+      let isAsc = this.sortState[sortKey] === "asc";
+
       this.applications = this.allAppEntries.sort((a, b) => {
-        return new Date(a.birthday).getTime() - new Date(b.birthday).getTime();
+        if (sortKey === "birthday") {
+          let d1 = new Date(a.birthday).getTime();
+          let d2 = new Date(b.birthday).getTime();
+
+          return isAsc ? d1 - d2 : d2 - d1;
+        } else {
+          return isAsc ? a.cgpa - b.cgpa : b.cgpa - a.cgpa;
+        }
       });
-      // let arr = this.allAppEntries || [];
-      // console.log("Array: ", arr);
+    },
+    calcAge(bday) {
+      let a = new Date(bday).getTime();
+      let age = Math.floor((Date.now() - a) / (60 * 60 * 60 * 24 * 365));
+      return age;
     }
   },
-  async mounted() {
-    await this.getAllEntries();
+  mounted() {
+    this.getAllEntries();
     this.applications = this.allAppEntries;
   }
 };
@@ -123,10 +141,10 @@ em {
   margin: 4em auto 0;
   width: 100%;
   min-width: 1000px;
-  padding-left: 7rem;
+  padding-left: 4rem;
   /* position: absolute;
   z-index: -1; */
-  padding-right: 3em;
+  padding-right: 1em;
 }
 select {
   font-weight: 300;
@@ -137,6 +155,9 @@ thead {
 }
 td {
   margin-top: 1em;
+}
+.fa-sort:hover {
+  cursor: pointer;
 }
 .special-select {
   background: white;

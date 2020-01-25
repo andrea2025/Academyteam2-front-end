@@ -37,12 +37,12 @@
               </th>
               <th scope="col">
                 Test Scores
-                <select name="scores"></select>
+                <span class="fa fa-sort" name="scores" @click="sort('score')"></span>
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr id="tr" v-for="(result, index) in getResult" :key="index">
+            <tr id="tr" v-for="(result, index) in results" :key="index">
               <td>{{result.userProfile.firstName}} {{result.userProfile.lastName}}</td>
               <td>{{result.userProfile.email}}</td>
               <td>{{result.userProfile.birthday}}</td>
@@ -66,14 +66,40 @@ export default {
   components: {
     sideBar
   },
+  data() {
+    return {
+      results: [],
+      sortState: {
+        birthday: "desc",
+        score: "desc"
+      }
+    };
+  },
   computed: {
     ...mapGetters(["getResult"])
   },
-  async mounted() {
-    await this.getScores();
+  mounted() {
+    this.getScores();
+    this.results = this.getResult;
   },
   methods: {
-    ...mapActions(["getScores"])
+    ...mapActions(["getScores"]),
+    sort(sortKey) {
+      this.sortState[sortKey] =
+        this.sortState[sortKey] === "asc" ? "desc" : "asc";
+      let isAsc = this.sortState[sortKey] === "asc";
+
+      this.results = this.getResult.sort((a, b) => {
+        if (sortKey === "birthday") {
+          let d1 = new Date(a.birthday).getTime();
+          let d2 = new Date(b.birthday).getTime();
+
+          return isAsc ? d1 - d2 : d2 - d1;
+        } else {
+          return isAsc ? a.score - b.score : b.score - a.score;
+        }
+      });
+    }
   }
 };
 </script>

@@ -9,7 +9,7 @@
           <div class="upload-button">
             <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
           </div>
-          <input class="file-upload" type="file" accept="image/*" />
+          <input class="file-upload" type="file" ref="file" accept="image/*" />
         </div>
 
         <div class="head-details">
