@@ -33,41 +33,41 @@ const routes = [{
         path: "/userform",
         name: "UserForm",
         component: UserForm,
-        meta: {
-            requiresGuest: true
-        }
+        // meta: {
+        //     requiresGuest: true
+        // }
     },
     {
         path: "/dashboard",
         name: "DashBoard",
         component: DashBoard,
-        meta: {
-            requiresGuest: true
-        }
+        // meta: {
+        //     requiresGuest: true
+        // }
     },
     {
         path: "/assessment",
         name: "Assessment",
         component: Assessment,
-        meta: {
-            requiresGuest: true
-        }
+        // meta: {
+        //     requiresGuest: true
+        // }
     },
     {
         path: "/congratulations",
         name: "Congratulations",
         component: Congratulations,
-        meta: {
-            requiresGuest: true
-        }
+        // meta: {
+        //     requiresGuest: true
+        // }
     },
     {
         path: "/admindashboard",
         name: "AdminDashboard",
         component: AdminDashboard,
-        meta: {
-            requiresAdmin: true
-        }
+        // meta: {
+        //     requiresAdmin: true
+        // }
     },
     {
         path: "/adminlogin",
@@ -79,41 +79,41 @@ const routes = [{
         path: "/application",
         name: "Application",
         component: Application,
-        meta: {
-            requiresAdmin: true
-        }
+        // meta: {
+        //     requiresAdmin: true
+        // }
     },
     {
         path: "/compose",
         name: "Compose",
         component: Compose,
-        meta: {
-            requiresAdmin: true
-        }
+        // meta: {
+        //     requiresAdmin: true
+        // }
     },
     {
         path: "/entries",
         name: "Entries",
         component: Entries,
-        meta: {
-            requiresAdmin: true
-        },
+        // meta: {
+        //     requiresAdmin: true
+        // },
     },
     {
         path: "/adminresult",
         name: "Result",
         component: Result,
-        meta: {
-            requiresAdmin: true
-        },
+        // meta: {
+        //     requiresAdmin: true
+        // },
     },
     {
         path: "/history",
         name: "History",
         component: History,
-        meta: {
-            requiresAdmin: true
-        },
+        // meta: {
+        //     requiresAdmin: true
+        // },
     },
     {
 
@@ -123,12 +123,13 @@ const routes = [{
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
         component: () =>
-            import( /* webpackChunkName: "about" */ '../views/About.vue')
+            import ( /* webpackChunkName: "about" */ '../views/About.vue')
     },
     {
         path: '*',
         name: '404',
-        component: () => import('../views/Error.vue')
+        component: () =>
+            import ('../views/Error.vue')
     },
 ]
 

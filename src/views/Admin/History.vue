@@ -6,7 +6,10 @@
 
     <div class="div-form">
       <!-- Page title -->
-      <h1>Assessment History</h1>
+      <div>
+        <img src="../../assets/menubar.svg" alt />
+        <h1>Assessment History</h1>
+      </div>
 
       <div class="box-shadow">
         <table class="table table-borderless">
@@ -14,8 +17,8 @@
             <tr>
               <th scope="col">Batch</th>
               <th scope="col">Date Composed</th>
-              <th scope="col">No of Questions</th>
-              <th scope="col">Time Allocated</th>
+              <th scope="col" class="bd-tr">No of Questions</th>
+              <th scope="col" class="bd-tr">Time Allocated</th>
               <th scope="col">Status</th>
             </tr>
           </thead>
@@ -23,15 +26,15 @@
             <tr id="tr">
               <td>Batch 1</td>
               <td>12/07/94</td>
-              <td>30</td>
-              <td>30mins</td>
+              <td class="bd-tr">30</td>
+              <td class="bd-tr">30mins</td>
               <td>Taken</td>
             </tr>
             <tr id="tr">
               <td>Batch 1</td>
               <td>12/07/94</td>
-              <td>30</td>
-              <td>30mins</td>
+              <td class="bd-tr">30</td>
+              <td class="bd-tr">30mins</td>
               <td>Taken</td>
             </tr>
           </tbody>
@@ -46,7 +49,7 @@
 
         <div class="space-around">
           <div>
-            <div>
+            <div class="img-upload">
               <input type="file" id="file" ref="file" />
               <label for="file" class="btn-1">
                 <b>+</b>&nbsp;&nbsp;&nbsp; Choose file
@@ -55,7 +58,7 @@
           </div>
 
           <!-- Timer for each question -->
-          <div class="form-group">
+          <div class="form-group time-picker">
             <label for="number">Set Time</label>
             <div
               v-if="this.number > 0"
@@ -141,23 +144,25 @@ export default {
 }
 
 .side-nav {
-  height: 100%;
+  /* height: 100%; */
   padding: 0 0 2em 0;
 }
 
 .div-form {
   margin: 4em auto 0;
   width: 100%;
-  min-width: 1000px;
-  padding: 0 3em 3em;
-  padding-left: 5rem;
-  /* position: absolute;
-  z-index: -1; */
+  padding: 0 3em 3em 3em;
 }
+
+img {
+  display: none;
+}
+
 [type="file"] {
   height: 0;
   overflow: hidden;
   width: 0;
+  border: none;
 }
 
 [type="file"] + label {
@@ -271,5 +276,124 @@ select {
 td,
 th {
   text-align: center;
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+  .container {
+    display: flex;
+    padding: 0;
+    min-height: 100vh;
+    background: red;
+  }
+
+  .side-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 40%;
+  }
+
+  .side-nav {
+    height: 100%;
+    padding: 0 0 2em 0;
+  }
+
+  img {
+    display: block;
+    float: right;
+    padding-top: 0.3em;
+  }
+  .div-form {
+    margin: 0;
+    padding: 0.5em;
+    min-width: 50%;
+  }
+
+  .bd-tr {
+    display: none;
+  }
+
+  .box-shadow {
+    padding: 0;
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+    border-radius: 8px;
+  }
+
+  #tr {
+    border-left: 5px solid transparent;
+  }
+  #tr:hover {
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+    border-left: 5px solid #31d283;
+    border-radius: 8px;
+  }
+
+  table,
+  p {
+    font-size: 11px;
+  }
+
+  .flex {
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .flex > div {
+    width: 100%;
+  }
+
+  .img-upload {
+    /* display: flex; */
+    flex-wrap: wrap;
+    margin-bottom: 0.5em;
+    width: 100%;
+  }
+
+  [type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+    border: none;
+  }
+
+  [type="file"] + label {
+    border-radius: 5px;
+    color: #2b3c4e;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    font-family: Avenir;
+    font-size: 10px;
+    padding: 1em;
+    width: 100%;
+  }
+
+  label {
+    color: #2b3c4e;
+    font-size: 11px;
+  }
+
+  .form-group {
+    width: 100%;
+  }
+
+  .space-around {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .time-picker {
+    display: none;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  #edit-btn {
+    display: none;
+  }
 }
 </style>

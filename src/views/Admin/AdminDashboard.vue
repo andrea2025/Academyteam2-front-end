@@ -6,7 +6,10 @@
 
     <div class="div-form">
       <!-- Page title -->
-      <h1>Dashboard</h1>
+      <div>
+        <img src="../../assets/menubar.svg" alt />
+        <h1>Dashboard</h1>
+      </div>
 
       <div>
         <div class="flex">
@@ -15,7 +18,7 @@
             <p class="sans">Current Applications</p>
             <h1 class="lato">{{allAppEntries.length}}</h1>
             <div class="borderB"></div>
-            <p class="px">Academy {{adminApplications[0].batch}}</p>
+            <!-- <p class="px">Academy {{adminApplications[0].batch}}</p> -->
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
@@ -26,7 +29,7 @@
           </div>
           <div class="form-group">
             <!-- Text inside is a placeholder -->
-            <p class="sans">Academys</p>
+            <p class="sans academy-status">Academys</p>
             <h1 class="lato">{{adminApplications.length}}</h1>
             <div class="borderP"></div>
             <p class="px">So far</p>
@@ -37,7 +40,7 @@
           <div class="tab">
             <div>
               <h6>History</h6>
-              <p class="px">Last Update 18:24, 22/02/19</p>
+              <p class="px px1">Last Update 18:24, 22/02/19</p>
             </div>
             <table>
               <tbody>
@@ -49,13 +52,13 @@
               </tbody>
             </table>
           </div>
-          <div class="form-group faint-border">
+          <div class="faint-border">
             <div class="pad-left">
               <h6>Create Assessment</h6>
             </div>
             <div class="content">
               <div>
-                <p>Create test question for an incoming academy students</p>
+                <p class="px2">Create test question for an incoming academy students</p>
               </div>
               <div>
                 <router-link to="Compose">
@@ -78,13 +81,30 @@ export default {
   components: {
     SideBar
   },
+  data() {
+    return {};
+  },
   computed: {
-    ...mapGetters(["adminApplications", "allAppEntries"])
+    ...mapGetters(["adminApplications", "allAppEntries"]),
+    screenSize() {
+      let x = window.matchMedia("(max-width: 768px)");
+      let menuBar = document.querySelector("#menu-icon");
+
+      if (x) {
+        // If media query matches
+        return (menuBar.style.display = "block");
+      } else {
+        return (menuBar.style.display = "none");
+      }
+    }
   },
   mounted() {
     this.fetchApp();
   },
   methods: {
+    screen: function() {
+      window.matchMedia("(max-width: 768px)");
+    },
     ...mapActions(["getCreatedApp", "getAllEntries"]),
     fetchApp() {
       this.getCreatedApp();
@@ -94,132 +114,405 @@ export default {
 };
 </script>
 <style scoped>
-.container {
-  display: flex;
-  padding: 0;
-  min-height: 100vh;
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  .container {
+    display: flex;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .side-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 50%;
+  }
+
+  .side-nav {
+    height: 100%;
+    padding: 0 0 2em 0;
+  }
+
+  img {
+    display: block;
+    float: right;
+    padding-top: 0.3em;
+  }
+
+  .div-form {
+    margin: 0;
+    padding: 0.5em;
+    width: 100%;
+  }
+
+  .lato {
+    font-weight: 600;
+    font-size: 20px;
+  }
+
+  .sans {
+    color: #4f4f4f;
+    font-size: 11px;
+  }
+
+  .borderB,
+  .borderG,
+  .borderP {
+    width: 1em;
+  }
+
+  .borderB {
+    border-bottom: 4px solid #006df0;
+  }
+
+  .borderG {
+    border-bottom: 4px solid #00f026;
+  }
+  .borderP {
+    border-bottom: 4px solid #f09000;
+  }
+
+  .px {
+    color: #4f4f4f;
+    margin-top: 0.5rem;
+    font-size: 10px;
+  }
+
+  .flex {
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .flex > div {
+    width: auto;
+  }
+
+  .form-group {
+    margin: 0;
+  }
+
+  .px2 {
+    color: #4f4f4f;
+    margin-top: 0.5rem;
+    font-size: 11px;
+  }
+  .flex2 {
+    display: block;
+  }
+
+  h6 {
+    font-size: 11px;
+  }
+
+  button {
+    background: #b1b1b1;
+    color: white;
+    font-size: 11px;
+  }
+
+  .btn:hover {
+    color: white;
+    text-decoration: none;
+  }
 }
 
-.side-bar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-height: 100%;
-  width: 22.2%;
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .container {
+    display: flex;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .side-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 22.2%;
+  }
+
+  .side-nav {
+    height: 100%;
+    padding: 0 0 2em 0;
+  }
+
+  img {
+    display: none;
+  }
+
+  .div-form {
+    margin: 4em auto 0;
+    width: 80%;
+    padding: 0 2em 3em 2em;
+  }
+
+  .borderB,
+  .borderG,
+  .borderP {
+    width: 3em;
+  }
+
+  .borderB {
+    border-bottom: 4px solid #006df0;
+  }
+
+  .borderG {
+    border-bottom: 4px solid #00f026;
+  }
+  .borderP {
+    border-bottom: 4px solid #f09000;
+  }
+
+  h1 {
+    font-weight: 300;
+    font-size: 49px;
+    line-height: 52px;
+    letter-spacing: -0.02em;
+    color: #2b3c4e;
+  }
+
+  .lato {
+    font-family: Lato;
+    /* font-size: 30px; */
+  }
+
+  .sans {
+    color: #4f4f4f;
+    font-size: 15px;
+  }
+
+  .px {
+    color: #4f4f4f;
+    margin-top: 0.5rem;
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .px1 {
+    color: #4f4f4f;
+    margin-top: 0.5rem;
+    font-size: 14px;
+  }
+
+  .pad-left {
+    padding-left: 1em;
+  }
+
+  h6 {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.02em;
+    color: #2b3c4e;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+  }
+
+  button {
+    background: #b1b1b1;
+    color: white;
+  }
+
+  .btn:hover {
+    color: white;
+    text-decoration: none;
+  }
+
+  .flex > div {
+    width: calc(50% - 4em);
+  }
+
+  .flex2 {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .flex2 > div {
+    margin: 1em 0;
+  }
+
+  .faint-border {
+    border: 2px solid #ececf9;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 1em;
+  }
+
+  .tab {
+    height: fit-content;
+    padding-top: 1em;
+  }
+
+  td {
+    padding: 1em 2em;
+  }
+
+  #tr:hover {
+    border-radius: 8px;
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  }
+
+  .content {
+    text-align: center;
+    width: 90%;
+    margin: 3em auto;
+  }
 }
 
-.side-nav {
-  height: 100%;
-  padding: 0 0 2em 0;
-}
+@media only screen and (min-width: 992px) {
+  /* For Desktop and larger screens*/
+  .container {
+    display: flex;
+    padding: 0;
+    min-height: 100vh;
+  }
 
-.div-form {
-  margin: 4em auto 0;
-  /* width: 80%; */
-  padding-left: 20rem;
-}
-.borderB {
-  /* padding-top: 0.7rem; */
-  width: 140px;
-  border-bottom: 4px solid #006df0;
-}
-.borderG {
-  width: 140px;
-  border-bottom: 4px solid #00f026;
-}
-.borderP {
-  width: 140px;
-  border-bottom: 4px solid #f09000;
-}
-h1 {
-  font-weight: 300;
-  font-size: 47px;
-  line-height: 52px;
-  letter-spacing: -0.02em;
-  color: #2b3c4e;
-}
-.flex h1 {
-  font-size: 49px;
-}
-.lato {
-  font-family: Lato;
-}
+  .side-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 250px;
+  }
 
-.sans {
-  color: #4f4f4f;
-}
+  .side-nav {
+    height: 100%;
+    padding: 0 0 2em 0;
+  }
 
-.px {
-  color: #4f4f4f;
-  margin-top: 0.5rem;
-  font-size: 14px;
-}
+  img {
+    display: none;
+  }
 
-.pad-left {
-  padding-left: 1em;
-  /* margin-top: 0; */
-}
+  .div-form {
+    margin: 4em auto 0;
+    width: 80%;
+    padding: 0 2em 3em 2em;
+  }
+  .borderB {
+    /* padding-top: 0.7rem; */
+    width: 140px;
+    border-bottom: 4px solid #006df0;
+  }
+  .borderG {
+    width: 140px;
+    border-bottom: 4px solid #00f026;
+  }
+  .borderP {
+    width: 140px;
+    border-bottom: 4px solid #f09000;
+  }
+  h1 {
+    font-weight: 300;
+    font-size: 49px;
+    line-height: 52px;
+    letter-spacing: -0.02em;
+    color: #2b3c4e;
+  }
 
-h6 {
-  font-family: Lato;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: -0.02em;
-  color: #2b3c4e;
-}
+  .lato {
+    font-family: Lato;
+  }
 
-.flex {
-  display: flex;
-  margin-top: 2rem;
-  justify-content: space-between;
-  align-items: center;
-  margin-top: 4rem;
-}
+  .sans {
+    color: #4f4f4f;
+    font-size: 14px;
+  }
 
-button {
-  background: #b1b1b1;
-  color: white;
-}
+  .px {
+    color: #4f4f4f;
+    margin-top: 0.5rem;
+    font-size: 12px;
+    line-height: 16px;
+  }
 
-.flex > div {
-  width: calc(50% - 4em);
-}
+  .px2 {
+    font-size: 16px;
+    line-height: 22px;
+  }
 
-.flex2 {
-  display: flex;
-  justify-content: space-between;
-}
+  .pad-left {
+    padding-left: 1em;
+  }
 
-.flex2 > div {
-  margin: 1em 0;
-}
+  h6 {
+    font-family: Lato;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: -0.02em;
+    color: #2b3c4e;
+  }
 
-.faint-border {
-  border: 2px solid #ececf9;
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding: 1em;
-}
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4rem;
+  }
 
-.tab {
-  height: fit-content;
-  padding-top: 1em;
-}
+  button {
+    background: #b1b1b1;
+    color: white;
+  }
 
-td {
-  padding: 1em 2em;
-}
+  .flex > div {
+    width: calc(50% - 4em);
+  }
 
-#tr:hover {
-  border-radius: 8px;
-  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
-}
+  .flex2 {
+    display: flex;
+    justify-content: space-between;
+  }
 
-.content {
-  text-align: center;
-  width: 90%;
-  margin: 3em auto;
+  .flex2 > div {
+    margin: 1em 0;
+  }
+
+  .faint-border {
+    border: 2px solid #ececf9;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 1em;
+  }
+
+  .tab {
+    height: fit-content;
+    padding-top: 1em;
+  }
+
+  td {
+    padding: 1em 2em;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  #tr:hover {
+    border-radius: 8px;
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  }
+
+  .content {
+    text-align: center;
+    width: 90%;
+    margin: 3em auto;
+  }
+
+  .btn:hover {
+    color: white;
+    text-decoration: none;
+  }
 }
 </style>

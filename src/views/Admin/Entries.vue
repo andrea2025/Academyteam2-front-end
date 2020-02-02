@@ -6,15 +6,18 @@
 
     <div class="div-form">
       <!-- Page title -->
-      <h1>
-        Entries -
-        <select name="batch" class="special-select">
-          <option value="0" disabled></option>
-          <option value="1">Batch 1</option>
-          <option value="2">Batch 2</option>
-          <option value="3">Batch 3</option>
-        </select>
-      </h1>
+      <div>
+        <img src="../../assets/menubar.svg" alt />
+        <h1>
+          Entries -
+          <select name="batch" class="special-select">
+            <option value="0" disabled></option>
+            <option value="1">Batch 1</option>
+            <option value="2">Batch 2</option>
+            <option value="3">Batch 3</option>
+          </select>
+        </h1>
+      </div>
       <em>
         <p>Comprises of all that applied for batch 2</p>
       </em>
@@ -25,12 +28,12 @@
             <tr>
               <th scope="col">Name</th>
               <th scope="col">Email</th>
-              <th scope="col">
+              <th scope="col" class="bd-tr">
                 DOB-Age
                 <span class="fa fa-sort" name="age" @click="sort('birthday')"></span>
               </th>
-              <th scope="col">Address</th>
-              <th scope="col">University</th>
+              <th scope="col" class="bd-tr">Address</th>
+              <th scope="col" class="bd-tr">University</th>
               <th scope="col">
                 CGPA
                 <span class="fa fa-sort" name="cgpa" @click="sort('cgpa')"></span>
@@ -42,8 +45,8 @@
               <td>{{entry.firstName}} {{entry.lastName}}</td>
               <td>{{entry.email}}</td>
               <td>{{entry.birthday}} / {{calcAge(entry.birthday)}}</td>
-              <td>{{entry.address}}</td>
-              <td>{{entry.school}}</td>
+              <td class="bd-tr">{{entry.address}}</td>
+              <td class="bd-tr">{{entry.school}}</td>
               <td>{{entry.cgpa}}</td>
             </tr>
           </tbody>
@@ -119,8 +122,12 @@ export default {
 }
 
 .side-nav {
-  height: 100%;
+  /* height: 100%; */
   padding: 0 0 2em 0;
+}
+
+img {
+  display: none;
 }
 
 h1 {
@@ -140,11 +147,7 @@ em {
 .div-form {
   margin: 4em auto 0;
   width: 100%;
-  min-width: 1000px;
-  padding-left: 4rem;
-  /* position: absolute;
-  z-index: -1; */
-  padding-right: 1em;
+  padding: 0 3em 3em 3em;
 }
 select {
   font-weight: 300;
@@ -176,5 +179,53 @@ td {
 td,
 th {
   text-align: center;
+}
+
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  .container {
+    display: flex;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .side-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 40%;
+  }
+
+  .side-nav {
+    height: 100%;
+    padding: 0 0 2em 0;
+  }
+
+  img {
+    display: block;
+    float: right;
+    padding-top: 0.3em;
+  }
+  .div-form {
+    margin: 0;
+    padding: 0.5em;
+    min-width: 50%;
+  }
+
+  table,
+  p {
+    font-size: 11px;
+  }
+
+  .box-shadow {
+    padding: 0;
+    box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+    border-radius: 8px;
+  }
+
+  .bd-tr {
+    display: none;
+  }
 }
 </style>

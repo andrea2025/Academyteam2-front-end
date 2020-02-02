@@ -5,13 +5,16 @@
     </div>
     <form class="div-form" @submit.prevent="createAppl" enctype="multipart/form-data">
       <!-- Page title -->
-      <h1>Create Application</h1>
+      <div>
+        <img src="../../assets/menubar.svg" alt />
+        <h1>Create Application</h1>
+      </div>
 
       <p class="response" :class="[apiResponse ? apiResponse.type: '']">{{ apiResponse.message }}</p>
       <p class="alert__message">{{ alert.message }}</p>
       <div>
         <div class="flex">
-          <div>
+          <div class="img-upload">
             <input
               type="file"
               id="file"
@@ -124,6 +127,7 @@ export default {
   height: 0;
   overflow: hidden;
   width: 0;
+  border: none;
 }
 
 [type="file"] + label {
@@ -173,7 +177,7 @@ label {
 }
 
 .side-bar {
-  /* position: absolute; */
+  position: relative;
   top: 0;
   left: 0;
   min-height: 100%;
@@ -185,14 +189,14 @@ label {
   padding: 0 0 2em 0;
 }
 
+img {
+  display: none;
+}
+
 .div-form {
   margin: 4em auto 0;
   width: 100%;
-  min-width: 900px;
-  padding: 0 3em 3em;
-  padding-left: 7rem;
-  /* position: absolute;
-  z-index: -1; */
+  padding: 0 3em 0 3em;
 }
 .alert__message {
   color: red;
@@ -210,9 +214,14 @@ h1 {
   margin-bottom: 2em;
 }
 
+.form-group {
+  padding-top: 0;
+  margin-bottom: 2em;
+}
+
 #btn {
   text-align: center;
-  margin-top: 2em;
+  margin: 2em 0;
 }
 
 .btn {
@@ -234,6 +243,94 @@ button {
   width: calc(50% - 4em);
 }
 
-@media screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  .container {
+    display: flex;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .side-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 40%;
+  }
+
+  .side-nav {
+    height: 100%;
+    padding: 0 0 2em 0;
+  }
+
+  img {
+    display: block;
+    float: right;
+    padding-top: 0.3em;
+  }
+
+  .div-form {
+    margin: 0;
+    padding: 0.5em;
+    min-width: 50%;
+  }
+
+  .flex {
+    flex-wrap: wrap;
+    width: 100%;
+    /* margin-bottom: 0; */
+    justify-content: space-between;
+  }
+
+  .flex > div {
+    width: 100%;
+  }
+
+  .img-upload {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1.5em;
+  }
+
+  [type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+    border: none;
+  }
+
+  [type="file"] + label {
+    border-radius: 5px;
+    color: #2b3c4e;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    font-family: Avenir;
+    font-size: 10px;
+    padding: 1em;
+    width: 100%;
+  }
+
+  label {
+    color: #2b3c4e;
+    font-size: 11px;
+  }
+
+  #btn {
+    text-align: center;
+    margin: 2em 0;
+  }
+
+  .btn {
+    width: 100%;
+    color: white;
+  }
+
+  button {
+    background: #2b3c4e;
+    color: white;
+    font-size: 11px;
+  }
 }
 </style>
