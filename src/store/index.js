@@ -270,6 +270,13 @@ export default new Vuex.Store({
       context.commit('clearUserID')
       context.commit('destroyToken')
     },
+    logoutAdmin(context) {
+      localStorage.removeItem("adminID")
+      localStorage.removeItem("token")
+
+      context.commit('clearAdminID')
+      context.commit('destroyToken')
+    },
     sendApp(context, val) {
       let formData = new FormData();
 

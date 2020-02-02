@@ -66,7 +66,7 @@ export default {
     ...mapGetters(["adminLog"])
   },
   methods: {
-    ...mapActions(["loginAdmin"]),
+    ...mapActions(["loginAdmin", "logoutAdmin"]),
     adminRole() {
       this.loginAdmin(this.adminLogin);
     }

@@ -211,12 +211,15 @@ button {
 td {
   padding: 1em 2em;
 }
-
-#tr:hover {
+#tr {
+  border-left: 5px solid transparent;
   border-radius: 8px;
-  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
 }
-
+#tr:hover {
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-left: 5px solid #31d283;
+  border-radius: 8px;
+}
 .content {
   text-align: center;
   width: 90%;

@@ -93,7 +93,7 @@ export default {
     },
     calcAge(bday) {
       let a = new Date(bday).getTime();
-      let age = Math.floor((Date.now() - a) / (60 * 60 * 60 * 24 * 365));
+      let age = Math.floor((Date.now() - a) / (1000 * 60 * 60 * 24 * 365));
       return age;
     }
   },

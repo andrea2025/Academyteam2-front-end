@@ -70,15 +70,15 @@ export default {
       day: ""
     };
   },
-  mounted() {
-    this.getUserProfile();
+  async mounted() {
+    await this.getUserProfile();
 
-    var created = this.userProfile.created.slice(0, 10);
-    this.date = created.replace(/-/g, ".");
+    var created = await this.userProfile.created.slice(0, 10);
+    this.date = await created.replace(/-/g, ".");
 
-    var days = new Date(this.userProfile.created);
-    var daySince = Date.now() - days.getTime();
-    this.day = Math.floor(daySince / (24 * 60 * 60 * 1000));
+    var days = await new Date(this.userProfile.created);
+    var daySince = await Date.now() - days.getTime();
+    this.day = await Math.floor(daySince / (24 * 60 * 60 * 1000));
 
     $(document).ready(function() {
       var readURL = function(input) {
