@@ -6,6 +6,8 @@ import UserForm from '../views/User/UserForm.vue'
 import DashBoard from '../views/User/DashBoard.vue'
 import Assessment from '../views/User/Assessment.vue'
 import Congratulations from '../views/User/Congratulations.vue'
+import forgotPassword from '../views/User/forgotPassword.vue'
+import Reset from '../views/User/Reset.vue'
 
 
 import AdminDashboard from '../views/Admin/AdminDashboard.vue'
@@ -57,6 +59,22 @@ const routes = [{
         path: "/congratulations",
         name: "Congratulations",
         component: Congratulations,
+        meta: {
+            requiresGuest: true
+        }
+    },
+    {
+        path: "/forgot",
+        name: "forgot",
+        component:forgotPassword,
+        meta: {
+            requiresGuest: true
+        }
+    },
+    {
+        path: "/reset",
+        name: "reset",
+        component: Reset,
         meta: {
             requiresGuest: true
         }

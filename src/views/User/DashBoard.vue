@@ -39,7 +39,7 @@
           <div class="content">
             <div>
               <p>
-                We have 0 days left until the next assessment
+                We have {{day}} days left until the next assessment
                 <br />Watch this space
               </p>
             </div>
