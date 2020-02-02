@@ -4,27 +4,27 @@
       <SideBar class="side-nav" />
     </div>
 
-    <div class="div-form">
+    <div class="div-form ml-5">
       <!-- Page title -->
       <h1>Dashboard</h1>
 
       <div>
-        <div class="flex">
+        <div class="d-flex mt-5">
           <div class="form-group">
             <!-- Text inside is a placeholder -->
             <p class="sans">Current Applications</p>
             <h1 class="lato">{{allAppEntries.length}}</h1>
             <div class="borderB"></div>
-            <p class="px">Academy {{adminApplications[0].batch}}</p>
+            <!-- <p class="px">Academy {{adminApplications[0].batch}}</p> -->
           </div>
-          <div class="form-group">
+          <div class="form-group app2">
             <!-- Text inside is a placeholder -->
             <p class="sans">Total Applications</p>
             <h1 class="lato">{{allAppEntries.length}}</h1>
             <div class="borderG"></div>
             <p class="px">All entries so far</p>
           </div>
-          <div class="form-group">
+          <div class="form-group app3">
             <!-- Text inside is a placeholder -->
             <p class="sans">Academys</p>
             <h1 class="lato">{{adminApplications.length}}</h1>
@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <div class="flex2">
+        <div class="d-flex mt-5">
           <div class="tab">
             <div>
               <h6>History</h6>
@@ -95,9 +95,8 @@ export default {
 </script>
 <style scoped>
 .container {
-  display: flex;
   padding: 0;
-  min-height: 100vh;
+  
 }
 
 .side-bar {
@@ -138,6 +137,9 @@ h1 {
   letter-spacing: -0.02em;
   color: #2b3c4e;
 }
+.app2,.app3{
+  margin-left: 8em;
+}
 .flex h1 {
   font-size: 49px;
 }
@@ -170,13 +172,13 @@ h6 {
   color: #2b3c4e;
 }
 
-.flex {
+/* .flex {
   display: flex;
   margin-top: 2rem;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 4rem;
-}
+} */
 
 button {
   background: #b1b1b1;
@@ -186,11 +188,10 @@ button {
 .flex > div {
   width: calc(50% - 4em);
 }
-
-.flex2 {
+ .flex2 {
   display: flex;
   justify-content: space-between;
-}
+} 
 
 .flex2 > div {
   margin: 1em 0;
@@ -200,23 +201,30 @@ button {
   border: 2px solid #ececf9;
   box-sizing: border-box;
   border-radius: 4px;
-  padding: 1em;
+  padding: 2em;
+  margin-left: 35em;
+  
+  
 }
 
-.tab {
+/* .tab { 
   height: fit-content;
   padding-top: 1em;
-}
+  margin-left: 5em;
+} */
 
 td {
   padding: 1em 2em;
 }
-
-#tr:hover {
+#tr {
+  border-left: 5px solid transparent;
   border-radius: 8px;
-  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
 }
-
+#tr:hover {
+  box-shadow: 8px 18px 20px rgba(79, 79, 79, 0.3);
+  border-left: 5px solid #31d283;
+  border-radius: 8px;
+}
 .content {
   text-align: center;
   width: 90%;

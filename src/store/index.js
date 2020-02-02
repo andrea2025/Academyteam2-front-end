@@ -33,6 +33,13 @@ export default new Vuex.Store({
     adminID: localStorage.getItem("adminID") || null,
     appEntries: [],
     adminBatch: [],
+    forgotPassword:{
+      email:''
+    },
+  Reset:{
+    password:'',
+    confirm:''
+  },
     batchInfo: {
       id: '',
       date: '',
@@ -63,7 +70,9 @@ export default new Vuex.Store({
     takenTest: state => state.testStatus,
     allAppEntries: state => state.appEntries,
     getAssessments: state => state.questionArray,
-    getResult: state => state.resultProfile
+    getResult: state => state.resultProfile,
+    getPassword: state => state.forgotPassword,
+    getReset:state => state.Reset
   },
   mutations: {
     retrieveToken(state, token) {
@@ -149,6 +158,17 @@ export default new Vuex.Store({
     },
     scoreResult(state, payload) {
       state.resultProfile = payload
+    },
+    password(state,payload){
+      state.forgotPassword={
+        email:payload.email
+      }
+    },
+    reset (state,payload){
+      state.Reset = {
+        password:payload.password,
+        confirmPassword:payload.confirmPassword
+      }
     }
   },
   actions: {
@@ -441,7 +461,60 @@ export default new Vuex.Store({
           }
           context.commit("getResponse", responseObject)
         })
-    }
+    },
+    passwordGet(context, val) {
+      Axios.post("http://localhost:4000/forgot", val)
+      console.log(val)
+        .then(response => {
+          let responseObject = {
+            type: "success",
+            message: response.data.message
+          }
+          context.commit('getResponse', responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message 
+          }
+          context.commit('getResponse', responseObject);
+        })
+    },
+    resetPassword(context){
+      Axios.get("http://localhost:4000/set/:token")
+      .then(response => {
+        let responseObject = {
+          type: "success",
+          message: response.data.message
+        }
+        context.commit('getResponse', responseObject)
+      })
+      .catch(error => {
+        let responseObject = {
+          type: 'failed',
+          message: error.response.data.message 
+        }
+        context.commit('getResponse', responseObject);
+      })
+    },
+    ResetPassword(context, val) {
+      Axios.post("http://localhost:4000/reset/:token", val)
+      console.log("the new password", val)
+        .then(response => {
+          let responseObject = {
+            type: "success",
+            message: response.data.message
+          }
+          context.commit('getResponse', responseObject)
+        })
+        .catch(error => {
+          let responseObject = {
+            type: 'failed',
+            message: error.response.data.message 
+          }
+          context.commit('getResponse', responseObject);
+        })
+    },
   },
   modules: {
     auth: {

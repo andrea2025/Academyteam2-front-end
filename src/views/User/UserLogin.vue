@@ -33,7 +33,10 @@
               <a href>Sign Up</a>
             </router-link>
           </p>
-          <p>Forgot Password?</p>
+          <router-link to='/forgot' >
+            <p>Forgot Password?</p>
+          </router-link>
+          
         </div>
       </form>
     </div>
