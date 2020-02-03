@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div>
      <form @submit.prevent="forgotPass" >
      <h1>Forgot Password</h1>
@@ -13,8 +13,8 @@
 <script>
 import {mapActions } from "vuex";
 export default {
-    name:"forgotPassword",
-    data() {
+  name:"forgotPassword",
+  data() {
     return {
       Password: {}
     }

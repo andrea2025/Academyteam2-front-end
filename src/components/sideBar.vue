@@ -119,7 +119,6 @@ export default {
   width: 300px;
   position: absolute;
 }
-
 .sidebar-header {
   background: #5abefd;
   padding: 2em 0;
@@ -195,12 +194,35 @@ h3 {
 p {
   font-family: Lato;
   color: #2b3c4e;
+  font-size: 14px;
+  line-height: 15px;
+}
+
+li {
+  padding: 0.7em 0;
+  margin: 0.2em 0;
+  font-family: Lato;
+  color: #2b3c4e;
+  font-size: 11.5px;
+}
+
+h3 {
+  font-family: Lato;
+  font-weight: bold;
+  color: #2b3c4e;
   font-size: 16px;
+  line-height: 20px;
+}
+
+p {
+  font-family: Lato;
+  color: #2b3c4e;
+  font-size: 14px;
   line-height: 19px;
 }
 
 ul {
-  margin: 2.5em 1.4em 1em 0em;
+  margin: 0 1.4em 1em 0;
 }
 
 li {
@@ -213,9 +235,9 @@ li {
 li a {
   display: flex;
   align-items: center;
-  text-align: center;
-  padding: 0 0 0 3em;
-  /* margin-bottom: 1em; */
+  text-align: left;
+  padding: 0.2em 1em;
+  margin-bottom: 1em;
 }
 
 a {
@@ -227,8 +249,8 @@ a:hover {
 }
 
 .navigation a.router-link-exact-active {
-  border-left: 4px solid #31d283;
-  height: 49px;
+  border-left: 1.5px solid #31d283;
+  height: 20px;
   border-radius: 2px 0 0 2px;
   font-weight: bold;
   color: #2c3e50;
@@ -236,5 +258,276 @@ a:hover {
 
 span {
   margin-left: 0.7em;
+}
+
+@media only screen and (min-width: 600px) {
+  /* For tablets: */
+  .wrapper {
+    width: 100%;
+    min-height: 100%;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+    font-family: Lato;
+  }
+
+  .sidebar-header {
+    background: #5abefd;
+    padding: 2em 0;
+  }
+
+  .head-details {
+    text-align: center;
+  }
+
+  .avatar-wrapper {
+    position: relative;
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 1px 1px 15px -5px black;
+    transition: all 0.3s ease;
+  }
+  .avatar-wrapper:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  .avatar-wrapper:hover .profile-pic {
+    opacity: 0.5;
+  }
+  .profile-pic {
+    height: 100%;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  .profile-pic:after {
+    font-family: FontAwesome;
+    content: "\f007";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    font-size: 190px;
+    background: #ecf0f1;
+    color: #34495e;
+    text-align: center;
+  }
+
+  .upload-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .fa-arrow-circle-up {
+    position: absolute;
+    font-size: 234px;
+    top: -17px;
+    left: 0;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    color: #34495e;
+  }
+  .upload-button:hover .fa-arrow-circle-up {
+    opacity: 0.9;
+  }
+
+  li {
+    padding: 0.7em 0;
+    margin: 0.2em 0;
+    font-family: Lato;
+    color: #2b3c4e;
+    font-size: 14px;
+  }
+
+  h3 {
+    font-family: Lato;
+    font-weight: bold;
+    color: #2b3c4e;
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  p {
+    font-family: Lato;
+    color: #2b3c4e;
+    font-size: 15px;
+    line-height: 19px;
+  }
+
+  ul {
+    margin: 0 1.4em 1em 0;
+  }
+
+  li {
+    padding: 0.5em 0;
+    margin: 0.2em 0;
+    font-family: Lato;
+    color: #2b3c4e;
+  }
+
+  li a {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    padding: 0.2em 1em;
+    margin-bottom: 1em;
+  }
+
+  a {
+    color: black;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .navigation a.router-link-exact-active {
+    border-left: 1.5px solid #31d283;
+    height: 20px;
+    border-radius: 2px 0 0 2px;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  span {
+    margin-left: 0.7em;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  /* For Desktop and larger screens*/
+  .wrapper {
+    min-height: 100%;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+    font-family: Lato;
+    width: 250px;
+    /* position: absolute; */
+  }
+
+  .sidebar-header {
+    background: #5abefd;
+    padding: 2em 0;
+  }
+
+  .head-details {
+    text-align: center;
+  }
+
+  .avatar-wrapper {
+    position: relative;
+    height: 100px;
+    width: 100px;
+    margin: auto;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 1px 1px 15px -5px black;
+    transition: all 0.3s ease;
+  }
+  .avatar-wrapper:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+  }
+  .avatar-wrapper:hover .profile-pic {
+    opacity: 0.5;
+  }
+  .profile-pic {
+    height: 100%;
+    width: 100%;
+    transition: all 0.3s ease;
+  }
+  .profile-pic:after {
+    font-family: FontAwesome;
+    content: "\f007";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    font-size: 190px;
+    background: #ecf0f1;
+    color: #34495e;
+    text-align: center;
+  }
+
+  .upload-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+  }
+  .fa-arrow-circle-up {
+    position: absolute;
+    font-size: 234px;
+    top: -17px;
+    left: 0;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    color: #34495e;
+  }
+  .upload-button:hover .fa-arrow-circle-up {
+    opacity: 0.9;
+  }
+
+  h3 {
+    font-family: Lato;
+    font-weight: bold;
+    color: #2b3c4e;
+    font-size: 20px;
+    line-height: 22px;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    font-family: Lato;
+    color: #2b3c4e;
+    font-size: 16px;
+    line-height: 19px;
+  }
+
+  ul {
+    margin: 2.5em 1.4em 1em 0em;
+  }
+
+  li {
+    padding: 0.5em 0;
+    margin: 0.2em 0;
+    font-family: Lato;
+    color: #2b3c4e;
+  }
+
+  li a {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 0 0 0 3em;
+    /* margin-bottom: 1em; */
+  }
+
+  a {
+    color: black;
+  }
+
+  a:hover {
+    text-decoration: none;
+  }
+
+  .navigation a.router-link-exact-active {
+    border-left: 4px solid #31d283;
+    height: 49px;
+    border-radius: 2px 0 0 2px;
+    font-weight: bold;
+    color: #2c3e50;
+  }
+
+  span {
+    margin-left: 0.7em;
+    font-size: 16px;
+  }
 }
 </style>

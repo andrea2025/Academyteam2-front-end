@@ -6,7 +6,10 @@
 
     <div class="div-form">
       <!-- Page title -->
-      <h1>Compose Assessment</h1>
+      <div>
+        <img src="../../assets/menubar.svg" alt />
+        <h1>Compose Assessment</h1>
+      </div>
 
       <!-- Number of questions composed -->
       <div>
@@ -208,66 +211,6 @@ export default {
 };
 </script>
 <style scoped>
-[type="file"] {
-  height: 0;
-  overflow: hidden;
-  width: 0;
-}
-
-[type="file"] + label {
-  border: 1.5px dotted #2b3c4e;
-  width: 100%;
-
-  border-radius: 5px;
-  color: #2b3c4e;
-  cursor: pointer;
-  display: inline-block;
-  font-family: Avenir;
-  font-size: 16px;
-  line-height: 22px;
-
-  margin-bottom: 1rem;
-  outline: none;
-  padding: 1em;
-  position: relative;
-  transition: all 0.3s;
-  vertical-align: middle;
-}
-i {
-  font-size: 20px;
-  color: #2b3c4e;
-  font-weight: 900;
-}
-.container {
-  display: flex;
-  padding: 0;
-  min-height: 100vh;
-}
-.response {
-  text-align: center;
-}
-.response.failed {
-  color: red;
-}
-.response.success {
-  color: green;
-}
-.alert__message {
-  color: red;
-  font-size: 12px;
-}
-p {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-}
-#ansOptions {
-  border: 1.5px solid #2b3c4e;
-  border-radius: 4px;
-  padding: 2px;
-  margin-bottom: 2rem;
-}
 .container {
   display: flex;
   padding: 0;
@@ -295,6 +238,10 @@ p {
   padding-left: 7rem;
   /* position: absolute;
   z-index: 0; */
+}
+
+.flex > div {
+  width: calc(50% - 4em);
 }
 
 [type="file"] {
@@ -334,6 +281,35 @@ label {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+img {
+  display: none;
+}
+.response {
+  text-align: center;
+}
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
+.alert__message {
+  color: red;
+  font-size: 12px;
+}
+p {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+}
+#ansOptions {
+  border: 1.5px solid #2b3c4e;
+  border-radius: 4px;
+  padding: 2px;
+  margin-bottom: 2rem;
 }
 
 #btn {
@@ -377,7 +353,156 @@ label {
   height: 8em;
 }
 
-.flex > div {
-  width: calc(50% - 4em);
+@media only screen and (max-width: 600px) {
+  /* For mobile phones: */
+  .container {
+    display: flex;
+    padding: 0;
+    min-height: 100vh;
+  }
+
+  .side-bar {
+    position: relative;
+    top: 0;
+    left: 0;
+    min-height: 100%;
+    width: 40%;
+  }
+
+  .side-nav {
+    height: 100%;
+    padding: 0 0 2em 0;
+  }
+
+  img {
+    display: block;
+    float: right;
+    padding-top: 0.3em;
+  }
+
+  .div-form {
+    margin: 0;
+    padding: 0.5em;
+    min-width: 50%;
+  }
+
+  .flex {
+    /* display: flex; */
+    flex-wrap: wrap;
+    width: 100%;
+  }
+
+  .flex > div {
+    width: 100%;
+  }
+
+  [type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+    border: none;
+  }
+
+  [type="file"] + label {
+    border-radius: 5px;
+    color: #2b3c4e;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    font-family: Avenir;
+    font-size: 10px;
+    padding: 1em;
+    width: 100%;
+  }
+
+  label {
+    color: #2b3c4e;
+    font-size: 11px;
+  }
+
+  i {
+    font-size: 20px;
+    color: #2b3c4e;
+    font-weight: 900;
+  }
+
+  input {
+    border: 1.5px solid #2b3c4e;
+  }
+
+  .response {
+    text-align: center;
+  }
+  .response.failed {
+    color: red;
+  }
+  .response.success {
+    color: green;
+  }
+  .alert__message {
+    color: red;
+    font-size: 12px;
+  }
+  p {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+  }
+  #ansOptions {
+    border: 1.5px solid #2b3c4e;
+    border-radius: 4px;
+    padding: 2px;
+    margin-bottom: 2rem;
+    width: 100%;
+  }
+
+  #btn {
+    text-align: center;
+  }
+
+  .btn {
+    width: 100%;
+    border: none;
+  }
+
+  #submit-btn {
+    margin: 0 auto 1em;
+    width: 100%;
+  }
+
+  #submit-btn button {
+    background: #cecece;
+    color: white;
+  }
+
+  #special-btn button {
+    background: #2b3c4e;
+    width: 100%;
+  }
+
+  #special-btn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  #special-btn div {
+    width: 100%;
+  }
+
+  #special-btn > div {
+    width: 100%;
+  }
+
+  .left-btn {
+    margin-right: 0;
+    width: 100%;
+  }
+
+  .input-height {
+    height: 8em;
+  }
 }
 </style>
