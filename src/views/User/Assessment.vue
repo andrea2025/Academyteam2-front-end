@@ -66,44 +66,46 @@
         </div>
       </div>
 
-      <div
-        class="image-group text-msg"
-        v-for="(question, index) in getAssessments"
-        :key="index"
-        v-show="index === questionIndex"
-      >
-        <div class="question" v-show="index === questionIndex">
-          <div class="questionBody">
-            <p>Question {{index + 1}}</p>
-            <h5>
-              <i>{{question.question}}</i>
-            </h5>
-            <div class="questionOptions">
-              <div class v-for="(o, index) in question.options" :key="index">
-                <input type="radio" :id="index" :value="o" v-model="answer" />
-                <label :for="index">{{" " + o }}</label>
-                <br />
+      <div class="text-msg">
+        <div
+          class="image-group text-msg"
+          v-for="(question, index) in getAssessments"
+          :key="index"
+          v-show="index === questionIndex"
+        >
+          <div class="question" v-show="index === questionIndex">
+            <div class="questionBody">
+              <p>Question {{index + 1}}</p>
+              <h5>
+                <i>{{question.question}}</i>
+              </h5>
+              <div class="questionOptions">
+                <div class v-for="(o, index) in question.options" :key="index">
+                  <input type="radio" :id="index" :value="o" v-model="answer" />
+                  <label :for="index">{{" " + o }}</label>
+                  <br />
+                </div>
               </div>
             </div>
-          </div>
-          <div class="questionButtons">
-            <div class="questionNav">
-              <div class>
-                <button class="btn-prev" :disabled="questionIndex <= 0" @click="prevQ">Prev</button>
+            <div class="questionButtons">
+              <div class="questionNav">
+                <div class>
+                  <button class="btn-prev" :disabled="questionIndex <= 0" @click="prevQ">Prev</button>
+                </div>
+                <div class>
+                  <button
+                    class="btn-next"
+                    :disabled="!(questionIndex < getAssessments.length - 1)"
+                    @click="nextQ"
+                  >Next</button>
+                </div>
               </div>
-              <div class>
-                <button
-                  class="btn-next"
-                  :disabled="!(questionIndex < getAssessments.length - 1)"
-                  @click="nextQ"
-                >Next</button>
-              </div>
+              <button
+                class="btn-submit"
+                :disabled="questionIndex !== getAssessments.length - 1"
+                @click="sendAnswer"
+              >Submit</button>
             </div>
-            <button
-              class="btn-submit"
-              :disabled="questionIndex !== getAssessments.length - 1"
-              @click="sendAnswer"
-            >Submit</button>
           </div>
         </div>
       </div>
@@ -259,7 +261,7 @@ export default {
   margin: auto;
   display: block;
   align-content: center;
-  width: 80vw;
+  width: 70vw;
   min-width: 800px;
 }
 .questionBody {

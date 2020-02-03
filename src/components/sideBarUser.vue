@@ -95,7 +95,7 @@ export default {
 </script>
 <style scoped>
 .wrapper {
-  min-height: 88vw;
+  min-height: 100vh;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
   font-family: Lato;
   width: 250px;

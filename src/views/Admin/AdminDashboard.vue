@@ -98,8 +98,8 @@ export default {
       }
     }
   },
-  mounted() {
-    this.fetchApp();
+  async mounted() {
+    await this.fetchApp();
   },
   methods: {
     screen: function() {
@@ -191,13 +191,13 @@ export default {
   }
 
   /* Take note of this change!!! */
-.faint-border {
-  border: 2px solid #ececf9;
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding: 2em;
-  margin-left: 35em;
-}
+  .faint-border {
+    border: 2px solid #ececf9;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 2em;
+    margin-left: 35em;
+  }
   .form-group {
     margin: 0;
   }

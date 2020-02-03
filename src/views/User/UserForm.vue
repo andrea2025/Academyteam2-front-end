@@ -29,17 +29,22 @@
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="firstName">First Name</label>
-            <input type="text" name="firstName" class="form-control" v-model="firstName" />
+            <input
+              type="text"
+              name="firstName"
+              class="form-control"
+              v-model="userProfile.firstName"
+            />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="lastName">Last Name</label>
-            <input type="text" name="lastName" class="form-control" v-model="lastName" />
+            <input type="text" name="lastName" class="form-control" v-model="userProfile.lastName" />
           </div>
         </div>
         <div class="form__item form-row">
           <div class="form__item__name col text-left">
             <label for="mail">Email Address</label>
-            <input type="email" name="mail" class="form-control" v-model="email" />
+            <input type="email" name="mail" class="form-control" v-model="userProfile.email" />
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="dob">Date of Birth</label>
@@ -50,6 +55,7 @@
           <div class="form__item__name col text-left">
             <label for="Address">Address</label>
             <input type="Address" name="Address" class="form-control" v-model="address" />
+            {{userProfile.address}}
           </div>
           <div class="form__item__name col text-left ml-5">
             <label for="University">University</label>
@@ -99,10 +105,13 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["apiResponse"])
+    ...mapGetters(["apiResponse", "userProfile"])
+  },
+  async mounted() {
+    await this.getUserProfile();
   },
   methods: {
-    ...mapActions(["sendApp"]),
+    ...mapActions(["sendApp", "getUserProfile"]),
     handleFileUpload: function() {
       var fileName = this.$refs.file.files[0].name;
       this.file = this.$refs.file.files[0];
@@ -125,9 +134,9 @@ export default {
     sendForm() {
       this.sendApp({
         file: this.file,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        email: this.email,
+        firstName: this.userProfile.firstName,
+        lastName: this.userProfile.lastName,
+        email: this.userProfile.email,
         address: this.address,
         birthday: this.birthday,
         school: this.school,
