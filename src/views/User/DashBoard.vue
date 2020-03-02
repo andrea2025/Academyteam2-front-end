@@ -1,61 +1,54 @@
 <template>
-  <div class="side">
-    <div class="sideBar">
-      <div class="side_bar_content">
-        <div class="avatar-wrapper">
-          <img class="profile-pic" src />
-          <div class="upload-button">
-            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-          </div>
-          <input class="file-upload" type="file" accept="image/*" />
-        </div>
-        <div class="nameAttr">
-          <p>{{profileDetails.firstName}}</p>
-          <p>{{profileDetails.email}}</p>
-        </div>
-      </div>
-
-      <div class="dashboard mt-4">
-        <router-link to="/dashboard">
-          <div class="d-flex">
-            <img src="../../assets/Group.png" alt="dashboard icon" />
-            <p id="dashboard_item">Dashboard</p>
-          </div>
-        </router-link>
-        <router-link to="/assessment">
-          <div class="d-flex">
-            <img src="../../assets/Vector.png" alt="assessment icon" />
-            <p>Assessment</p>
-          </div>
-        </router-link>
-        <router-link to="/userlogin">
-          <div class="d-flex mt-4">
-            <img src="../../assets/Layer.png" alt="logout icon" />
-            <p>Log out</p>
-          </div>
-        </router-link>
-      </div>
+  <div class="container">
+    <div class="side-bar">
+      <sideBar class="side-nav lato" />
     </div>
+
     <div class="mainContent">
-      <h2 class="mainContent_text">Dashboard</h2>
+      <h1 class="mainContent_text">Dashboard</h1>
 
       <!-- application response fron the backend -->
-      <p class="resp mt-4">response</p>
+      <h6
+        class="lato mt-4"
+      >Your Application is currently being review, you wil be notified if successful</h6>
 
-      <div class="d-flex status_update">
+      <div class="d-flex status_update lato">
         <div>
-          <p>Date of Application</p>
+          <p class="color">Date of Application</p>
+          <div class="appDate lato">{{date}}</div>
+          <div class="borderB"></div>
+          <p class="color daySince">{{day}} days since applied</p>
         </div>
         <div class="status">
-          <p>Application Status</p>
+          <p class="color">Application Status</p>
+          <h5 class="appDate lato">Pending</h5>
+          <div class="borderP"></div>
+          <p class="color daySince">We will get back to you</p>
         </div>
       </div>
-      <div class="d-flex justify-content-between mt-5">
+      <div class="d-flex justify-content-between mt-5 lato">
         <div class="update_item">
           <h3>Updates</h3>
+          <hr />
+          <hr />
+          <hr />
+          <hr />
         </div>
-        <div class="update_item mr-5">
+        <div class="update_item">
           <h3>Take Assessment</h3>
+          <div class="content">
+            <div>
+              <p>
+                We have {{day}} days left until the next assessment
+                <br />Watch this space
+              </p>
+            </div>
+            <div>
+              <router-link to="/assessment">
+                <button class="lato">Take Assessment</button>
+              </router-link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -63,20 +56,30 @@
 </template>
 <script>
 import $ from "jquery";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import sideBar from "../../components/sideBarUser";
 
 export default {
   name: "DashBoard",
+  components: {
+    sideBar
+  },
   data() {
     return {
-      name: "jane doe",
-      email: "jane@gmal.com"
+      date: "",
+      day: ""
     };
   },
-  computed: {
-    ...mapGetters(["profileDetails"])
-  },
-  mounted() {
+  async mounted() {
+    await this.getUserProfile();
+
+    var created = await this.userProfile.created.slice(0, 10);
+    this.date = await created.replace(/-/g, ".");
+
+    var days = await new Date(this.userProfile.created);
+    var daySince = await Date.now() - days.getTime();
+    this.day = await Math.floor(daySince / (24 * 60 * 60 * 1000));
+
     $(document).ready(function() {
       var readURL = function(input) {
         if (input.files && input.files[0]) {
@@ -98,139 +101,104 @@ export default {
         $(".file-upload").click();
       });
     });
+  },
+  computed: {
+    ...mapGetters(["userProfile"])
+  },
+  methods: {
+    ...mapActions(["logoutPerson", "getUserProfile"]),
+    logoutUser() {
+      this.logoutPerson();
+      this.$router.push({ name: "home" });
+    }
   }
 };
 </script>
 
 <style scoped>
-.side {
-  display: grid;
-  grid-template-columns: 300px auto;
-  min-height: calc(120vh - 80px);
-}
-.sideBar {
-  background: #ffffff;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
-}
-.side_bar_content {
-  background: #2b3c4e;
-  padding: 20px;
-  min-height: 50px;
+.container {
+  display: flex;
+  padding: 0;
+  min-height: 100vh;
 }
 
-.avatar-wrapper {
+.side-bar {
   position: relative;
-  height: 100px;
-  width: 100px;
-  margin: 50px auto;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 1px 1px 15px -5px black;
-  transition: all 0.3s ease;
-}
-.avatar-wrapper:hover {
-  transform: scale(1.05);
-  cursor: pointer;
-}
-.avatar-wrapper:hover .profile-pic {
-  opacity: 0.5;
-}
-.profile-pic {
-  height: 100%;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-.profile-pic:after {
-  font-family: FontAwesome;
-  content: "\f007";
   top: 0;
   left: 0;
-  width: 100%;
+  min-height: 100%;
+  width: 28.1%;
+}
+
+.side-nav {
   height: 100%;
-  position: absolute;
-  font-size: 190px;
-  background: #ecf0f1;
-  color: #34495e;
-  text-align: center;
+  padding: 0 0 2em 0;
 }
 
-.upload-button {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-}
-.fa-arrow-circle-up {
-  position: absolute;
-  font-size: 234px;
-  top: -17px;
-  left: 0;
-  text-align: center;
-  opacity: 0;
-  transition: all 0.3s ease;
-  color: #34495e;
-}
-.upload-button:hover .fa-arrow-circle-up {
-  opacity: 0.9;
-}
-.nameAttr {
-  color: #fff;
-}
-
-.dashboard {
-  color: #2b3c4e;
-  margin-left: 2em;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 19px;
-}
-.dashboard a {
-  color: #2b3c4e;
-  text-decoration: none;
-}
-
-.dashboard a.router-link-exact-active {
-  color: #2b3c4e;
-  font-weight: bold;
-}
-img {
-  height: 15px;
-  margin-top: 2px;
-  margin-right: 2em;
-}
 .mainContent {
-  text-align: left;
+  margin: 4em auto 0;
+  width: 100%;
+  min-width: 1000px;
+  padding: 0 2em 2em;
   color: #2b3c4e;
-  margin-left: 2em;
+  padding-left: 20rem;
+  position: absolute;
+  z-index: -1;
 }
-.resp {
-  font-style: italic;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
+
+.lato {
+  font-family: Lato;
 }
-.mainContent_text {
+
+h1 {
   font-weight: 300;
-  font-size: 43.5555px;
-  line-height: 52px;
-  letter-spacing: -0.02em;
-  padding-top: 2.5em;
-  font-style: normal;
 }
+
+em {
+  font-weight: 600;
+  color: #2b3c4e;
+}
+
 .status_update {
   margin-top: 6em;
   font-size: 14px;
   line-height: 17px;
 }
 .status {
-  margin-left: 8em;
+  padding-left: 13em;
 }
 .update_item h3 {
+  color: #2b3c4e;
   font-weight: bold;
   font-size: 16px;
   line-height: 19px;
   letter-spacing: -0.02em;
+}
+.color {
+  color: #4f4f4f;
+  font-size: 15px;
+}
+.daySince {
+  padding-top: 0.5rem;
+}
+.appDate {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 45px;
+  line-height: 58px;
+}
+.appDate h4 {
+  margin: 0;
+  line-height: 0%;
+}
+.borderB {
+  padding-top: 0.7rem;
+  width: 170px;
+  border-bottom: 4px solid #006df0;
+}
+.borderP {
+  width: 170px;
+  border-bottom: 4px solid #f09000;
 }
 .update_item {
   border: 1px solid #ececf9;
@@ -238,5 +206,24 @@ img {
   border-radius: 4px;
   padding: 30px;
   width: 45%;
+}
+
+hr {
+  border: 1px solid #cecece;
+  margin: 4em 0;
+}
+
+.content {
+  text-align: center;
+  width: 90%;
+  margin: 8em auto;
+}
+
+button {
+  padding: 0.3em 2em;
+  background: #b1b1b1;
+  color: white;
+  border-radius: 4px;
+  border: none;
 }
 </style>

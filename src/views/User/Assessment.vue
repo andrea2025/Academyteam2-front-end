@@ -1,115 +1,38 @@
 <template>
-  <div class="side">
-    <div class="sideBar">
-      <div class="side_bar_content">
-        <div class="avatar-wrapper">
-          <img class="profile-pic" src="" />
-          <div class="upload-button">
-            <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-          </div>
-          <input class="file-upload" type="file" accept="image/*" />
-        </div>
-        <div class="nameAttr">
-          <p>{{ name }}</p>
-          <p>{{ email }}</p>
-        </div>
-      </div>
-
-      <div class="dashboard mt-4">
-        <router-link to="/dashboard"
-          ><div class="d-flex">
-            <img
-              class="image-icon"
-              src="../../assets/Group.png"
-              alt="dashboard icon"
-            />
-            <p id="dashboard_item">Dashboard</p>
-          </div></router-link
-        >
-        <router-link to="/assessment"
-          ><div class="d-flex ">
-            <img
-              class="image-icon"
-              src="../../assets/Vector.png"
-              alt="assessment icon"
-            />
-            <p>Assessment</p>
-          </div></router-link
-        >
-        <router-link to="/userlogin"
-          ><div class="d-flex mt-4">
-            <img
-              class="image-icon"
-              src="../../assets/Layer.png"
-              alt="logout icon"
-            />
-            <p>Log out</p>
-          </div></router-link
-        >
-      </div>
+  <div class="container">
+    <div class="side-bar">
+      <sideBar class="side-nav lato" />
     </div>
+
     <div class="mainContent">
-      <div class="d-flex justify-content-between">
+      <div class="content-container">
         <div>
-          <h2 class="mainContent_text">Take Assessment</h2>
+          <h1 class="mainContent_text">Take Assessment</h1>
 
-          <p class="resp mt-4 resp-part">
-            Click the button below to start assessment, you have limited time
-            for this test
+          <p class="lato mt-4 resp-part">
+            <em>Click the button below to start assessment, you have limited time for this test</em>
           </p>
-          <p class="resp mt-4 text-msg" >Thank you!</p>
         </div>
+        <div class="time-indicator lato">
+          <p class="title">{{ title }}</p>
 
-        <div class="mainContent_text mr-4">
-          <!-- our template -->
-          <section id="app" class="hero">
-            <div class="hero-body">
-              <div class="container">
-                <h6 class="title text-left">{{ title }}</h6>
-
-                <div id="timer">
-                  <span id="minutes">{{ minutes }} <small>mins</small> </span>
-                  <span id="seconds">{{ seconds }}<small>secs</small></span>
-                </div>
-
-                <div id="buttons">
-                  <!--     Start TImer -->
-                  <!-- <button 
-      id="start" 
-      class="button is-dark is-large" 
-      v-if="!timer"
-      @click="startTimer">
-        <i class="far fa-play-circle"></i>
-    </button> -->
-                  <!--     Pause Timer -->
-                  <!-- <button 
-      id="stop" 
-      class="button is-dark is-large" 
-      v-if="timer"
-      @click="stopTimer">
-        <i class="far fa-pause-circle"></i>
-    </button> -->
-                  <!-- Restart Timer
-    <button 
-      id="reset" 
-      class="button is-dark is-large" 
-      v-if="resetButton"
-      @click="resetTimer">
-        <i class="fas fa-undo"></i>
-    </button> -->
-                </div>
-              </div>
-            </div>
-          </section>
+          <span id="minutes">
+            {{ minutes }}
+            <small>min</small>
+          </span>
+          <span id="seconds">
+            {{ seconds }}
+            <small>sec</small>
+          </span>
         </div>
       </div>
 
-      <div class="assessment-section resp-part">
+      <div class="content-container2 resp-part">
         <div>
           <svg
-            width="80"
-            height="72"
-            viewBox="0 0 60 72"
+            width="60"
+            height="65"
+            viewBox="0 0 70 72"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             class="ml-5"
@@ -119,78 +42,133 @@
               fill="#2B3C4E"
             />
             <g clip-path="url(#clip--hourglass)">
-              <rect
-                x="9"
-                rx="10"
-                id="sand"
-                width="40"
-                height="20"
-                fill="#10dbb3"
-                stroke="#2B3C4E"
-              />
+              <rect x="9" rx="10" id="sand" width="40" height="15" fill="#10dbb3" stroke="#2B3C4E" />
             </g>
           </svg>
         </div>
         <!-- //api response -->
-        <p class="pt-3">
-          We have 4 days left until the next assessment<br />
-          Watch this space
-        </p>
-        <button
-          type="submit"
-          class="btn-test"
-          v-if="!timer"
-          @click="startTimer"
-        >
-          Take Assessment
-        </button>
-      </div>
-      <div class="image-group assessment-section">
-
-        <div class="image_wrapper ">
-          <img src="../../assets/victory.png" alt="congratulaton_icon" />
+        <p
+          class="response"
+          :class="[apiResponse ? apiResponse.type: '']"
+          v-if="apiResponse.message"
+        >{{ apiResponse.message }}</p>
+        <div v-else>
+          <p class="pt-3 lato">
+            We have 4 days left until the next assessment
+            <br />Watch this space
+          </p>
+          <button
+            type="submit"
+            class="btn-test lato"
+            v-if="!timer"
+            @click="beginTimer"
+          >Take Assessment</button>
         </div>
-        <p class="image_text mt-4">We have received your assessment test, we will get back to you soon.
-<span>Best of luck</span></p>
-        <router-link to="/">
-          <button class="homePage mt-4">Home</button></router-link
-        >
       </div>
+
+      <div class="text-msg">
+        <div
+          class="image-group text-msg"
+          v-for="(question, index) in getAssessments"
+          :key="index"
+          v-show="index === questionIndex"
+        >
+          <div class="question" v-show="index === questionIndex">
+            <div class="questionBody">
+              <p>Question {{index + 1}}</p>
+              <h5>
+                <i>{{question.question}}</i>
+              </h5>
+              <div class="questionOptions">
+                <div class v-for="(o, index) in question.options" :key="index">
+                  <input type="radio" :id="index" :value="o" v-model="answer" />
+                  <label :for="index">{{" " + o }}</label>
+                  <br />
+                </div>
+              </div>
+            </div>
+            <div class="questionButtons">
+              <div class="questionNav">
+                <div class>
+                  <button class="btn-prev" :disabled="questionIndex <= 0" @click="prevQ">Prev</button>
+                </div>
+                <div class>
+                  <button
+                    class="btn-next"
+                    :disabled="!(questionIndex < getAssessments.length - 1)"
+                    @click="nextQ"
+                  >Next</button>
+                </div>
+              </div>
+              <button
+                class="btn-submit"
+                :disabled="questionIndex !== getAssessments.length - 1"
+                @click="sendAnswer"
+              >Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="finishMessage" v-if="questionIndex === getAssessments.length">
+          <h3>Thank You for completing the Assessment. Click to Submit your answers</h3>
+      </div>-->
     </div>
   </div>
 </template>
 <script>
 import $ from "jquery";
+import { mapGetters, mapActions } from "vuex";
+import sideBar from "../../components/sideBarUser";
+
 export default {
   name: "Assessment",
+  components: {
+    sideBar
+  },
   data() {
     return {
-      name: "jane doe",
-      email: "jane@gmal.com",
-      timer: null,
+      timer: 0,
       totalTime: 4 * 60,
-      resetButton: false,
-      title: "Timer"
+      title: "Timer",
+      questionIndex: 0,
+      answer: "",
+      userTest: {
+        questions: [],
+        answers: []
+      }
     };
   },
   methods: {
+    ...mapActions(["getAssessment", "submitAns"]),
+    beginTimer() {
+      this.startTimer();
+    },
+    sendAnswer() {
+      this.userTest.answers.push(this.answer || null);
+      this.stopTimer();
+      for (let q = 0; q < this.getAssessments.length; q++) {
+        this.userTest.questions.push(this.getAssessments[q]._id);
+      }
+      this.submitAns(this.userTest);
+      this.$router.push({ name: "Congratulations" });
+    },
+    prevQ() {
+      this.userTest.answers.pop(this.answer);
+      this.questionIndex--;
+    },
+    nextQ() {
+      this.userTest.answers.push(this.answer || null);
+      this.answer = "";
+      this.questionIndex++;
+    },
     startTimer: function() {
       this.timer = setInterval(() => this.countdown(), 1000);
-      this.resetButton = true;
       this.title = "Start test!!";
     },
     stopTimer: function() {
       clearInterval(this.timer);
       this.timer = null;
-      this.resetButton = true;
       this.title = "Time has elasped!!";
-    },
-    resetTimer: function() {
-      this.totalTime = 4 * 60;
-      clearInterval(this.timer);
-      this.timer = null;
-      this.resetButton = false;
-      // this.title = "Let the countdown begin!!"
     },
     padTime: function(time) {
       return (time < 10 ? "0" : "") + time;
@@ -200,245 +178,147 @@ export default {
         this.totalTime--;
       } else {
         this.totalTime = 0;
-        this.resetTimer();
       }
     }
   },
-  // ========================
   computed: {
+    ...mapGetters(["getAssessments", "apiResponse", "isLoggedIn"]),
+
     minutes: function() {
       const minutes = Math.floor(this.totalTime / 60);
       return this.padTime(minutes);
     },
     seconds: function() {
       const seconds = this.totalTime - this.minutes * 60;
-      return this.padTime(seconds);
+      return "0" + this.padTime(seconds);
     }
   },
 
-  mounted() {
+  async mounted() {
+    this.getAssessment();
+
     $(document).ready(function() {
-      var readURL = function(input) {
-        if (input.files && input.files[0]) {
-          var reader = new FileReader();
+      $(".resp-part").show();
+      $(".text-msg").hide();
 
-          reader.onload = function(e) {
-            $(".profile-pic").attr("src", e.target.result);
-          };
-
-          reader.readAsDataURL(input.files[0]);
-        }
-      };
-
-      $(".file-upload").on("change", function() {
-        readURL(this);
+      $(".btn-test").on("click", function() {
+        $(".resp-part").hide();
+        $(".text-msg").show();
       });
-
-      $(".upload-button").on("click", function() {
-        $(".file-upload").click();
-      });
-
-       
     });
-
-    
-     $(document).ready(function () {
-        $(".image-wrapper").hide();
-       $('.resp-part').show();
-       $('text-msg').hide();
-
-           
-        $('.btn-test').on('click', function(){
-            $('.resp-part').hide();
-             $('text-msg').show();
-             $(".image-wrapper").animate({
-                 'opacity':'1',
-                'height':'toggle',
-                  }).show(); 
-            });
-            
-                      
-            });
-
-
+  },
+  watch: {
+    apiResponse(val) {
+      if (val.type == "success") {
+        setTimeout(() => {
+          this.$router.push({ name: "Congratulations" });
+          val.message = "";
+        }, 1000);
+      }
+    }
   }
-  }
-
-
+};
 </script>
 
 <style scoped>
-.side {
-  display: grid;
-  grid-template-columns: 300px auto;
-  min-height: calc(120vh - 80px);
+.container {
+  display: flex;
+  padding: 0;
+  min-height: 100vh;
 }
-.sideBar {
-  background: #ffffff;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+.response.failed {
+  color: red;
 }
-.side_bar_content {
-  background: #2b3c4e;
-  padding: 20px;
-  min-height: 50px;
+.response.success {
+  color: green;
 }
-
-.avatar-wrapper {
+.side-bar {
   position: relative;
-  height: 100px;
-  width: 100px;
-  margin: 50px auto;
-  border-radius: 50%;
-  overflow: hidden;
-  box-shadow: 1px 1px 15px -5px black;
-  transition: all 0.3s ease;
-}
-.avatar-wrapper:hover {
-  transform: scale(1.05);
-  cursor: pointer;
-}
-.avatar-wrapper:hover .profile-pic {
-  opacity: 0.5;
-}
-.profile-pic {
-  height: 100%;
-  width: 100%;
-  transition: all 0.3s ease;
-}
-.profile-pic:after {
-  font-family: FontAwesome;
-  content: "\f007";
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  font-size: 190px;
-  background: #ecf0f1;
-  color: #144a80;
-  text-align: center;
+  min-height: 100%;
+  width: 300px;
 }
 
-.upload-button {
-  position: absolute;
-  top: 0;
-  left: 0;
+.side-nav {
   height: 100%;
-  width: 100%;
-}
-.fa-arrow-circle-up {
-  position: absolute;
-  font-size: 234px;
-  top: -17px;
-  left: 0;
-  text-align: center;
-  opacity: 0;
-  transition: all 0.3s ease;
-  color: #34495e;
-}
-.upload-button:hover .fa-arrow-circle-up {
-  opacity: 0.9;
-}
-.nameAttr {
-  color: #fff;
-}
-#dashboard_item {
-  font-weight: bold;
-}
-.dashboard {
-  color: #2b3c4e;
-  margin-left: 2em;
-  font-weight: normal;
-  font-size: 16px;
-  line-height: 19px;
-}
-.dashboard a {
-  color: #2b3c4e;
-  text-decoration: none;
+  padding: 0 0 2em 0;
 }
 
-.dashboard a.router-link-exact-active {
-  color: #2b3c4e;
-  font-weight: bold;
-}
-.image-icon {
-  height: 15px;
-  margin-top: 2px;
-  margin-right: 2em;
-}
 .mainContent {
-  text-align: left;
+  margin: 4em auto 0;
+  width: 100%;
+  padding: 0 3em 2em;
   color: #2b3c4e;
-  margin-left: 2em;
 }
-.resp {
-  font-style: italic;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
-}
-.mainContent_text {
-  font-weight: 300;
-  font-size: 43.5555px;
-  line-height: 52px;
-  letter-spacing: -0.02em;
-  padding-top: 2.5em;
-  font-style: normal;
-}
-.status_update {
-  margin-top: 6em;
-  font-size: 14px;
-  line-height: 17px;
-}
-.status {
-  margin-left: 8em;
-}
-.update_item h3 {
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  letter-spacing: -0.02em;
-}
-.update_item {
-  border: 1px solid #ececf9;
-  box-sizing: border-box;
-  border-radius: 4px;
-  padding: 30px;
-  width: 45%;
-}
-.assessment-section {
-  margin-top: 6em;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  width: 30%;
-}
-.hourglass-icon {
-  margin-left: 6em;
-}
-.btn-test {
-  margin-top: 1em;
-  padding: 0.5rem 2em;
 
-  background: #b1b1b1;
-  border-radius: 4px;
-  color: #ffff;
-  font-weight: bold;
-  font-size: 14px;
+.content-container {
+  display: flex;
+  justify-content: space-between;
+  line-height: 15px;
 }
-#timer span {
-  font-size: 38px;
+.image-group {
+  margin: auto;
+  display: block;
+  align-content: center;
+  width: 70vw;
+  min-width: 800px;
 }
-#timer small {
-  font-size: 12px;
+.questionBody {
+  text-align: center;
 }
-.title {
-  font-size: 14px;
+.questionOptions {
+  margin: auto;
+  width: 200px;
   text-align: left;
 }
+.questionButtons {
+  margin: auto;
+  width: 800px;
+  margin-top: 2rem;
+}
+.question {
+  margin: auto;
+  margin-top: 3rem;
+}
+.questionNav {
+  display: flex;
+  justify-content: space-between;
+}
+.btn-submit {
+  display: flex;
+  margin: auto;
+  margin-top: 2rem;
+}
+.time-indicator span {
+  font-size: 2em;
+  font-weight: 300;
+}
+
+small {
+  font-size: 10px;
+  font-weight: 100;
+}
+
+.content-container2 {
+  text-align: center;
+  align-items: center;
+  padding: 7em 0;
+}
+
+.content-container2 div {
+  padding: 0.3em 0;
+}
+
+svg {
+  position: relative;
+  right: 20px;
+}
+
 #sand {
   animation: moveSand 6s ease-in-out infinite;
 }
+
 @keyframes rotateHourglass {
   95% {
     transform: rotate(0deg);
@@ -447,33 +327,35 @@ export default {
     transform: rotate(180deg);
   }
 }
+
 @keyframes moveSand {
   95%,
   100% {
     transform: translateY(50px);
   }
 }
-.homePage {
-  background: #31d283;
-  border-radius: 4px;
-  font-weight: bold;
-  font-size: 16px;
-  line-height: 19px;
-  color: #ffffff;
-  border: none;
-  padding: 0.5rem 5em;
-   margin-left: 10em;
+
+.lato {
+  font-family: Lato;
 }
 
-.image_wrapper{
-  margin-left: 11em;
+h1 {
+  font-weight: 300;
 }
-.image_text{
-  text-align: center;
-  width: 120%;
+
+em {
+  font-weight: 600;
+  color: #2b3c4e;
 }
-/* .image_text span{
-  
-  text-indent: -10em;
-} */
+
+button {
+  padding: 0.3em 2em;
+  background: #2b3c4e;
+  color: white;
+  border-radius: 4px;
+  border: none;
+}
+button:disabled {
+  background: #cecece;
+}
 </style>

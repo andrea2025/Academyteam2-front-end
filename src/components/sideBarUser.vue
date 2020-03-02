@@ -1,56 +1,74 @@
 <template>
-    <aside>
-     <div class="sidebar">
-      <div class="side_bar_content">
+  <div class="wrapper">
+    <!-- Sidebar Holder -->
+    <nav id="sidebar" class="navigation">
+      <div class="sidebar-header">
+        <!-- Profile image display -->
         <div class="avatar-wrapper">
-          <img class="profile-pic" src="" />
+          <img class="profile-pic" src />
           <div class="upload-button">
             <i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
           </div>
           <input class="file-upload" type="file" accept="image/*" />
         </div>
-        <div class="nameAttr">
-         <p>{{name}}</p>
-           <p>{{email}}</p>
-        </div>
-      </div> 
 
-      <div class="dashboard mt-4">
-        <router-link to="/dashboard"
-          ><div class="d-flex">
-            <img src="../assets/Group.png" alt="dashboard icon" />
-            <p id="dashboard_item">Dashboard</p>
-          </div></router-link
-        >
-        <router-link to="/assessment"
-          ><div class="d-flex ">
-            <img src="../assets/Vector.png" alt="assessment icon" />
-            <p>Assessment</p>
-          </div></router-link
-        >
-        <router-link to="/userlogin"
-          ><div class="d-flex mt-4">
-            <img src="../assets/Layer.png" alt="logout icon" />
-            <p>Log out</p>
-          </div></router-link
-        >
+        <div class="head-details">
+          <h3>{{userProfile.firstName ||" "}} {{userProfile.lastName||" "}}</h3>
+          <em>
+            <p>{{userProfile.email || " "}}</p>
+          </em>
+        </div>
       </div>
-    </div>  
-    </aside>
+      <ul class="list-unstyled components">
+        <li>
+          <router-link to="/dashboard">
+            <img src="../assets/Group.png" alt="dashboard icon" />
+            <span>Dashboard</span>
+          </router-link>
+        </li>
+
+        <li>
+          <router-link to="/assessment">
+            <img src="../assets/Vector.png" alt="assessment icon" />
+            <span>Assessment</span>
+          </router-link>
+        </li>
+
+        <li class="logout-margin" @click="logout">
+          <router-link to>
+            <img src="../assets/Layer.png" alt="logout icon" />
+            <span>Log out</span>
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script>
 import $ from "jquery";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "sideBar",
-   data(){
-return{
-      name:'jane doe',
-      email:'jane@gmal.com'
-}
-
+  data() {
+    return {
+      name: "",
+      email: ""
+    };
   },
-  mounted() {
+  computed: {
+    ...mapGetters(["userProfile"])
+  },
+  methods: {
+    ...mapActions(["logoutUser", "getUserProfile"]),
+    logout() {
+      this.logoutUser();
+      this.$router.push("/");
+    }
+  },
+  async mounted() {
+    this.getUserProfile();
+
     $(document).ready(function() {
       var readURL = function(input) {
         if (input.files && input.files[0]) {
@@ -76,26 +94,27 @@ return{
 };
 </script>
 <style scoped>
-.side_bar_content {
+.wrapper {
+  min-height: 100vh;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.3);
+  font-family: Lato;
+  width: 250px;
+}
+
+.sidebar-header {
   background: #2b3c4e;
-  padding: 20px;
-  min-height: 50px;
+  padding: 2em 0;
 }
-/* .sidebar {
-  min-height: calc(100vh - 80px);
-  color: #fff;
-} */
-.sidebar {
-    min-height: calc(120vh - 80px);
-    width: 200%;
-  background: #ffffff;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25);
+
+.head-details {
+  text-align: center;
 }
+
 .avatar-wrapper {
   position: relative;
   height: 100px;
   width: 100px;
-  margin: 50px auto;
+  margin: auto;
   border-radius: 50%;
   overflow: hidden;
   box-shadow: 1px 1px 15px -5px black;
@@ -147,7 +166,72 @@ return{
 .upload-button:hover .fa-arrow-circle-up {
   opacity: 0.9;
 }
-.nameAttr {
-  color: #fff;
+
+h3 {
+  color: white;
+}
+
+p {
+  color: white;
+}
+
+/* ul {
+  margin: 1em 1.4em 1em 0;
+} */
+
+ul {
+  margin: 1.4em 1.4em 1em 0em;
+}
+
+li a {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0 0 0 3em;
+  /* margin-bottom: 1em; */
+}
+
+li {
+  padding: 0.5em 0;
+  margin: 0.2em 0;
+  font-family: Lato;
+  color: #2b3c4e;
+}
+/* li a {
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 1em;
+  margin-bottom: 1em;
+} */
+
+.logout-margin {
+  margin-top: 3em;
+}
+
+a {
+  color: #2b3c4e;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.navigation a.router-link-exact-active {
+  border-left: 4px solid #31d283;
+  height: 49px;
+  border-radius: 2px 0 0 2px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+/* .navigation a.router-link-exact-active {
+  border-left: 4px solid #31d283;
+  border-radius: 2px 0 0 2px;
+  font-weight: bold;
+  color: #2c3e50;
+} */
+
+span {
+  margin-left: 0.7em;
 }
 </style>

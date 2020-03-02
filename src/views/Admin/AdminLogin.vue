@@ -14,17 +14,29 @@
       </div>
 
       <div class="bottom">
-         <p class="alert__message">{{ adminLog.message }}</p>
+        <p class="response" :class="[adminLog ? adminLog.type: '']">{{ adminLog.message }}</p>
         <form @submit.prevent="adminRole" action="/login" method="post">
           <div class="form-group">
             <label for="exampleInputEmail1">Email Address</label>
-            <input type="email" name='email' class="form-control" id="exampleInputEmail1" v-model="adminLogin.email" />
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              id="exampleInputEmail1"
+              v-model="adminLogin.email"
+            />
           </div>
           <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" name='psw' class="form-control" id="exampleInputPassword1" v-model="adminLogin.password" />
+            <input
+              type="password"
+              name="psw"
+              class="form-control"
+              id="exampleInputPassword1"
+              v-model="adminLogin.password"
+            />
+            <i class="fa fa-eye field-icon toggle-password"></i>
           </div>
-
           <button type="submit" class="btn btn-primary">Sign In</button>
 
           <router-link to="#">
@@ -38,25 +50,45 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import $ from "jquery";
 export default {
   name: "AdminLogin",
   components: {},
   data() {
     return {
       adminLogin: {
-         email: "",
+        email: "",
         password: ""
       }
     };
   },
-  computed:{
-    ...mapGetters(['adminLog'])
+  computed: {
+    ...mapGetters(["adminLog"])
   },
-  methods:{
-    ...mapActions(['loginAdmin']),
-   adminRole() {
+  methods: {
+    ...mapActions(["loginAdmin", "logoutAdmin"]),
+    adminRole() {
       this.loginAdmin(this.adminLogin);
     }
+  },
+  mounted() {
+    $(function() {
+      $(".toggle-password").click(function() {
+        if ($(this).hasClass("fa-eye-slash")) {
+          $(this).removeClass("fa-eye-slash");
+
+          $(this).addClass("fa-eye");
+
+          $("#password").attr("type", "text");
+        } else {
+          $(this).removeClass("fa-eye");
+
+          $(this).addClass("fa-eye-slash");
+
+          $("#password").attr("type", "password");
+        }
+      });
+    });
   },
   watch: {
     adminLog(val) {
@@ -87,13 +119,20 @@ export default {
   width: 35%;
   margin: 0 auto;
 }
-
+.response {
+  text-align: center;
+}
+.response.failed {
+  color: red;
+}
+.response.success {
+  color: green;
+}
 input {
   background: #111e2b;
   border: 1px solid white;
   color: white;
 }
-
 .btn {
   width: 100%;
   background: white;
@@ -110,5 +149,15 @@ span {
   float: right;
   padding: 0.8em 0;
   color: white;
+}
+
+.field-icon {
+  float: right;
+  margin-right: 1em;
+  margin-top: -25px;
+  position: relative;
+  z-index: 2;
+  cursor: pointer;
+  opacity: 0.4;
 }
 </style>
